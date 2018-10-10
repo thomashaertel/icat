@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="Example Ecore" uid="com.eclipsesource.icat" id="org.eclipse.platform.ide" application="org.eclipse.ui.ide.workbench" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="com.eclipsesource.icat.product.feature"/>
+      <feature id="org.eclipse.platform"/>
+      <feature id="org.eclipse.jgit"/>
+      <feature id="org.eclipse.egit"/>
+      <feature id="org.eclipse.egit.gitflow.feature"/>
+      <feature id="org.eclipse.jdt"/>
+      <feature id="org.eclipse.emf"/>
+      <feature id="org.eclipse.xsd"/>
+      <feature id="org.eclipse.xsd.ecore.converter"/>
+   </features>
+
+
+</product>

@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ICAT POJO UI
+Bundle-SymbolicName: com.eclipsesource.icat.pojo.ui;singleton:=true
+Bundle-Version: 0.0.1.qualifier
+Bundle-Vendor: ECLIPSESOURCE
+Require-Bundle: org.eclipse.ui,
+ com.eclipsesource.icat.pojo;bundle-version="0.0.1",
+ org.eclipse.core.resources;bundle-version="3.13.100"
+Automatic-Module-Name: com.eclipsesource.icat.pojo.ui
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy

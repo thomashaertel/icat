@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ICAT POJO
+Bundle-SymbolicName: com.eclipsesource.icat.pojo
+Bundle-Version: 0.0.1.qualifier
+Bundle-Vendor: ECLIPSESOURCE
+Automatic-Module-Name: com.eclipsesource.icat.pojo
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib.macro,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi
+Export-Package: com.eclipsesource.icat.pojo
+
