@@ -16,6 +16,13 @@ class GeneratorPom {
 				<groupId>«groupId»</groupId>
 				<artifactId>«artifactId»</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
+				<properties>
+					<maven.compiler.source>1.8</maven.compiler.source>
+			    	<maven.compiler.target>1.8</maven.compiler.target>
+				</properties>
+				<build>
+					<sourceDirectory>src</sourceDirectory>
+				</build>
 			</project>
 		'''
 	}

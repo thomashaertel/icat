@@ -25,7 +25,7 @@ public class GeneratePojoHandler extends AbstractHandler {
 		Shell shell = HandlerUtil.getActiveShell(event);
 
 		IResource selectedResource = (IResource)((IStructuredSelection)HandlerUtil.getCurrentSelection(event)).getFirstElement();
-		Path ecorePath = Paths.get(selectedResource.getLocationURI());
+		Path ecorePath = Paths.get(selectedResource.getFullPath().toString());
 		// TODO this is quick and dirty, we should implement a custom dialog
 		DirectoryDialog dd = new DirectoryDialog(shell, SWT.SAVE);
 		String targetProject = dd.open();
@@ -33,10 +33,11 @@ public class GeneratePojoHandler extends AbstractHandler {
 			return null;
 		}
 		InputDialog id = new InputDialog(shell, "Base Package name", "Please enter the name for the base package", null, null);
-		if(id.open() == SWT.CANCEL) {
+		id.open();
+		String basePackage = id.getValue();
+		if(basePackage == null) {
 			return null;
 		}
-		String basePackage = id.getValue();
 		
 		try {
 			ProjectCreator.createProject(ecorePath, basePackage, Paths.get(targetProject));

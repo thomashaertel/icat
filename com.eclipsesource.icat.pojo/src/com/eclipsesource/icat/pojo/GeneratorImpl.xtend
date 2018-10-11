@@ -23,7 +23,11 @@ class GeneratorImpl {
 				import «importString»;
 			«ENDFOR»
 			
-			public class «eClass.name»Impl implements «eClass.name» {
+			«IF eClass.ESuperTypes.length ==0»
+				public class «eClass.name»Impl implements «eClass.name» {
+			«ELSE»
+				public class «eClass.name»Impl extends «eClass.ESuperTypes.get(0).name»Impl implements «eClass.name» {
+			«ENDIF»
 			
 				«FOR feature : eClass.EStructuralFeatures»
 					«IF !feature.many»

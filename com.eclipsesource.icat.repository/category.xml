@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
+   <feature url="features/com.eclipsesource.icat.product.feature_0.0.1.qualifier.jar" id="com.eclipsesource.icat.product.feature" version="0.0.1.qualifier">
+      <category name="com.eclipsesource.icat"/>
+   </feature>
    <category-def name="com.eclipsesource.icat" label="Information Centric Architecture Toolchain"/>
 </site>

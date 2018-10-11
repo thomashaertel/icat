@@ -28,6 +28,9 @@ class GeneratorUtil {
 				if (feature.EAttributeType instanceof EEnum) {
 					imports.add(basePackage + '.' + eClass.EPackage.name + '.' + feature.EAttributeType.name);
 				}
+				else if (feature.EAttributeType.instanceClass !==null && !feature.EAttributeType.instanceClass.primitive && !feature.EAttributeType.instanceClassName.startsWith('java.lang')) {
+					imports.add(feature.EAttributeType.instanceClassName);
+				}
 			} else if (feature instanceof EReference) {
 				if (feature.EReferenceType.instanceClass !== null) {
 					imports.add(feature.EReferenceType.instanceClass.name);
@@ -37,6 +40,7 @@ class GeneratorUtil {
 			}
 		}
 		imports.add(basePackage + '.' + eClass.EPackage.name + '.' + eClass.name);
+		
 		return imports;
 	}
 }

@@ -17,8 +17,15 @@ class GeneratorAPI {
 				import java.util.List;
 			«ENDIF»
 			
-			public interface «eClass.name» {
+			«FOR importString: getImports(basePackage,eClass)»
+				import «importString»;
+			«ENDFOR»
 			
+			«IF eClass.ESuperTypes.length ==0»
+				public interface «eClass.name» {
+			«ELSE»
+				public interface «eClass.name» extends «eClass.ESuperTypes.get(0).name»{
+			«ENDIF»
 				«FOR feature : eClass.EStructuralFeatures»
 					«IF !feature.many»
 						«getFeatureType(feature)» get«feature.name.toFirstUpper»();
