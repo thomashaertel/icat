@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Model Resolution
+Bundle-SymbolicName: com.eclipsesource.icat.modelresolution
+Bundle-Version: 0.0.1.qualifier
+Bundle-Vendor: ECLIPSESOURCE
+Automatic-Module-Name: com.eclipsesource.icat.modelresolution
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: com.google.gson;bundle-version="2.8.2",
+ org.eclipse.jgit;bundle-version="5.1.0"
+Export-Package: com.eclipsesource.icat.modelresolution
