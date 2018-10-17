@@ -10,9 +10,6 @@ class GeneratorImpl {
 	
 
 	static def String generate(EClass eClass) {
-		val imports = getImports(eClass);
-		imports.add(eClass.EPackage.name + '.' + eClass.name);
-		
 		'''	
 			// auto-generated from '«eClass.name»' at «DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss").format(LocalDateTime.now)»
 			package «eClass.EPackage.name».impl;
@@ -22,7 +19,7 @@ class GeneratorImpl {
 				import java.util.List;
 			«ENDIF»
 			
-			«FOR importString: imports»
+			«FOR importString: getImports(eClass, true)»
 				import «importString»;
 			«ENDFOR»
 			

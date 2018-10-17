@@ -17,7 +17,7 @@ class GeneratorAPI {
 				import java.util.List;
 			«ENDIF»
 			
-			«FOR importString: getImports(eClass)»
+			«FOR importString: getImports(eClass, false)»
 				import «importString»;
 			«ENDFOR»
 			

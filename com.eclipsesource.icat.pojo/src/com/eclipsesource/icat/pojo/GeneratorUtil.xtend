@@ -22,7 +22,7 @@ class GeneratorUtil {
 			return feature.EReferenceType.name;
 	}
 
-	static def Set<String> getImports(EClass eClass) {
+	static def Set<String> getImports(EClass eClass, boolean impl) {
 		val imports = new TreeSet<String>();
 		for (EStructuralFeature feature : eClass.EStructuralFeatures) {
 			if (feature instanceof EAttribute) {
@@ -41,7 +41,16 @@ class GeneratorUtil {
 			}
 		}
 		for (EClass superType: eClass.ESuperTypes) {
-			imports.add((superType.eContainer as EPackage).name + '.' + superType.name);
+			if(!impl){
+				imports.add((superType.eContainer as EPackage).name + '.' + superType.name);				
+			}
+			else{
+				imports.add((superType.eContainer as EPackage).name + '.impl.' + superType.name+'Impl');
+			}
+		}
+		
+		if(impl){
+			imports.add(eClass.EPackage.name + '.' + eClass.name);
 		}
 		
 		return imports;
