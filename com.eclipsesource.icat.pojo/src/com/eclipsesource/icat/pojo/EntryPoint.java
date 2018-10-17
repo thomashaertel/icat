@@ -19,9 +19,8 @@ public class EntryPoint {
 		// parameter
 		Path ecorePath = Paths.get(exampleURI());
 		String targetProject = "/home/eugen/Workspaces/dekra/ExamplePojoTest";
-		String basePackage = "com.eclipsesource";
 		
-		ProjectCreator.createProject(ecorePath, basePackage, Paths.get(targetProject));
+		ProjectCreator.createProject(ecorePath, Paths.get(targetProject));
 	}
 
 	

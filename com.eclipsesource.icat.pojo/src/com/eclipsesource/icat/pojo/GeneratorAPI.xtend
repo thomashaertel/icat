@@ -9,22 +9,22 @@ import org.eclipse.emf.ecore.EEnum
 class GeneratorAPI {
 	
 
-	static def dispatch String generate(String basePackage, EClass eClass) {
+	static def dispatch String generate(EClass eClass) {
 		'''	
 			// auto-generated from '«eClass.name»' at «DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss").format(LocalDateTime.now)»
-			package «basePackage».«eClass.EPackage.name»;
+			package «eClass.EPackage.name»;
 			«IF eClass.EStructuralFeatures.filter[f | f.many].length>0»
 				import java.util.List;
 			«ENDIF»
 			
-			«FOR importString: getImports(basePackage,eClass)»
+			«FOR importString: getImports(eClass)»
 				import «importString»;
 			«ENDFOR»
 			
 			«IF eClass.ESuperTypes.length ==0»
 				public interface «eClass.name» {
 			«ELSE»
-				public interface «eClass.name» extends «eClass.ESuperTypes.get(0).name»{
+				public interface «eClass.name» extends «eClass.ESuperTypes.get(0).name» {
 			«ENDIF»
 				«FOR feature : eClass.EStructuralFeatures»
 					«IF !feature.many»
@@ -40,10 +40,10 @@ class GeneratorAPI {
 		'''
 	}
 	
-	static def dispatch String generate(String basePackage, EEnum eEnum) {
+	static def dispatch String generate(EEnum eEnum) {
 		'''	
 			// auto-generated from '«eEnum.name»' at «DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss").format(LocalDateTime.now)»
-			package «basePackage».«eEnum.EPackage.name»;
+			package «eEnum.EPackage.name»;
 			
 			public enum «eEnum.name» {
 			

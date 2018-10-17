@@ -11,6 +11,7 @@ Require-Bundle: com.google.guava,
  org.eclipse.xtend.lib,
  org.eclipse.xtend.lib.macro,
  org.eclipse.emf.ecore,
- org.eclipse.emf.ecore.xmi
+ org.eclipse.emf.ecore.xmi,
+ com.eclipsesource.icat.modelresolution;bundle-version="0.0.1"
 Export-Package: com.eclipsesource.icat.pojo
 

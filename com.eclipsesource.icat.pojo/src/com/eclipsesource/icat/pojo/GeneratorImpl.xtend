@@ -9,17 +9,20 @@ import static com.eclipsesource.icat.pojo.GeneratorUtil.*
 class GeneratorImpl {
 	
 
-	static def String generate(String basePackage, EClass eClass) {
+	static def String generate(EClass eClass) {
+		val imports = getImports(eClass);
+		imports.add(eClass.EPackage.name + '.' + eClass.name);
+		
 		'''	
 			// auto-generated from '«eClass.name»' at «DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss").format(LocalDateTime.now)»
-			package «basePackage».«eClass.EPackage.name».impl;
+			package «eClass.EPackage.name».impl;
 			
 			«IF eClass.EStructuralFeatures.filter[f | f.many].length>0»
 				import java.util.ArrayList;
 				import java.util.List;
 			«ENDIF»
 			
-			«FOR importString: getImports(basePackage,eClass)»
+			«FOR importString: imports»
 				import «importString»;
 			«ENDFOR»
 			

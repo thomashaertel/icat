@@ -8,7 +8,6 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -25,22 +24,16 @@ public class GeneratePojoHandler extends AbstractHandler {
 		Shell shell = HandlerUtil.getActiveShell(event);
 
 		IResource selectedResource = (IResource)((IStructuredSelection)HandlerUtil.getCurrentSelection(event)).getFirstElement();
-		Path ecorePath = Paths.get(selectedResource.getFullPath().toString());
+		Path ecorePath = Paths.get(selectedResource.getLocationURI());
 		// TODO this is quick and dirty, we should implement a custom dialog
 		DirectoryDialog dd = new DirectoryDialog(shell, SWT.SAVE);
 		String targetProject = dd.open();
 		if(targetProject == null) {
 			return null;
 		}
-		InputDialog id = new InputDialog(shell, "Base Package name", "Please enter the name for the base package", null, null);
-		id.open();
-		String basePackage = id.getValue();
-		if(basePackage == null) {
-			return null;
-		}
 		
 		try {
-			ProjectCreator.createProject(ecorePath, basePackage, Paths.get(targetProject));
+			ProjectCreator.createProject(ecorePath, Paths.get(targetProject));
 		} catch (IOException e) {
 			MessageDialog.openError(shell, "Error generating project", e.getMessage());
 		}

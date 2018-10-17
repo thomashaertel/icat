@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EEnum
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
+import org.eclipse.emf.ecore.EPackage
 
 class GeneratorUtil {
 	static def String getFeatureType(EStructuralFeature feature) {
@@ -21,12 +22,12 @@ class GeneratorUtil {
 			return feature.EReferenceType.name;
 	}
 
-	static def Set<String> getImports(String basePackage, EClass eClass) {
+	static def Set<String> getImports(EClass eClass) {
 		val imports = new TreeSet<String>();
 		for (EStructuralFeature feature : eClass.EStructuralFeatures) {
 			if (feature instanceof EAttribute) {
 				if (feature.EAttributeType instanceof EEnum) {
-					imports.add(basePackage + '.' + eClass.EPackage.name + '.' + feature.EAttributeType.name);
+					imports.add(eClass.EPackage.name + '.' + feature.EAttributeType.name);
 				}
 				else if (feature.EAttributeType.instanceClass !==null && !feature.EAttributeType.instanceClass.primitive && !feature.EAttributeType.instanceClassName.startsWith('java.lang')) {
 					imports.add(feature.EAttributeType.instanceClassName);
@@ -35,11 +36,13 @@ class GeneratorUtil {
 				if (feature.EReferenceType.instanceClass !== null) {
 					imports.add(feature.EReferenceType.instanceClass.name);
 				} else {
-					imports.add(basePackage + '.' + eClass.EPackage.name + '.' + feature.EReferenceType.name);
+					imports.add(eClass.EPackage.name + '.' + feature.EReferenceType.name);
 				}
 			}
 		}
-		imports.add(basePackage + '.' + eClass.EPackage.name + '.' + eClass.name);
+		for (EClass superType: eClass.ESuperTypes) {
+			imports.add((superType.eContainer as EPackage).name + '.' + superType.name);
+		}
 		
 		return imports;
 	}
