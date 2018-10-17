@@ -14,24 +14,25 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 public class ProjectCreator {
 
-	public static void createProject(Path ecorePath, String basePackage, Path targetProject ) throws IOException {
+	public static void createProject(Path ecorePath, Path targetProject ) throws IOException {
 		EPackage ePackage = loadExample(ecorePath);
-		Path basePackagePath = Paths.get("src", basePackage.split("\\.")).resolve(ePackage.getName());
+		Path basePackagePath = Paths.get("src",ePackage.getName().split("\\."));
 		for (EClassifier eClassifier : ePackage.getEClassifiers()) {
 			Path path = targetProject.resolve(basePackagePath).resolve(eClassifier.getName() + ".java");
 			Files.createDirectories(path.getParent());
 			Files.deleteIfExists(path);
-			Files.write(path, GeneratorAPI.generate(basePackage, eClassifier).getBytes());
+			Files.write(path, GeneratorAPI.generate(eClassifier).getBytes());
 			if (eClassifier instanceof EClass) {
 				Path pathImpl = targetProject.resolve(basePackagePath).resolve("impl")
 						.resolve(eClassifier.getName() + "Impl.java");
 				Files.createDirectories(pathImpl.getParent());
 				Files.deleteIfExists(pathImpl);
-				Files.write(pathImpl, GeneratorImpl.generate(basePackage, (EClass) eClassifier).getBytes());
+				Files.write(pathImpl, GeneratorImpl.generate((EClass) eClassifier).getBytes());
 			}
 		}
 
@@ -40,7 +41,7 @@ public class ProjectCreator {
 			Path pomPath = targetProject.resolve("pom.xml");
 			Files.createDirectories(pomPath.getParent());
 			Files.deleteIfExists(pomPath);
-			Files.write(pomPath, GeneratorPom.generate(basePackage, basePackage + "." + ePackage.getName()).getBytes());
+			Files.write(pomPath, GeneratorPom.generate(ePackage).getBytes());
 		}
 	}
 	
@@ -49,8 +50,9 @@ public class ProjectCreator {
 		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
 		EcorePackage.eINSTANCE.eClass();
 
-		Resource resource = rs.createResource(URI.createURI(ecorePath.toString()));
+		Resource resource = rs.createResource(URI.createFileURI(ecorePath.toString()));
 		resource.load(null);
+		EcoreUtil.resolveAll(resource);
 		EObject eObject = resource.getContents().get(0);
 		EPackage ePackage = (EPackage) eObject;
 		return ePackage;

@@ -4,6 +4,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourceAttributes;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 
 import com.eclipsesource.icat.modelresolution.model.ModelDependency;
 import com.eclipsesource.icat.modelresolution.model.ModelManifest;
@@ -19,9 +26,30 @@ public class ModelManifestDownloader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		String projectName = Paths.get(ResourcesPlugin.getWorkspace().getRoot().getLocationURI()).relativize(dependencyTarget.getParent()).toString();
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+		
+		
 		for (ModelDependency dependency : manifest.getModel_imports()) {
 			copyDependency(manifest.getBaseRepositoryPath(), dependency, dependencyTarget);
+			try {
+				project.refreshLocal(IResource.DEPTH_INFINITE, null);
+			} catch (CoreException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			IResource resource = project.findMember("model_dependencies/"+dependency.getName() + ".ecore");
+			ResourceAttributes resourceAttributes = resource.getResourceAttributes();
+			resourceAttributes.setReadOnly(true);
+			try {
+				resource.setResourceAttributes(resourceAttributes);
+			} catch (CoreException e) {
+				e.printStackTrace();
+			}
 		}
+		
+		
+		
 	}
 
 	private static void copyDependency(String baseLocation, ModelDependency dependency, Path dependencyTarget) {
@@ -29,7 +57,7 @@ public class ModelManifestDownloader {
 			Path source = Paths.get(baseLocation, dependency.getName(), dependency.getStream(), dependency.getVersion(),
 					dependency.getName() + ".ecore");
 			Path target = dependencyTarget.resolve(dependency.getName() + ".ecore");
-			Files.copy(source, target);
+			Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
