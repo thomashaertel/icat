@@ -46,6 +46,7 @@
 		<module>../com.eclipsesource.icat.modelresolution</module>
 		<module>../com.eclipsesource.icat.modelresolution.ui</module>
 		<module>../com.eclipsesource.icat.webdocu</module>
+		<module>../com.eclipsesource.icat.import.xml</module>
 		<module>../com.eclipsesource.icat.product</module>
 		<module>../com.eclipsesource.icat.product.feature</module>
 		<module>../com.eclipsesource.icat.repository</module>

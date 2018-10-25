@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<!-- Komplexe Elemente -->
+	<xs:element name="Entry">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Application"/>
+<!--				<xs:element ref="CreateDate" minOccurs="0"/>-->
+<!--				<xs:element ref="CreateUser" minOccurs="0"/>-->
+<!--				<xs:element ref="EntryOID" minOccurs="0"/>-->
+				<xs:element ref="Deleted" minOccurs="0"/>
+				<xs:element ref="Field" maxOccurs="unbounded"/>
+<!--				<xs:element ref="Id" minOccurs="0"/>-->
+				<xs:element ref="Name"/>
+				<xs:element ref="PackageName"/>
+				<xs:element ref="Parent" minOccurs="0"/>
+				<xs:element ref="Schema" minOccurs="0"/>
+				<xs:element ref="Table" minOccurs="0"/>
+				<xs:element ref="Unit" minOccurs="0"/>
+				<xs:element ref="XmlName" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Field">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Bk" minOccurs="0"/>
+				<xs:element ref="CascadeType" minOccurs="0"/>
+				<xs:element ref="Column" minOccurs="0"/>
+				<xs:element ref="CustomType" minOccurs="0"/>
+				<xs:element ref="DbType" minOccurs="0"/>
+				<xs:element ref="Digit" minOccurs="0"/>
+<!--				<xs:element ref="FieldOID" minOccurs="0"/>-->
+				<xs:element ref="Fk" minOccurs="0"/>
+				<xs:element ref="Insertable"/>
+				<xs:element ref="JavaType"/>
+				<xs:element ref="JoinDstKey" minOccurs="0"/>
+				<xs:element ref="JoinSrcKey" minOccurs="0"/>
+				<xs:element ref="JoinTable" minOccurs="0"/>
+				<xs:element ref="Length"/>
+				<xs:element ref="Lob" minOccurs="0"/>
+				<xs:element ref="MappedBy" minOccurs="0"/>
+				<xs:element ref="Name"/>
+				<xs:element ref="Nullable"/>
+				<xs:element ref="Pk"/>
+				<xs:element ref="Relation" minOccurs="0"/>
+				<xs:element ref="Updatable"/>
+				<xs:element ref="XmlAttribute" minOccurs="0"/>
+				<xs:element ref="XmlName" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+<!-- Einfache Elemente -->
+	<xs:element name="Application" type="xs:string"></xs:element>
+	<xs:element name="Bk" type="xs:boolean" default="false"/>
+	<xs:element name="CascadeType">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="MERGE"/>
+				<xs:enumeration value="REFRESH"/>
+				<xs:enumeration value="PERSIST"/>
+				<xs:enumeration value="REMOVE"/>	
+				<xs:enumeration value="MERGE,REFRESH"/>				
+				<xs:enumeration value="MERGE,PERSIST"/>								
+				<xs:enumeration value="MERGE,REMOVE"/>				
+				<xs:enumeration value="REFRESH,PERSIST"/>								
+				<xs:enumeration value="REFRESH,REMOVE"/>				
+				<xs:enumeration value="PERSIST,REMOVE"/>								
+				<xs:enumeration value="MERGE,REFRESH,PERSIST"/>				
+				<xs:enumeration value="MERGE,REFRESH,REMOVE"/>								
+				<xs:enumeration value="REFRESH,PERSIST,REMOVE"/>				
+				<xs:enumeration value="MERGE,REFRESH,PERSIST,REMOVE"/>				
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="Column" type="xs:string"></xs:element>	
+<!--	<xs:element name="CreateDate" type="xs:date"></xs:element>-->
+<!--	<xs:element name="CreateUser" type="xs:string"></xs:element>-->
+	<xs:element name="CustomType" type="xs:string"></xs:element>
+	<xs:element name="DbType">
+		<xs:simpleType>
+			<xs:restriction base="xs:short">
+				<xs:enumeration value="0"/>
+				<xs:enumeration value="1"/>
+				<xs:enumeration value="3"/>
+				<xs:enumeration value="12"/>
+				<xs:enumeration value="91"/>
+				<xs:enumeration value="1111"/>
+				<xs:enumeration value="2004"/>
+				<xs:enumeration value="2005"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="Deleted" type="xs:boolean" default="false"/>
+	<xs:element name="Digit">
+		<xs:simpleType>
+			<xs:restriction base="xs:short">
+				<xs:enumeration value="0"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+<!--	<xs:element name="EntryOID" type="xs:string"></xs:element>-->
+<!--	<xs:element name="FieldOID" type="xs:string"></xs:element>-->
+	<xs:element name="Fk" type="xs:boolean" default="false"/>
+<!--	<xs:element name="Id" type="xs:string"></xs:element>-->
+	<xs:element name="Insertable" type="xs:boolean" default="false"/>
+	<xs:element name="JavaType" type="xs:string"></xs:element>
+	<xs:element name="JoinDstKey" type="xs:string"></xs:element>	
+	<xs:element name="JoinSrcKey" type="xs:string"></xs:element>
+	<xs:element name="JoinTable" type="xs:string"></xs:element>
+	<xs:element name="Length" type="xs:short" default="0"></xs:element>
+	<xs:element name="Lob" type="xs:boolean" default="false"/>
+	<xs:element name="MappedBy" type="xs:string"></xs:element>
+	<xs:element name="Name" type="xs:string"></xs:element>	
+	<xs:element name="Nullable" type="xs:boolean" default="false"/>
+	<xs:element name="PackageName" type="xs:string"></xs:element>
+	<xs:element name="Parent" type="xs:string"></xs:element>	
+	<xs:element name="Pk" type="xs:boolean" default="false"/>
+	<xs:element name="Relation" type="xs:string" default="false"/>
+	<xs:element name="Schema" type="xs:string"></xs:element>
+	<xs:element name="Table" type="xs:string"></xs:element>
+	<xs:element name="Unit" type="xs:string"></xs:element>
+	<xs:element name="Updatable" type="xs:boolean" default="false"/>
+	<xs:element name="XmlAttribute" type="xs:boolean" default="false"/>
+	<xs:element name="XmlName" type="xs:string"></xs:element>
+</xs:schema>
