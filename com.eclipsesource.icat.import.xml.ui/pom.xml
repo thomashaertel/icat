@@ -1,0 +1,14 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.eclipsesource.icat</groupId>
+		<artifactId>com.eclipsesource.icat.parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../com.eclipsesource.icat.parent</relativePath>
+	</parent>
+	<artifactId>com.eclipsesource.icat.import.xml.ui</artifactId>
+	<packaging>eclipse-plugin</packaging>
+
+</project>
