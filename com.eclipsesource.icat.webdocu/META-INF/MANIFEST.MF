@@ -12,5 +12,16 @@ Require-Bundle: com.google.guava,
  org.eclipse.xtend.lib.macro,
  org.eclipse.emf.ecore;bundle-version="2.15.0",
  org.eclipse.emf.ecore.xmi,
- org.eclipse.osgi
+ org.eclipse.osgi,
+ org.eclipse.elk.core;bundle-version="0.5.0",
+ org.eclipse.elk.alg.layered;bundle-version="0.5.0",
+ org.eclipse.elk.graph,
+ com.google.gson,
+ org.eclipse.elk.alg.common;bundle-version="0.5.0",
+ org.apache.log4j;bundle-version="1.2.15"
+Bundle-ClassPath: .,
+ lib/diagram-api-0.4.0.jar,
+ lib/diagram-layout-engine-0.4.0.jar,
+ lib/glsp-api-0.0.1-SNAPSHOT.jar,
+ lib/glsp-ecore-0.0.1-SNAPSHOT.jar
 
