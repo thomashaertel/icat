@@ -8,8 +8,8 @@ public class EntryPoint {
 
 	public static void main(String[] args) throws IOException {
 		// parameter
-		Path folderPath = Paths.get("/home/eugen/Downloads/dekraica/pac_resource_repository/resources/Entries/com/dekra/data/partner");
-		Path ecoreFolderPath = Paths.get("/home/eugen/Downloads/dekraica/pac_resource_repository/resources/Entries/com/dekra/data/partner");
+		Path folderPath = Paths.get("/home/eugen/Downloads/dekraica/pac_resource_repository/resources/Entries/com/dekra/data/");
+		Path ecoreFolderPath = Paths.get("/home/eugen/Downloads/dekraica/pac_resource_repository/resources/Entries/com/dekra/data/");
 		
 		XMLParser.ecoreFromXml(folderPath, ecoreFolderPath);
 	}

@@ -62,3 +62,7 @@ location "http://download.eclipse.org/tools/orbit/downloads/drops/R2018090520190
 location "http://download.eclipse.org/modeling/emf/compare/updates/releases/latest" {
 	org.eclipse.emf.compare.rcp.ui.feature.group
 }
+location "http://download.eclipse.org/elk/updates/releases/0.4.1/" {
+	org.eclipse.elk.algorithms.feature.feature.group
+	org.eclipse.elk.feature.feature.group
+}

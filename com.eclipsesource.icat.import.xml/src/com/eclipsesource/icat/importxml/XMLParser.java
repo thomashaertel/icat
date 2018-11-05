@@ -44,9 +44,13 @@ public class XMLParser {
 			convertEntries(entries, ePackages);
 
 			for (EPackage ePackage : ePackages.values()) {
-				Resource resource = createResource(ecoreFolderPath.resolve(simplePackageName(ePackage) + ".ecore"));
-				resource.getContents().add(ePackage);
-				resource.save(null);
+				try {
+					Resource resource = createResource(ecoreFolderPath.resolve(simplePackageName(ePackage) + ".ecore"));
+					resource.getContents().add(ePackage);
+					resource.save(null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -100,8 +104,13 @@ public class XMLParser {
 		eClass.setName(entry.getName());
 		ePackage.getEClassifiers().add(eClass);
 		for (Field field : entry.getField()) {
-			EStructuralFeature feature = getFeature(entry, field,eClass, ePackages, entries);
-			if("1_M".equals(field.getRelation())) {
+			EStructuralFeature feature = getFeature(entry, field, eClass, ePackages, entries);
+			if (feature == null) {
+				System.err.println("Could not parse Field '" + field.getName() + "' of Entry '" + entry.getName()
+						+ "'. Type is '" + field.getJavaType() + "'.");
+				continue;
+			}
+			if ("1_M".equals(field.getRelation())) {
 				feature.setUpperBound(-1);
 			}
 			feature.setUnsettable(field.isNullable());
@@ -110,7 +119,8 @@ public class XMLParser {
 		}
 	}
 
-	private static EStructuralFeature getFeature(Entry entry, Field field, EClass eClass, Map<String, EPackage> ePackages, Map<String, Entry> entries) {
+	private static EStructuralFeature getFeature(Entry entry, Field field, EClass eClass,
+			Map<String, EPackage> ePackages, Map<String, Entry> entries) {
 		if (field.getJoinSrcKey() == null) {
 			EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
 			eAttribute.setName(field.getName());
@@ -138,8 +148,14 @@ public class XMLParser {
 			String javaType = field.getJavaType();
 			int indexOfLastDot = javaType.lastIndexOf(".");
 			String packageName = javaType.substring(0, indexOfLastDot);
+			if(!packageName.equals(entry.getPackageName())) {
+				return null;
+			}
 			String typeName = javaType.substring(indexOfLastDot + 1);
 			EPackage referencedPackage = ePackages.get(packageName);
+			if (referencedPackage == null) {
+				return null;
+			}
 			EClassifier referencedClassifier = referencedPackage.getEClassifier(typeName);
 			if (referencedClassifier == null) {
 				convert(entries.get(javaType), ePackages, entries);
