@@ -25,10 +25,7 @@ class GeneratorPackage {
 						<div class='center'>
 							<h1>Classes in Package «ePackage.name»</h1>
 						</div>
-					</div>
-					<div class='center overview'>
-						<img src='./overview.png' alt='You have to exort the diagram manually and put it into `doku/overview.png` .'>
-					</div>
+					</div>					
 					<div id="sprotty-app" data-app="class-diagram" class="center content"></div>
 					<div id="sprotty" class="center content sprotty"></div>
 					<div class='center content'>
