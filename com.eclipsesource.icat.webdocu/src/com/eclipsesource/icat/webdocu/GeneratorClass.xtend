@@ -19,7 +19,7 @@ class GeneratorClass {
 			<html>
 				<head>
 					<title>«eClassifier.name»</title>
-					<link href="../styles/docu.css" rel="stylesheet" type="text/css">
+					<link href="styles/doc.css" rel="stylesheet" type="text/css">
 				</head>
 				<body>
 					<div class='head'>

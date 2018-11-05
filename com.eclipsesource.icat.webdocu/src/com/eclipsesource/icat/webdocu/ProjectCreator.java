@@ -1,61 +1,93 @@
 package com.eclipsesource.icat.webdocu;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.osgi.framework.FrameworkUtil;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonWriter;
+
+import io.typefox.sprotty.api.SModelRoot;
 
 public class ProjectCreator {
 
-	public static void createProject(Path ecorePath, Path targetProject ) throws IOException {
-		EPackage ePackage = loadExample(ecorePath);
-		Path basePackagePath = targetProject.resolve("doku"); //ePackage.getName().split("\\.")
+	public static void createProject(ResourceSet resourceSet, Path ecorePath, SModelRoot modelRoot, Path outputPath) throws IOException {
+		List<String> cssFiles = Arrays.asList("doc");
+		writeHtml(resourceSet, ecorePath, cssFiles, outputPath);
+		writeJs(outputPath, modelRoot);
+		writeCss(cssFiles, outputPath);
+	}
+
+	static void writeHtml(ResourceSet resourceSet, Path ecorePath, List<String> cssFiles, Path outputPath) throws IOException {
+		EPackage ePackage = loadEcore(resourceSet, ecorePath);
 		for (EClassifier eClassifier : ePackage.getEClassifiers()) {
-			Path path = basePackagePath.resolve(eClassifier.getName() + ".html");
+			Path path = outputPath.resolve(eClassifier.getName() + ".html");
 			Files.createDirectories(path.getParent());
 			Files.deleteIfExists(path);
 			Files.write(path, GeneratorClass.generate(eClassifier).getBytes());
 		}
-		{
-			Path path = basePackagePath.resolve(ePackage.getName() + "-overview.html");
-			Files.createDirectories(path.getParent());
-			Files.deleteIfExists(path);
-			Files.write(path, GeneratorPackage.generate(ePackage).getBytes());
-		}
-		if(FrameworkUtil.getBundle(ProjectCreator.class) != null){
-			Path path = targetProject.resolve("styles/docu.css");
-			Path style = Paths.get(FrameworkUtil.getBundle(ProjectCreator.class).getResource("template/styles/docu.css").toString());
-			Files.createDirectories(path.getParent());
-			Files.deleteIfExists(path);
-			Files.copy(style, path, StandardCopyOption.REPLACE_EXISTING);
-		}
+		
+		Path indexHtml = outputPath.resolve("index.html");
+		Files.createDirectories(indexHtml.getParent());
+		Files.write(indexHtml, GeneratorPackage.generate(ePackage, cssFiles).getBytes());
 	}
 	
-	private static EPackage loadExample(Path ecorePath) throws IOException {
-		ResourceSet rs = new ResourceSetImpl();
-		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
-		// needed to be able to resolve resource paths to plugin paths and thus load referenced ecores
-		rs.getPackageRegistry().put("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore", EcorePackage.eINSTANCE); 
-		EcorePackage.eINSTANCE.eClass();
-
-		Resource resource = rs.createResource(URI.createFileURI(ecorePath.toString()));
+	static EPackage loadEcore(ResourceSet resourceSet, Path ecorePath) throws IOException {
+		Resource resource = resourceSet.createResource(URI.createFileURI(ecorePath.toString()));
 		resource.load(null);
 		EcoreUtil.resolveAll(resource);
-		EObject eObject = resource.getContents().get(0);
-		EPackage ePackage = (EPackage) eObject;
-		return ePackage;
+		return (EPackage) resource.getContents().get(0);
+	}
+	
+	static void writeJs(Path outputPath, SModelRoot modelRoot) throws IOException {
+		// write graph.js
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		Path jsPath = outputPath.resolve("js");
+		if (Files.notExists(jsPath)) { 
+			Files.createDirectory(jsPath);
+		}
+		Path targetPath = jsPath.resolve("graph.js");
+		try (Writer writer = new FileWriter(targetPath.toFile())) {
+			writer.write("__graph__ = \n");
+			JsonUtil<SModelRoot> jsonUtil = new JsonUtil<SModelRoot>(gson);
+			jsonUtil.write(createJsonWriter(writer), modelRoot);
+		}
+		
+		// copy bundle.js
+		Files.copy(new File(".").toPath().resolve("bundle.js"), jsPath.resolve("bundle.js"), StandardCopyOption.REPLACE_EXISTING);
+	}
+	
+	static void writeCss(List<String> cssFiles, Path outputPath) throws IOException {
+		Path stylesPath = outputPath.resolve("styles");
+		if (Files.notExists(stylesPath)) {			
+			Files.createDirectory(stylesPath);
+		}
+		for (String cssFile : cssFiles) {
+			Path dest = stylesPath.resolve(cssFile + ".css");
+			Path css = Paths.get(new File(".").toPath().resolve("template/styles/" + cssFile + ".css").toString());
+			Files.copy(css, dest, StandardCopyOption.REPLACE_EXISTING);	
+		}		
+	}
+	
+	static JsonWriter createJsonWriter(Writer writer) { 
+		JsonWriter jsonWriter = new JsonWriter(writer);
+		// enables pretty printing
+		jsonWriter.setIndent("  ");
+		return jsonWriter;
 	}
 }
