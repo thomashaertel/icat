@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -23,6 +24,8 @@ public class ProjectCreator {
 		EPackage ePackage = loadExample(ecorePath);
 		Path basePackagePath = Paths.get("src",ePackage.getName().split("\\."));
 		for (EClassifier eClassifier : ePackage.getEClassifiers()) {
+			if(eClassifier instanceof EDataType)
+				continue;
 			Path path = targetProject.resolve(basePackagePath).resolve(eClassifier.getName() + ".java");
 			Files.createDirectories(path.getParent());
 			Files.deleteIfExists(path);

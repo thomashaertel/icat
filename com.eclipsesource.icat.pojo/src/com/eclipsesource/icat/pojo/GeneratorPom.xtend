@@ -29,11 +29,15 @@ class GeneratorPom {
 				«IF ePackage.eResource.resourceSet.resources.length>1»
 					<dependencies>
 						«FOR refResource : ePackage.eResource.resourceSet.resources.subList(1, ePackage.eResource.resourceSet.resources.length)»
-							<dependency>
-								<groupId>«getGroupId(refResource.contents.get(0) as EPackage)»</groupId>
-								<artifactId>«(refResource.contents.get(0) as EPackage).name»</artifactId>
-								<version>«getReferencedPackageVersion(refResource.contents.get(0) as EPackage)»</version>
-							</dependency>				
+							«IF !refResource.contents.empty»
+								<dependency>
+									<groupId>«getGroupId(refResource.contents.get(0) as EPackage)»</groupId>
+									<artifactId>«(refResource.contents.get(0) as EPackage).name»</artifactId>
+									<version>«getReferencedPackageVersion(refResource.contents.get(0) as EPackage)»</version>
+								</dependency>
+							«ELSE»
+								<!-- The Resource «refResource.URI.toString» could not be loaded! -->
+							«ENDIF»
 						«ENDFOR»
 					</dependencies>
 				«ENDIF»
