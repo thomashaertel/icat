@@ -157,7 +157,7 @@
 				<version>${mav-checkstyle-version}</version>
 				<!-- https://maven.apache.org/plugins/maven-checkstyle-plugin/history.html -->
 				<configuration>
-					<configLocation>../org.eclipse.emf.ecp.releng/checkstyle/esmCheckstyle.xml</configLocation>
+					<configLocation>checkstyle/esmCheckstyle.xml</configLocation>
                     <excludes>**/xtend/**/*</excludes>
 					<failsOnError>false</failsOnError>
 				</configuration>
