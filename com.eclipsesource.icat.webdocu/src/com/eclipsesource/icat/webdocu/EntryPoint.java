@@ -20,58 +20,61 @@ import io.typefox.sprotty.api.SModelRoot;
 import io.typefox.sprotty.layout.ElkLayoutEngine;
 
 public class EntryPoint {
-	
+
 	private static final Path DEFAULT_INPUT_PATH = new File(".").toPath().resolve("compare.ecore");
 	private static final Path DEFAULT_OUTPUT_PATH = new File(".").toPath().resolve("doc");
 
 	public static void main(String[] args) throws IOException {
-		
-		Path ecorePath = readEcorePath(args);		
+
+		Path ecorePath = readEcorePath(args);
 		Path outputPath = readOutputPath(args);
-		
+
 		if (!Files.isRegularFile(ecorePath)) {
-			System.err.println("Given Ecore file is either a directory or does not exist: " + ecorePath.toFile().getAbsolutePath());
+			System.err.println("Given Ecore file is either a directory or does not exist: "
+					+ ecorePath.toFile().getAbsolutePath());
 			return;
 		}
-		
+
 		System.out.println("Ecore input path is: " + ecorePath.toFile().getAbsolutePath());
 		System.out.println("Doc output folder is: " + outputPath.toFile().getAbsolutePath());
 
 		ResourceSetImpl resourceSet = createResourceSet();
 		EcoreModelFactory ecoreModelFactory = new EcoreModelFactory();
-		ElkLayoutEngine.initialize(new LayeredMetaDataProvider());
+		initializeElkLayoutEngine();
 		SModelRoot modelRoot = ecoreModelFactory.loadModel(resourceSet, ecorePath.toUri().toString());
 		modelRoot.setCanvasBounds(new Bounds(-1, -1, -1, -1));
 
-		ProjectCreator.createProject(resourceSet, ecorePath, modelRoot, outputPath);
+		Path resourcesJsPath = new File("./resources").toPath();
+
+		ProjectCreator.createProject(resourceSet, ecorePath, modelRoot, outputPath, resourcesJsPath);
 		System.out.println("DONE!");
 	}
 
-	static ResourceSetImpl createResourceSet() {
+	public static void initializeElkLayoutEngine() {
+		ElkLayoutEngine.initialize(new LayeredMetaDataProvider());
+	}
+
+	public static ResourceSetImpl createResourceSet() {
 		ResourceSetImpl resourceSet = new ResourceSetImpl();
-		resourceSet
-			.getResourceFactoryRegistry()
-			.getExtensionToFactoryMap()
-			.put("*", new XMIResourceFactoryImpl());
-		// we need to be able to resolve resource paths to plugin paths and thus load referenced ecores
-		resourceSet
-			.getURIConverter()
-			.getURIMap()
-			.put(URI.createPlatformPluginURI("/org.eclipse.emf.ecore/",true), URI.createURI(EcorePlugin.INSTANCE.getBaseURL().toExternalForm()));
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
+		// we need to be able to resolve resource paths to plugin paths and thus load
+		// referenced ecores
+		resourceSet.getURIConverter().getURIMap().put(URI.createPlatformPluginURI("/org.eclipse.emf.ecore/", true),
+				URI.createURI(EcorePlugin.INSTANCE.getBaseURL().toExternalForm()));
 		return resourceSet;
 	}
-	
+
 	static Path readEcorePath(String[] args) {
 		try {
 			if (args.length < 1) {
 				return DEFAULT_INPUT_PATH;
 			}
-			return Paths.get(args[0]);			
+			return Paths.get(args[0]);
 		} catch (InvalidPathException ex) {
 			return DEFAULT_INPUT_PATH;
 		}
 	}
-	
+
 	static Path readOutputPath(String[] args) {
 		try {
 			if (args.length < 2) {
