@@ -41,7 +41,7 @@ public class EntryPoint {
 		ResourceSetImpl resourceSet = createResourceSet();
 		EcoreModelFactory ecoreModelFactory = new EcoreModelFactory();
 		initializeElkLayoutEngine();
-		SModelRoot modelRoot = ecoreModelFactory.loadModel(resourceSet, ecorePath.toUri().toString());
+		SModelRoot modelRoot = ecoreModelFactory.loadModel(resourceSet, URI.createFileURI(ecorePath.toFile().getAbsolutePath()));
 		modelRoot.setCanvasBounds(new Bounds(-1, -1, -1, -1));
 
 		Path resourcesJsPath = new File("./resources").toPath();

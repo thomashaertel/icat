@@ -46,8 +46,7 @@ public class GenerateWebDocuHandler extends AbstractHandler {
 			ResourceSetImpl resourceSet = EntryPoint.createResourceSet();
 			EcoreModelFactory ecoreModelFactory = new EcoreModelFactory();
 			EntryPoint.initializeElkLayoutEngine();
-			URI ecoreUri = URI.createPlatformResourceURI(selectedResource.getFullPath().toString(), true);
-			SModelRoot modelRoot = ecoreModelFactory.loadModel(resourceSet, ecoreUri.toString());
+			SModelRoot modelRoot = ecoreModelFactory.loadModel(resourceSet, URI.createURI(selectedResource.getLocationURI().toString()));
 			modelRoot.setCanvasBounds(new Bounds(-1, -1, -1, -1));
 
 			ProjectCreator.createProject(resourceSet, ecorePath, modelRoot, outputPath, bundleJsPath);
