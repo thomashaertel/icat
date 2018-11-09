@@ -12,7 +12,7 @@ class GeneratorAPI {
 	static def dispatch String generate(EClass eClass) {
 		'''	
 			// auto-generated from '«eClass.name»' at «DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss").format(LocalDateTime.now)»
-			package «eClass.EPackage.name»;
+			package «eClass.EPackage.nsURI»;
 			«IF eClass.EStructuralFeatures.filter[f | f.many].length>0»
 				import java.util.List;
 			«ENDIF»

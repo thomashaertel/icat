@@ -21,7 +21,6 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -45,7 +44,7 @@ public class XMLParser {
 
 			for (EPackage ePackage : ePackages.values()) {
 				try {
-					Resource resource = createResource(ecoreFolderPath.resolve(simplePackageName(ePackage) + ".ecore"));
+					Resource resource = createResource(ecoreFolderPath.resolve(ePackage.getName() + ".ecore"));
 					resource.getContents().add(ePackage);
 					resource.save(null);
 				} catch (IOException e) {
@@ -83,17 +82,27 @@ public class XMLParser {
 	private static Map<String, EPackage> preparePackages(Map<String, Entry> entries) {
 		Set<String> keySet = entries.keySet();
 		return keySet.stream().map(k -> k.substring(0, k.lastIndexOf("."))).distinct().map(XMLParser::getEPackage)
-				.collect(Collectors.toMap(ENamedElement::getName, Function.identity()));
+				.collect(Collectors.toMap(EPackage::getNsURI, Function.identity()));
 	}
 
 	private static EPackage getEPackage(String name) {
 		EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
-		ePackage.setName(name);
+		ePackage.setName(simplePackageName(name));
+		ePackage.setNsPrefix(simplePackageName(name));
+		ePackage.setNsURI(name);
 		return ePackage;
 	}
 
 	private static void convertEntries(Map<String, Entry> entries, Map<String, EPackage> ePackages) {
 		for (Entry entry : entries.values()) {
+			EPackage referencedPackage = ePackages.get(entry.getPackageName());
+			if (referencedPackage == null) {
+				continue;
+			}
+			EClassifier referencedClassifier = referencedPackage.getEClassifier(entry.getName());
+			if (referencedClassifier != null)
+				continue;
+
 			convert(entry, ePackages, entries);
 		}
 	}
@@ -106,8 +115,8 @@ public class XMLParser {
 		for (Field field : entry.getField()) {
 			EStructuralFeature feature = getFeature(entry, field, eClass, ePackages, entries);
 			if (feature == null) {
-				System.err.println("Could not parse Field '" + field.getName() + "' of Entry '" + entry.getName()
-						+ "'. Type is '" + field.getJavaType() + "'.");
+				System.err.println("Could not parse Field '" + field.getName() + "' of Entry '" + entry.getPackageName()
+						+ "." + entry.getName() + "'. Type is '" + field.getJavaType() + "'.");
 				continue;
 			}
 			if ("1_M".equals(field.getRelation())) {
@@ -115,30 +124,41 @@ public class XMLParser {
 			}
 			feature.setUnsettable(field.isNullable());
 			feature.setChangeable(field.isUpdatable());
+
+			EStructuralFeature existingFeature = eClass.getEStructuralFeature(feature.getName());
+			if (existingFeature != null) {
+				System.err.println("A Feature with the Name '" + existingFeature.getName()
+						+ "' already exists in EClass '" + existingFeature.getEContainingClass().getName()
+						+ "' it will be replaced. Feature Type was '" + existingFeature.getEType().getName() + "'.");
+				eClass.getEStructuralFeatures().remove(existingFeature);
+			}
 			eClass.getEStructuralFeatures().add(feature);
 		}
 	}
 
 	private static EStructuralFeature getFeature(Entry entry, Field field, EClass eClass,
 			Map<String, EPackage> ePackages, Map<String, Entry> entries) {
-		if (field.getJoinSrcKey() == null) {
+		Optional<EClassifier> dataType = EcorePackage.eINSTANCE.getEClassifiers().stream()
+				.filter(e -> e instanceof EDataType)
+				.filter(e -> e.getInstanceClassName().equalsIgnoreCase(field.getJavaType().replaceAll(" ", ""))).findFirst();
+		if (dataType.isPresent()) {
 			EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
 			eAttribute.setName(field.getName());
-			if (field.getLength() == 0) {
-				Optional<EClassifier> dataType = EcorePackage.eINSTANCE.getEClassifiers().stream()
-						.filter(e -> e instanceof EDataType)
-						.filter(e -> e.getInstanceClassName().equalsIgnoreCase(field.getJavaType())).findFirst();
-				if (dataType.isPresent())
-					eAttribute.setEType(dataType.get());
+			if (field.getLength() == 0 || !field.getJavaType().equals("java.lang.String")) {
+				eAttribute.setEType(dataType.get());
 			} else {
-				EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
-				eDataType.setInstanceTypeName(field.getJavaType());
-				eDataType.setName(entry.getName() + "_" + field.getName() + "_Type");
-				EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
-				eAnnotation.setSource("http:///org/eclipse/emf/ecore/util/ExtendedMetaData");
-				eAnnotation.getDetails().put("maxLength", Short.toString(field.getLength()));
-				eDataType.getEAnnotations().add(eAnnotation);
-				eClass.getEPackage().getEClassifiers().add(eDataType);
+				String dataTypeName = entry.getName() + "_" + field.getName() + "_Type";
+				EClassifier eDataType = eClass.getEPackage().getEClassifier(dataTypeName);
+				if (eDataType == null) {
+					eDataType = EcoreFactory.eINSTANCE.createEDataType();
+					eDataType.setInstanceTypeName(field.getJavaType());
+					eDataType.setName(dataTypeName);
+					EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+					eAnnotation.setSource("http:///org/eclipse/emf/ecore/util/ExtendedMetaData");
+					eAnnotation.getDetails().put("maxLength", Short.toString(field.getLength()));
+					eDataType.getEAnnotations().add(eAnnotation);
+					eClass.getEPackage().getEClassifiers().add(eDataType);
+				}
 				eAttribute.setEType(eDataType);
 			}
 			return eAttribute;
@@ -148,7 +168,7 @@ public class XMLParser {
 			String javaType = field.getJavaType();
 			int indexOfLastDot = javaType.lastIndexOf(".");
 			String packageName = javaType.substring(0, indexOfLastDot);
-			if(!packageName.equals(entry.getPackageName())) {
+			if (!packageName.equals(entry.getPackageName())) {
 				return null;
 			}
 			String typeName = javaType.substring(indexOfLastDot + 1);
@@ -176,12 +196,11 @@ public class XMLParser {
 		return resource;
 	}
 
-	private static String simplePackageName(EPackage ePackage) {
-		String result = ePackage.getName();
-		int indexOfDot = result.lastIndexOf(".");
+	private static String simplePackageName(String packageName) {
+		int indexOfDot = packageName.lastIndexOf(".");
 		if (indexOfDot == -1)
-			return result;
-		return result.substring(indexOfDot + 1);
+			return packageName;
+		return packageName.substring(indexOfDot + 1);
 	}
 
 }

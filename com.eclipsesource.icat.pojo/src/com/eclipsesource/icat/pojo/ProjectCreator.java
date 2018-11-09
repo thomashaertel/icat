@@ -22,7 +22,7 @@ public class ProjectCreator {
 
 	public static void createProject(Path ecorePath, Path targetProject ) throws IOException {
 		EPackage ePackage = loadExample(ecorePath);
-		Path basePackagePath = Paths.get("src",ePackage.getName().split("\\."));
+		Path basePackagePath = Paths.get("src",ePackage.getNsURI().split("\\."));
 		for (EClassifier eClassifier : ePackage.getEClassifiers()) {
 			if(eClassifier instanceof EDataType)
 				continue;

@@ -27,7 +27,7 @@ class GeneratorUtil {
 		for (EStructuralFeature feature : eClass.EStructuralFeatures) {
 			if (feature instanceof EAttribute) {
 				if (feature.EAttributeType instanceof EEnum) {
-					imports.add(eClass.EPackage.name + '.' + feature.EAttributeType.name);
+					imports.add(eClass.EPackage.nsURI + '.' + feature.EAttributeType.name);
 				}
 				else if (feature.EAttributeType.instanceClass !==null && !feature.EAttributeType.instanceClass.primitive && !feature.EAttributeType.instanceClassName.startsWith('java.lang')) {
 					imports.add(feature.EAttributeType.instanceClassName);
@@ -36,21 +36,21 @@ class GeneratorUtil {
 				if (feature.EReferenceType.instanceClass !== null) {
 					imports.add(feature.EReferenceType.instanceClass.name);
 				} else {
-					imports.add(eClass.EPackage.name + '.' + feature.EReferenceType.name);
+					imports.add(eClass.EPackage.nsURI + '.' + feature.EReferenceType.name);
 				}
 			}
 		}
 		for (EClass superType: eClass.ESuperTypes) {
 			if(!impl){
-				imports.add((superType.eContainer as EPackage).name + '.' + superType.name);				
+				imports.add((superType.eContainer as EPackage).nsURI + '.' + superType.name);				
 			}
 			else{
-				imports.add((superType.eContainer as EPackage).name + '.impl.' + superType.name+'Impl');
+				imports.add((superType.eContainer as EPackage).nsURI + '.impl.' + superType.name+'Impl');
 			}
 		}
 		
 		if(impl){
-			imports.add(eClass.EPackage.name + '.' + eClass.name);
+			imports.add(eClass.EPackage.nsURI + '.' + eClass.name);
 		}
 		
 		return imports;

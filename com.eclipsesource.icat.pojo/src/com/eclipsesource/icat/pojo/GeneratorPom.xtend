@@ -17,7 +17,7 @@ class GeneratorPom {
 				xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 				<modelVersion>4.0.0</modelVersion>
 				<groupId>«getGroupId(ePackage)»</groupId>
-				<artifactId>«ePackage.name»</artifactId>
+				<artifactId>«ePackage.nsURI»</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 				<properties>
 					<maven.compiler.source>1.8</maven.compiler.source>
@@ -45,7 +45,7 @@ class GeneratorPom {
 		'''
 	}
 	static def String getGroupId(EPackage ePackage) {
-		var groupId = ePackage.name;
+		var groupId = ePackage.nsURI;
 		if (groupId.contains('.')) {
 			groupId = groupId.substring(0,groupId.lastIndexOf('.'));
 		}
