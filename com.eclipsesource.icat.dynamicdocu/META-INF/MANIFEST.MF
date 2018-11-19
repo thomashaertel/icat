@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Dynamicdocu
+Bundle-SymbolicName: com.eclipsesource.icat.dynamicdocu
+Bundle-Version: 0.0.1.qualifier
+Bundle-Vendor: ECLIPSESOURCE
+Automatic-Module-Name: com.eclipsesource.icat.dynamicdocu
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi,
+ com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib.macro,
+ org.eclipse.elk.core,
+ org.eclipse.elk.alg.layered,
+ org.eclipse.elk.graph,
+ org.eclipse.elk.alg.common,
+ org.apache.log4j;bundle-version="1.2.15",
+ com.google.gson
+Bundle-ClassPath: lib/diagram-api-0.4.0.jar,
+ lib/diagram-layout-engine-0.4.0.jar,
+ lib/glsp-api-0.0.1-SNAPSHOT.jar,
+ lib/glsp-ecore-0.0.1-SNAPSHOT.jar,
+ .
+
