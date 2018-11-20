@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.ETypedElement
 import org.eclipse.emf.ecore.EGenericType
+import org.eclipse.emf.ecore.EEnumLiteral
 
 class Class2JSON {
 
@@ -18,7 +19,7 @@ class Class2JSON {
 		var eenums = ePackage.EClassifiers.filter(EEnum);
 		var dataTypes = ePackage.EClassifiers.filter(EDataType).reject(EEnum);
 		return '''{
-	"package": "«ePackage.name»",
+	"name": "«ePackage.name»",
 	"description": "«getDocumentation(ePackage)»",
 	«IF classes.length >0»
 		"classes": [
@@ -101,7 +102,9 @@ class Class2JSON {
 		«IF eenum.ELiterals.length >0»
 			"literals": [
 				«FOR literal:eenum.ELiterals SEPARATOR ','»
-					"«literal.name»"
+					{
+						«generate(literal)»
+					}
 				«ENDFOR»
 			]
 		«ENDIF»
@@ -109,7 +112,7 @@ class Class2JSON {
 	}
 	static def dispatch String generateInner(EDataType dataType) {
 		'''
-		"type":"«getFeatureType(dataType)»"
+		"type":"«dataType.instanceClassName»"
 		'''
 	}
 	static def dispatch String generateInner(EStructuralFeature feature) {
@@ -134,13 +137,18 @@ class Class2JSON {
 		«ENDIF»
 		'''
 	}
+	static def dispatch String generateInner(EEnumLiteral literal) {
+		'''
+		"value":«literal.value»
+		'''
+	}
 
 	static def String getDocumentation(ENamedElement modelElement) {
 		if (modelElement.getEAnnotation('http://www.eclipse.org/emf/2002/GenModel') === null ||
 			!modelElement.getEAnnotation('http://www.eclipse.org/emf/2002/GenModel').details.containsKey('documentation')) {
 			return '''Documentation of the «modelElement.eClass.name.toFirstUpper» «modelElement.name».'''
 		} else {
-			return modelElement.getEAnnotation('http://www.eclipse.org/emf/2002/GenModel').details.get('documentation').replaceAll("\"","'").replaceAll("\\R","\\\\n")
+			return modelElement.getEAnnotation('http://www.eclipse.org/emf/2002/GenModel').details.get('documentation').replaceAll("\"","'").replaceAll("\\R","\\\\n").replaceAll("\\t","\\\\t")
 		}
 	}
 	
