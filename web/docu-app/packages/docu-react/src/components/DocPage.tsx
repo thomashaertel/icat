@@ -1,27 +1,35 @@
 import * as React from 'react';
-import CrumbToc from "./CrumbToc";
+import JumpTo from "./JumpTo";
 import Nav from "./Nav";
 import {EPackage, ENamedElement} from "../types";
 import Article from "./Article";
 import Sprotty from './Sprotty';
+import {isEClass, isEEnum, isNonEmpty} from "../util";
 
 export interface DocPageProps {
   eClassifier: ENamedElement,
   ePackage: EPackage
 }
 
-const styles: any = {
-  layout: {
-    flexDirection: 'column',
-    flexGrow: 1,
-    marginBottom: '2em'
-  }
-};
 
 class DocPage extends React.Component<DocPageProps, any> {
 
   render() {
     const { eClassifier, ePackage } = this.props;
+    const toc = [];
+    if (eClassifier && isEClass(eClassifier)) {
+      if (isNonEmpty(eClassifier.attributes)) {
+        toc.push("attributes");
+      }
+      if (isNonEmpty(eClassifier.references)) {
+        toc.push("references");
+      }
+      if (isNonEmpty(eClassifier.operations)) {
+        toc.push("operations");
+      }
+    } else if (isEEnum(eClassifier)) {
+      toc.push("literals")
+    }
     return (
       <React.Fragment>
         <div className='head'>
@@ -29,12 +37,12 @@ class DocPage extends React.Component<DocPageProps, any> {
             <h1>{eClassifier.name}</h1>
           </div>
         </div>
-        <CrumbToc eClassifier={eClassifier}/>
+        <JumpTo toc={toc}/>
         <div className={['content', 'center'].join(' ')}>
-          <Nav ePackage={ePackage} eClassifier={eClassifier}/>
-          <div style={styles.layout}>
-            <Article eClassifier={eClassifier}/>
+          <Nav ePackageName={ePackage.name} eNamedElement={eClassifier}/>
+          <div className='layout'>
             <Sprotty selectedNodeId={eClassifier.name} allowSelection={false} />
+            <Article eClassifier={eClassifier}/>
           </div>
         </div>
       </React.Fragment>

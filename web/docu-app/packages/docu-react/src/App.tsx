@@ -1,6 +1,5 @@
 import * as React from 'react';
 import 'sprotty-component/lib/wrapper';
-import './doc.css';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {EPackage, ENamedElement} from "./types";
 import DocPage from "./components/DocPage";

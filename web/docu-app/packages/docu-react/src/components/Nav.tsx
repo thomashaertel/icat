@@ -1,19 +1,22 @@
 import * as React from 'react';
 import {Link} from "react-router-dom";
-import {EAttribute, ELiteral, ENamedElement, EOperation, EPackage, EReference} from "../types";
 import {
-  getFeatures,
-  getLiterals,
-  getOperations,
-  getSuperTypes,
-  isEClass,
-  isEEnum,
-} from "../util";
+  EAttribute,
+  EClass,
+  EDataType,
+  EEnum,
+  ELiteral,
+  ENamedElement,
+  EOperation,
+  EPackage,
+  EReference
+} from "../types";
+import {getOrEmpty, isEClass, isEEnum, isEPackage} from "../util";
 import ELink from "./ELink";
 
 export interface NavProps {
-  ePackage: EPackage;
-  eClassifier: ENamedElement;
+  ePackageName: string;
+  eNamedElement: ENamedElement;
 }
 
 interface GenerateLinkProps<T> {
@@ -52,49 +55,80 @@ const GenerateLinks = function <T>({ name, elements, renderLink } : GenerateLink
 
 type ValidTypes = EReference | EAttribute | EOperation | string | ENamedElement;
 
-const Nav = ({ ePackage, eClassifier }: NavProps) => {
+const HRef = ({ name }: { name: string}) => <a href={`#${name}`}>{name}</a>;
+
+const classProps = (eClass: EClass): GenerateLinkProps<ValidTypes>[] => {
   const links: GenerateLinkProps<ValidTypes>[] = [];
-  if (isEClass(eClassifier)) {
-    links.push({
-      name: 'SuperTypes',
-      elements: getSuperTypes(eClassifier),
-      renderLink: (featureName: string) => <a href={featureName}>{featureName}</a>
-    });
-    links.push({
-      name: 'Features',
-      elements: getFeatures(eClassifier),
-      renderLink: (feat: EReference | EAttribute) => <a href={`#${feat.name}`}>{feat.name}</a>
-    });
-    links.push({
-      name: 'Operations',
-      elements: getOperations(eClassifier),
-      renderLink: (op: EOperation) => (
-        <React.Fragment>
-          <a href={`#${op.name}`}>{op.name}</a>
-          (
-          {
-            (op.parameters || []).map(p => (
-              <React.Fragment>
-                <ELink name={p.type} /><span style={styles.leftPad}>{p.name}</span>
-              </React.Fragment>
-            ))
-          }
-          )
-        </React.Fragment>
-      )
-    });
-  } else if (isEEnum(eClassifier)) {
+  links.push({
+    name: 'SuperTypes',
+    elements: getOrEmpty(eClass.superTypes),
+    renderLink: (featureName: string) => <HRef name={featureName}/>
+  });
+  links.push({
+    name: 'Features',
+    elements: getOrEmpty(eClass.attributes).concat(getOrEmpty(eClass.references)),
+    renderLink: (feat: EReference | EAttribute) => <HRef name={feat.name}/>
+  });
+  links.push({
+    name: 'Operations',
+    elements: getOrEmpty(eClass.operations),
+    renderLink: (op: EOperation) => (
+      <React.Fragment>
+        <HRef name={op.name}/>
+        (
+        {
+          (op.parameters || []).map(p => (
+            <React.Fragment>
+              <ELink name={p.type}/><span style={styles.leftPad}>{p.name}</span>
+            </React.Fragment>
+          ))
+        }
+        )
+      </React.Fragment>
+    )
+  });
+
+  return links;
+};
+
+const packageProps = (ePackage: EPackage): GenerateLinkProps<ValidTypes>[] => {
+  const links: GenerateLinkProps<ValidTypes>[] = [];
+  links.push(({
+    name: 'Classes',
+    elements: getOrEmpty(ePackage.classes),
+    renderLink: (eClass: EClass) => <Link to={`/${eClass.name}`}>{eClass.name}</Link>
+  }));
+  links.push(({
+    name: 'DataTypes',
+    elements: getOrEmpty(ePackage.dataTypes),
+    renderLink: (eDataType: EDataType) => <Link to={`/${eDataType.name}`}>{eDataType.name}</Link>
+  }));
+  links.push(({
+    name: 'Enums',
+    elements: getOrEmpty(ePackage.enums),
+    renderLink: (eEnum: EEnum) => <Link to={`/${eEnum.name}`}>{eEnum.name}</Link>
+  }));
+  return links;
+};
+
+const Nav = ({ ePackageName, eNamedElement }: NavProps) => {
+  let links: GenerateLinkProps<ValidTypes>[] = [];
+  if (isEClass(eNamedElement)) {
+    links = links.concat(classProps(eNamedElement))
+  } else if (isEEnum(eNamedElement)) {
     links.push({
       name: 'Literals',
-      elements: getLiterals(eClassifier),
-      renderLink: (literal: ELiteral) => <a href={`#${literal.name}`}>{literal.name}</a>
+      elements: getOrEmpty(eNamedElement.literals),
+      renderLink: (literal: ELiteral) => <HRef name={literal.name}/>
     });
+  } else if (isEPackage(eNamedElement)) {
+    links = links.concat(packageProps(eNamedElement));
   }
 
   return (
     <nav>
       <div className='crumb'>
-        <span>Package: <Link to="/">{ePackage.name}</Link></span>
+        <span>Package: <Link to="/">{ePackageName}</Link></span>
       </div>
       <ol>
         {

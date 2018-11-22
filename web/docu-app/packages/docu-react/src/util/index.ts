@@ -6,37 +6,22 @@ export const isEClass = (eClassifier: ENamedElement): eClassifier is EClass =>
 export const isEEnum = (eClassifier: ENamedElement): eClassifier is EEnum =>
   eClassifier['literals'] !== undefined;
 
-export const getSuperTypes = (element: ENamedElement): string[] => {
-  const features: string[] = [];
-  if (isEClass(element)) {
-    return features.concat(element.superTypes || []);
+export const isEPackage = (eNamedElement: ENamedElement): eNamedElement is EPackage =>
+  eNamedElement['classes'] !== undefined ||
+  eNamedElement['dataTypes'] !== undefined ||
+  eNamedElement['enums'] !== undefined;
+
+export const getArrayByName =
+  <T>(pred: (element: ENamedElement) => boolean, propName: string) => (element: ENamedElement): T[] => {
+  if (pred(element)) {
+    return (element[propName] || []);
   }
-  return features;
+  return []
 };
 
-export const getFeatures = (element: ENamedElement): ENamedElement[] => {
-  const features: ENamedElement[] = [];
-  if (isEClass(element)) {
-    return features
-      .concat(element.attributes || [])
-      .concat(element.references || []);
-  }
-  return features;
-};
+export const getOrEmpty = <T>(array?: T[]): T[] => array === undefined ? [] : array;
 
-export const getOperations = (element: ENamedElement): ENamedElement[] => {
-  if (isEClass(element)) {
-    return (element.operations || []);
-  }
-  return [];
-};
-
-export const getLiterals = (element: ENamedElement): ELiteral[] => {
-  if (isEEnum(element)) {
-    return element.literals;
-  }
-  return [];
-};
+export const getLiterals: ((el: ENamedElement) => ELiteral[]) = getArrayByName(isEEnum, 'literals');
 
 export const makeNamedElement = (name: string): ENamedElement => ({ name });
 
@@ -59,3 +44,7 @@ export const join = <T>(elements: T[], delimiter: T): T[] => {
     return ts;
   }, acc);
 };
+
+export const isNonEmpty = (array?: any[]): boolean => array !== undefined && array.length > 0;
+
+export const startCase = (s: string) => s.charAt(0).toUpperCase() + s.substr(1);
