@@ -5,53 +5,103 @@
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
  */
 
-import { Container, ContainerModule } from "inversify";
 import {
-    defaultModule, TYPES, configureViewerOptions, SGraphView, SLabelView, SCompartmentView, PolylineEdgeView,
-    ConsoleLogger, LogLevel, boundsModule, moveModule, selectModule, undoRedoModule,
-    viewportModule, hoverModule, LocalModelSource, HtmlRootView, PreRenderedView, exportModule, expandModule,
-    fadeModule, ExpandButtonView, buttonModule, edgeEditModule, SRoutingHandleView, SGraphFactory,
-    PreRenderedElement, HtmlRoot, SGraph, configureModelElement, SLabel, SCompartment, SEdge, SButton, SRoutingHandle
+  boundsModule,
+  buttonModule,
+  configureModelElement,
+  configureViewerOptions,
+  ConsoleLogger,
+  defaultModule,
+  edgeEditModule,
+  ExpandButtonView,
+  expandModule,
+  exportModule,
+  fadeModule,
+  hoverModule,
+  HtmlRoot,
+  HtmlRootView,
+  LogLevel,
+  moveModule,
+  PolylineEdgeView,
+  PreRenderedElement,
+  PreRenderedView,
+  SButton,
+  SCompartment,
+  SCompartmentView,
+  SEdge,
+  selectModule,
+  SGraph,
+  SGraphView,
+  SLabel,
+  SLabelView,
+  SRoutingHandle,
+  SRoutingHandleView,
+  TYPES,
+  undoRedoModule,
+  viewportModule,
+  LocalModelSource
 } from "sprotty/lib";
-import { ClassNodeView, IconView} from "./views";
-import { PopupModelProvider } from "./popup";
-import { ModelProvider } from './model-provider';
-import { Icon, ClassNode } from "./model";
-export default (containerId: string) => {
-    const classDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) => {
-        bind(TYPES.ModelSource).to(LocalModelSource).inSingletonScope();
-        rebind(TYPES.ILogger).to(ConsoleLogger).inSingletonScope();
-        rebind(TYPES.LogLevel).toConstantValue(LogLevel.log);
-        rebind(TYPES.IModelFactory).to(SGraphFactory).inSingletonScope();
-        bind(TYPES.IPopupModelProvider).to(PopupModelProvider);
-        bind(TYPES.StateAwareModelProvider).to(ModelProvider);
-        const context = { bind, unbind, isBound, rebind };
-        configureModelElement(context, 'graph', SGraph, SGraphView);
-        configureModelElement(context, 'node:class', ClassNode, ClassNodeView);
-        configureModelElement(context, 'label:heading', SLabel, SLabelView);
-        configureModelElement(context, 'label:text', SLabel, SLabelView);
-        configureModelElement(context, 'comp:comp', SCompartment, SCompartmentView);
-        configureModelElement(context, 'comp:header', SCompartment, SCompartmentView);
-        configureModelElement(context, 'icon', Icon, IconView);
-        configureModelElement(context, 'label:icon', SLabel, SLabelView);
-        configureModelElement(context, 'edge:straight', SEdge, PolylineEdgeView);
-        configureModelElement(context, 'html', HtmlRoot, HtmlRootView);
-        configureModelElement(context, 'pre-rendered', PreRenderedElement, PreRenderedView);
-        configureModelElement(context, 'button:expand', SButton, ExpandButtonView);
-        configureModelElement(context, 'routing-point', SRoutingHandle, SRoutingHandleView);
-        configureModelElement(context, 'volatile-routing-point', SRoutingHandle, SRoutingHandleView);
-        configureViewerOptions(context, {
-            needsClientLayout: true,
-            baseDiv: containerId
-        });
-        
+import { Container, ContainerModule } from "inversify";
+import { ClassNode, Icon, Link } from "./model";
+import {
+  AggregationEdgeView,
+  ArrowEdgeView,
+  ClassNodeView,
+  CompositionEdgeView,
+  IconView,
+  InheritanceEdgeView,
+  LinkView
+} from "./views";
+
+export default (containerId: string, withSelectionSupport: boolean) => {
+  const classDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) => {
+    rebind(TYPES.ILogger).to(ConsoleLogger).inSingletonScope();
+    rebind(TYPES.LogLevel).toConstantValue(LogLevel.log);
+    const context = { bind, unbind, isBound, rebind };
+    configureModelElement(context, 'graph', SGraph, SGraphView);
+    configureModelElement(context, 'node:class', ClassNode, ClassNodeView);
+    configureModelElement(context, 'label:heading', SLabel, SLabelView);
+    configureModelElement(context, 'label:text', SLabel, SLabelView);
+    configureModelElement(context, 'comp:comp', SCompartment, SCompartmentView);
+    configureModelElement(context, 'comp:header', SCompartment, SCompartmentView);
+    configureModelElement(context, 'icon', Icon, IconView);
+    configureModelElement(context, 'label:icon', SLabel, SLabelView);
+    configureModelElement(context, 'edge:straight', SEdge, PolylineEdgeView);
+    configureModelElement(context, 'html', HtmlRoot, HtmlRootView);
+    configureModelElement(context, 'pre-rendered', PreRenderedElement, PreRenderedView);
+    configureModelElement(context, 'button:expand', SButton, ExpandButtonView);
+    configureModelElement(context, 'routing-point', SRoutingHandle, SRoutingHandleView);
+    configureModelElement(context, 'volatile-routing-point', SRoutingHandle, SRoutingHandleView);
+    configureModelElement(context, 'edge:association', SEdge, ArrowEdgeView)
+    configureModelElement(context, 'edge:inheritance', SEdge, InheritanceEdgeView)
+    configureModelElement(context, 'edge:aggregation', SEdge, AggregationEdgeView)
+    configureModelElement(context, 'edge:composition', SEdge, CompositionEdgeView)
+    configureModelElement(context, 'link', Link, LinkView)
+    configureViewerOptions(context, {
+      needsClientLayout: true,
+      baseDiv: containerId
     });
+    bind(TYPES.ModelSource).to(LocalModelSource).inSingletonScope();
+  });
 
-    const container = new Container();
-    container.load(defaultModule, selectModule, moveModule, boundsModule, undoRedoModule,
-        viewportModule, fadeModule, hoverModule, exportModule, expandModule, buttonModule,
-        edgeEditModule, classDiagramModule);
-    return container;
+  const container = new Container();
+  const modules = [
+    defaultModule,
+    moveModule,
+    boundsModule,
+    undoRedoModule,
+    viewportModule,
+    fadeModule,
+    hoverModule,
+    exportModule,
+    expandModule,
+    buttonModule,
+    edgeEditModule,
+    classDiagramModule
+  ];
+  if (withSelectionSupport) {
+    modules.push(selectModule);
+  }
+  container.load(...modules);
+  return container;
 };
-
-
