@@ -61,8 +61,8 @@ export class SprottyWrapper extends HTMLElement {
     this.appendChild(div);
     this.render();
   }
-  subscribeToSelection(selectonListener: SelectionEventListner) {
-    this.selectionListener = selectonListener;
+  subscribeToSelection(selectionEventListner: SelectionEventListner) {
+    this.selectionListener = selectionEventListner;
     this.render();
   }
   private _selection: SelectableModelElements[] = [];
@@ -70,9 +70,13 @@ export class SprottyWrapper extends HTMLElement {
     return this._selection.map(e => e.id);
   }
   set selection(selection: string[]) {
-    this.commandStack.execute(new SelectCommand(new SelectAction(selection,this._selection.map(e => e.id))));
-    this.selectionListener(getIdsToSModelElement(selection, this.root.index));
-    this._selection = getIdsToSModelElement(selection, this.root.index);
+    const isSameSelection =
+      this._selection.length === selection.length &&
+      this._selection.reduce((acc, el, i) => acc && el.id === selection[i], true);
+    if (!isSameSelection) {
+      this.commandStack.execute(new SelectCommand(new SelectAction(selection, this._selection.map(e => e.id))));
+      this._selection = getIdsToSModelElement(selection, this.root.index);
+    }
   }
   set model(model: any) {
     this.graph = model;
