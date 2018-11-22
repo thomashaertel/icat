@@ -24,6 +24,8 @@ const IndexPage = ({ ePackage, history }: IndexPageProps & RouteComponentProps<a
           <Sprotty
             onSelect={(ids) => history.push(`/${ids[0]}`)}
             allowSelection
+            open
+            showCollapsibleButton={false}
           />
         </div>
       </div>

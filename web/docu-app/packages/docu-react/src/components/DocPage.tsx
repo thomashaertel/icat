@@ -41,7 +41,11 @@ class DocPage extends React.Component<DocPageProps, any> {
         <div className={['content', 'center'].join(' ')}>
           <Nav ePackageName={ePackage.name} eNamedElement={eClassifier}/>
           <div className='layout'>
-            <Sprotty selectedNodeId={eClassifier.name} allowSelection={false} />
+            <Sprotty
+              selectedNodeId={eClassifier.name}
+              allowSelection={false}
+              showCollapsibleButton
+            />
             <Article eClassifier={eClassifier}/>
           </div>
         </div>
