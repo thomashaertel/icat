@@ -25,12 +25,13 @@ const DescriptionList = function<T extends ENamedElement>(props: DescriptionList
         terms &&
         <dl>
         {
-          terms.map((feat: T) => {
-            const desc = convertToMd(feat.description);
+          terms.map((term: T, idx: number) => {
+            const id = title + "-" + term.name + "-" + idx;
+            const desc = convertToMd(term.description);
             return (
-              <React.Fragment>
-                <dt id={`${feat.name}`} key={feat.name}>
-                  {renderTerm(feat)}
+              <React.Fragment key={id}>
+                <dt id={id} key={id}>
+                  {renderTerm(term)}
                 </dt>
                 <dd><ReactMarkdown source={desc}/></dd>
               </React.Fragment>

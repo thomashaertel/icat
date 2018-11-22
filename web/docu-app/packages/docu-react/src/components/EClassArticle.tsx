@@ -86,7 +86,7 @@ const EClassArticle = (props: EClass) => {
             (
             {
               (op.parameters || []).map(p => (
-                <React.Fragment>
+                <React.Fragment key={p.name}>
                   <ELink name={p.type}/><span style={styles.leftPad}>{p.name}</span>
                 </React.Fragment>
               ))

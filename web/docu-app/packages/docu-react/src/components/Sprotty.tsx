@@ -94,7 +94,7 @@ class Sprotty extends React.Component<SprottyProps & { knownTypes: Set<string> }
   }
 }
 
-export default React.forwardRef((props: SprottyProps) => (
+export default React.forwardRef((props: SprottyProps, _ref: any) => (
   <PackageContentContext.Consumer>
     {
       knownTypes => (

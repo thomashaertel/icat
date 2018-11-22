@@ -21,6 +21,7 @@ const GenerateRoutes = ({ ePackage }: { ePackage: EPackage }) => {
         {
           allFeatures.map((el: ENamedElement) => (
             <Route
+              key={el.name}
               path={"/" + el.name + "/"}
               render={() => (
                 <DocPage

@@ -35,12 +35,13 @@ const styles: any = {
 
 const GenerateLinks = function <T>({ name, elements, renderLink } : GenerateLinkProps<T>) {
   if (elements && elements.length > 0) {
-    return (<li>
+    return (
+      <li>
         <summary>{name}</summary>
         <ol>
           {
-            elements.map(feat =>
-              <li>
+            elements.map((feat, idx) =>
+              <li key={`${feat}-${idx}`}>
                 <code>{renderLink(feat)}</code>
               </li>
             )
@@ -78,7 +79,7 @@ const classProps = (eClass: EClass): GenerateLinkProps<ValidTypes>[] => {
         (
         {
           (op.parameters || []).map(p => (
-            <React.Fragment>
+            <React.Fragment key={p.name}>
               <ELink name={p.type}/><span style={styles.leftPad}>{p.name}</span>
             </React.Fragment>
           ))
@@ -132,11 +133,12 @@ const Nav = ({ ePackageName, eNamedElement }: NavProps) => {
       </div>
       <ol>
         {
-          links.map((features: GenerateLinkProps<ValidTypes>) =>
+          links.map((linkProps: GenerateLinkProps<ValidTypes>) =>
             <GenerateLinks
-              name={features.name}
-              elements={features.elements}
-              renderLink={features.renderLink}
+              key={linkProps.name}
+              name={linkProps.name}
+              elements={linkProps.elements}
+              renderLink={linkProps.renderLink}
             />
           )
         }

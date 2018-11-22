@@ -10,7 +10,9 @@ const JumpTo = ({ toc, title = 'Jump to:' }: CrumbTocProps) => (
     <div className='toc-inner'>
       <span>{title}</span>
       <ol>
-        {toc.map(entry => <li><a href={'#' + entry}>{entry.charAt(0).toUpperCase() + entry.substr(1)}</a></li>)}
+        {toc.map(entry => (
+          <li key={entry}><a href={'#' + entry}>{entry.charAt(0).toUpperCase() + entry.substr(1)}</a></li>
+        ))}
       </ol>
     </div>
   </div>
