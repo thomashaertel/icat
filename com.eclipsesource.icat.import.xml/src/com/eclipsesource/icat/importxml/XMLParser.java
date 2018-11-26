@@ -3,6 +3,9 @@ package com.eclipsesource.icat.importxml;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -21,18 +24,21 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 
-import com.eclipsesource.icat.importxml.model.Entry;
-import com.eclipsesource.icat.importxml.model.Field;
+import com.eclipsesource.icat.schemaxml.model.Entry;
+import com.eclipsesource.icat.schemaxml.model.Field;
 
 public class XMLParser {
 
@@ -43,17 +49,38 @@ public class XMLParser {
 			convertEntries(entries, ePackages);
 
 			for (EPackage ePackage : ePackages.values()) {
-				try {
-					Resource resource = createResource(ecoreFolderPath.resolve(ePackage.getName() + ".ecore"));
-					resource.getContents().add(ePackage);
-					resource.save(null);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				savePackage(ecoreFolderPath, ePackage);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private static Resource savePackage(Path ecoreFolderPath, EPackage ePackage) {
+		Map<EObject, Collection<Setting>> crossReferences = EcoreUtil.ExternalCrossReferencer.find(Collections.singleton(ePackage));
+		Set<Resource> referencedResources = new HashSet<Resource>();
+		for(EObject eObject:crossReferences.keySet()) {
+			if(eObject instanceof EClass) {
+				Resource resource = savePackage(ecoreFolderPath, ((EClass) eObject).getEPackage());
+				referencedResources.add(resource);
+			}
+		}
+		return createResource(ecoreFolderPath, ePackage, referencedResources);
+	}
+	
+	private static Resource createResource(Path ecoreFolderPath, EPackage ePackage, Set<Resource> referencedResources) {
+		if(ePackage.eResource() != null)
+			return ePackage.eResource();
+		try {
+			Resource resource = createResource(ecoreFolderPath.resolve(ePackage.getName() + ".ecore"));
+			resource.getContents().add(ePackage);
+			resource.getResourceSet().getResources().addAll(referencedResources);
+			resource.save(null);
+			return resource;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public static Map<String, Entry> parseFolder(Path folderPath) throws IOException {
@@ -111,6 +138,15 @@ public class XMLParser {
 		EPackage ePackage = ePackages.computeIfAbsent(entry.getPackageName(), XMLParser::getEPackage);
 		EClass eClass = EcoreFactory.eINSTANCE.createEClass();
 		eClass.setName(entry.getName());
+		EAnnotation annotation = EcoreFactory.eINSTANCE.createEAnnotation();
+		annotation.setSource("com.eclipsesource.icat.schemaxml");
+		annotation.getDetails().put("Application", entry.getApplication());
+		annotation.getDetails().put("Deleted", Boolean.toString(entry.isDeleted()));
+		annotation.getDetails().put("Parent", entry.getParent());
+		annotation.getDetails().put("Schema", entry.getSchema());
+		annotation.getDetails().put("Table", entry.getTable());
+		annotation.getDetails().put("Unit", entry.getUnit());
+		
 		ePackage.getEClassifiers().add(eClass);
 		for (Field field : entry.getField()) {
 			EStructuralFeature feature = getFeature(entry, field, eClass, ePackages, entries);
@@ -128,12 +164,40 @@ public class XMLParser {
 			EStructuralFeature existingFeature = eClass.getEStructuralFeature(feature.getName());
 			if (existingFeature != null) {
 				System.err.println("A Feature with the Name '" + existingFeature.getName()
-						+ "' already exists in EClass '" + existingFeature.getEContainingClass().getName()
+						+ "' already exists in EClass '" + entry.getPackageName()+"."+existingFeature.getEContainingClass().getName()
 						+ "' it will be replaced. Feature Type was '" + existingFeature.getEType().getName() + "'.");
 				eClass.getEStructuralFeatures().remove(existingFeature);
 			}
+			feature.getEAnnotations().add(convertAdditionalAttributes(field));
 			eClass.getEStructuralFeatures().add(feature);
+			
 		}
+	}
+
+	private static EAnnotation convertAdditionalAttributes(Field field) {
+		EAnnotation annotation = EcoreFactory.eINSTANCE.createEAnnotation();
+		annotation.setSource("com.eclipsesource.icat.schemaxml");
+			
+		annotation.getDetails().put("Bk", String.valueOf(field.isBk()));
+		annotation.getDetails().put("CascadeType", field.getCascadeType());
+		annotation.getDetails().put("Column", field.getColumn());
+		annotation.getDetails().put("CustomType", field.getCustomType());
+		annotation.getDetails().put("DbType", String.valueOf(field.getDbType()));
+		annotation.getDetails().put("Digit", String.valueOf(field.getDigit()));
+		annotation.getDetails().put("Fk", String.valueOf(field.isFk()));
+		annotation.getDetails().put("Insertable", String.valueOf(field.isInsertable()));
+		annotation.getDetails().put("JoinDstKey", field.getJoinDstKey());
+		annotation.getDetails().put("JoinSrcKey", field.getJoinSrcKey());
+		annotation.getDetails().put("JoinTable", field.getJoinTable());		
+		annotation.getDetails().put("Length", String.valueOf(field.getLength()));
+		annotation.getDetails().put("Lob", String.valueOf(field.isLob()));
+		annotation.getDetails().put("MappedBy", field.getMappedBy());
+		annotation.getDetails().put("Pk", String.valueOf(field.isPk()));
+		annotation.getDetails().put("Relation", field.getRelation());
+		annotation.getDetails().put("XmlAttribute", String.valueOf(field.isXmlAttribute()));
+		annotation.getDetails().put("XmlName", field.getXmlName());
+		
+		return annotation;
 	}
 
 	private static EStructuralFeature getFeature(Entry entry, Field field, EClass eClass,
@@ -144,23 +208,7 @@ public class XMLParser {
 		if (dataType.isPresent()) {
 			EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
 			eAttribute.setName(field.getName());
-			if (field.getLength() == 0 || !field.getJavaType().equals("java.lang.String")) {
-				eAttribute.setEType(dataType.get());
-			} else {
-				String dataTypeName = entry.getName() + "_" + field.getName() + "_Type";
-				EClassifier eDataType = eClass.getEPackage().getEClassifier(dataTypeName);
-				if (eDataType == null) {
-					eDataType = EcoreFactory.eINSTANCE.createEDataType();
-					eDataType.setInstanceTypeName(field.getJavaType());
-					eDataType.setName(dataTypeName);
-					EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
-					eAnnotation.setSource("http:///org/eclipse/emf/ecore/util/ExtendedMetaData");
-					eAnnotation.getDetails().put("maxLength", Short.toString(field.getLength()));
-					eDataType.getEAnnotations().add(eAnnotation);
-					eClass.getEPackage().getEClassifiers().add(eDataType);
-				}
-				eAttribute.setEType(eDataType);
-			}
+			eAttribute.setEType(dataType.get());
 			return eAttribute;
 		} else {
 			EReference eReference = EcoreFactory.eINSTANCE.createEReference();
@@ -168,9 +216,6 @@ public class XMLParser {
 			String javaType = field.getJavaType();
 			int indexOfLastDot = javaType.lastIndexOf(".");
 			String packageName = javaType.substring(0, indexOfLastDot);
-			if (!packageName.equals(entry.getPackageName())) {
-				return null;
-			}
 			String typeName = javaType.substring(indexOfLastDot + 1);
 			EPackage referencedPackage = ePackages.get(packageName);
 			if (referencedPackage == null) {

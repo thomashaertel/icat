@@ -66,3 +66,6 @@ location "http://download.eclipse.org/elk/updates/releases/0.4.1/" {
 	org.eclipse.elk.algorithms.feature.feature.group
 	org.eclipse.elk.feature.feature.group
 }
+location "https://download.eclipse.org/rt/eclipselink/updates/" {
+	org.eclipse.persistence.moxy.feature.group
+}

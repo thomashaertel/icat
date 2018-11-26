@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Schema XML Model
+Bundle-SymbolicName: com.eclipsesource.icat.schemaxml.model
+Bundle-Version: 0.0.1.qualifier
+Bundle-Vendor: ECLIPSESOURCE
+Automatic-Module-Name: com.eclipsesource.icat.schemaxml.model
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Export-Package: com.eclipsesource.icat.schemaxml.model
+Require-Bundle: org.eclipse.persistence.moxy;bundle-version="2.7.3"

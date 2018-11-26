@@ -6,13 +6,15 @@
 //
 
 
-package com.eclipsesource.icat.importxml.model;
+package com.eclipsesource.icat.schemaxml.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.eclipse.persistence.oxm.annotations.XmlCDATA;
 
 
 /**
@@ -86,10 +88,13 @@ public class Field {
     @XmlElement(name = "Bk", defaultValue = "false")
     protected Boolean bk;
     @XmlElement(name = "CascadeType")
+    @XmlCDATA
     protected String cascadeType;
     @XmlElement(name = "Column")
+    @XmlCDATA
     protected String column;
     @XmlElement(name = "CustomType")
+    @XmlCDATA
     protected String customType;
     @XmlElement(name = "DbType")
     protected Short dbType;
@@ -100,20 +105,26 @@ public class Field {
     @XmlElement(name = "Insertable", defaultValue = "false")
     protected boolean insertable;
     @XmlElement(name = "JavaType", required = true)
+    @XmlCDATA
     protected String javaType;
     @XmlElement(name = "JoinDstKey")
+    @XmlCDATA
     protected String joinDstKey;
     @XmlElement(name = "JoinSrcKey")
+    @XmlCDATA
     protected String joinSrcKey;
     @XmlElement(name = "JoinTable")
+    @XmlCDATA
     protected String joinTable;
     @XmlElement(name = "Length", defaultValue = "0")
     protected short length;
     @XmlElement(name = "Lob", defaultValue = "false")
     protected Boolean lob;
     @XmlElement(name = "MappedBy")
+    @XmlCDATA
     protected String mappedBy;
     @XmlElement(name = "Name", required = true)
+    @XmlCDATA
     protected String name;
     @XmlElement(name = "Nullable", defaultValue = "false")
     protected boolean nullable;
@@ -126,6 +137,7 @@ public class Field {
     @XmlElement(name = "XmlAttribute", defaultValue = "false")
     protected Boolean xmlAttribute;
     @XmlElement(name = "XmlName")
+    @XmlCDATA
     protected String xmlName;
 
     /**

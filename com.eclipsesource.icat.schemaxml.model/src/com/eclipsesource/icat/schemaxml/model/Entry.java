@@ -6,7 +6,7 @@
 //
 
 
-package com.eclipsesource.icat.importxml.model;
+package com.eclipsesource.icat.schemaxml.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.eclipse.persistence.oxm.annotations.XmlCDATA;
 
 
 /**
@@ -62,24 +64,31 @@ import javax.xml.bind.annotation.XmlType;
 public class Entry {
 
     @XmlElement(name = "Application", required = true)
+    @XmlCDATA
     protected String application;
     @XmlElement(name = "Deleted", defaultValue = "false")
     protected Boolean deleted;
     @XmlElement(name = "Field", required = true)
     protected List<Field> field;
     @XmlElement(name = "Name", required = true)
+    @XmlCDATA
     protected String name;
     @XmlElement(name = "PackageName", required = true)
+    @XmlCDATA
     protected String packageName;
     @XmlElement(name = "Parent")
     protected String parent;
     @XmlElement(name = "Schema")
+    @XmlCDATA
     protected String schema;
     @XmlElement(name = "Table")
+    @XmlCDATA
     protected String table;
     @XmlElement(name = "Unit")
+    @XmlCDATA
     protected String unit;
     @XmlElement(name = "XmlName")
+    @XmlCDATA
     protected String xmlName;
 
     /**

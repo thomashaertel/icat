@@ -6,7 +6,7 @@
 //
 
 
-package com.eclipsesource.icat.importxml.model;
+package com.eclipsesource.icat.schemaxml.model;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;
