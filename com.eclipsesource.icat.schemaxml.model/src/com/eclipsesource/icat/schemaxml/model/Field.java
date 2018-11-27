@@ -131,6 +131,7 @@ public class Field {
     @XmlElement(name = "Pk", defaultValue = "false")
     protected boolean pk;
     @XmlElement(name = "Relation", defaultValue = "false")
+    @XmlCDATA
     protected String relation;
     @XmlElement(name = "Updatable", defaultValue = "false")
     protected boolean updatable;

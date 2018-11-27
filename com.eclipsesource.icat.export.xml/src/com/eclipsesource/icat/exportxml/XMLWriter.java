@@ -3,6 +3,9 @@ package com.eclipsesource.icat.exportxml;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.function.Function;
 
 import javax.xml.bind.JAXBContext;
@@ -11,6 +14,7 @@ import javax.xml.bind.Marshaller;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -69,18 +73,18 @@ public class XMLWriter {
 			entry.setUnit(getValue(eAnnotation, "Unit", Function.identity()));
 		}
 		
-		eClass.getEStructuralFeatures().stream().map(XMLWriter::feature2Field).forEach(entry.getField()::add);
+		eClass.getEStructuralFeatures().stream().map(XMLWriter::feature2Field).forEach(entry.getField()::addAll);
 		return entry;
 	}
 	private static <T>  T getValue(EAnnotation annotation, String key, Function<String, T> transform) {
 		return transform.apply(annotation.getDetails().get(key));
 	}
-	private static Field feature2Field(EStructuralFeature feature) {
+	private static Collection<Field> feature2Field(EStructuralFeature feature) {
 		Field field = new Field();
 		EAnnotation eAnnotation = feature.getEAnnotation("com.eclipsesource.icat.schemaxml");
 		if(eAnnotation == null) {
 			System.out.println("The EClass "+feature.getEContainingClass().getName()+" is missing the anntotation.");
-			return field;
+			return Collections.emptySet();
 		}
 		field.setBk(getValue(eAnnotation, "Bk", Boolean::valueOf));
 		field.setCascadeType(getValue(eAnnotation, "CascadeType", Function.identity()));
@@ -90,9 +94,13 @@ public class XMLWriter {
 		field.setDigit(getValue(eAnnotation, "Digit", Short::valueOf));
 		field.setFk(getValue(eAnnotation, "Fk", Boolean::valueOf));
 		field.setInsertable(getValue(eAnnotation, "Insertable", Boolean::parseBoolean));
-		field.setJavaType(feature.getEType().getInstanceTypeName());
+		if(feature instanceof EAttribute)
+			field.setJavaType(feature.getEType().getInstanceTypeName());
+		else
+			field.setJavaType(feature.getEType().getEPackage().getNsURI()+"."+feature.getEType().getName());
 		field.setJoinDstKey(getValue(eAnnotation, "JoinDstKey", Function.identity()));
-		field.setJoinSrcKey(getValue(eAnnotation, "JoinSrcKey", Function.identity()));
+		String joinSrcKey = getValue(eAnnotation, "JoinSrcKey", Function.identity());
+		field.setJoinSrcKey(joinSrcKey);
 		field.setJoinTable(getValue(eAnnotation, "JoinTable", Function.identity()));
 		field.setLength(getValue(eAnnotation, "Length", Short::valueOf));
 		field.setLob(getValue(eAnnotation, "Lob", Boolean::valueOf));
@@ -103,9 +111,32 @@ public class XMLWriter {
 		field.setRelation(getValue(eAnnotation, "Relation", Function.identity()));
 		field.setUpdatable(feature.isChangeable());
 		field.setXmlAttribute(getValue(eAnnotation, "XmlAttribute", Boolean::valueOf));
-//		field.setXmlName(getValue(eAnnotation, "XmlName", Function.identity()));
-		field.setXmlName(getValue(eAnnotation, "XmlName", v -> v + " <Foo>"));
+		field.setXmlName(getValue(eAnnotation, "XmlName", Function.identity()));
 		
+		if(joinSrcKey!=null) {
+			Field fkField = getForeignKeyField(joinSrcKey,feature.getName());
+			return Arrays.asList(fkField,field);
+		}
+		return Collections.singleton(field);
+	}
+	private static Field getForeignKeyField(String columnName,String name) {
+		Field field = new Field();
+				
+		field.setBk(false);
+		field.setColumn(columnName);
+		field.setDbType((short)12);
+		field.setDigit((short)0);
+		field.setFk(true);
+		field.setInsertable(true);
+		field.setJavaType("java.lang.String");
+		field.setLength((short)23);
+		field.setLob(false);
+		field.setName(name);
+		field.setNullable(true);
+		field.setPk(false);
+		field.setUpdatable(true);
+		field.setXmlAttribute(false);
+		field.setXmlName(name);
 		
 		return field;
 	}

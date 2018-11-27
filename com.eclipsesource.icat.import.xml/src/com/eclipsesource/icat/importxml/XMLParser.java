@@ -3,9 +3,6 @@ package com.eclipsesource.icat.importxml;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -24,17 +21,14 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 
 import com.eclipsesource.icat.schemaxml.model.Entry;
@@ -47,41 +41,27 @@ public class XMLParser {
 			Map<String, Entry> entries = parseFolder(folderPath);
 			Map<String, EPackage> ePackages = preparePackages(entries);
 			convertEntries(entries, ePackages);
-
-			for (EPackage ePackage : ePackages.values()) {
-				savePackage(ecoreFolderPath, ePackage);
-			}
+			
+			ResourceSet rs = new ResourceSetImpl();
+			rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new EcoreResourceFactoryImpl());
+			EcorePackage.eINSTANCE.eClass();
+			
+			ePackages.values().stream().map(p->addPackageToResource(rs,ecoreFolderPath,p)).forEach(rs.getResources()::add);
+			
+			for(Resource r:rs.getResources())
+				r.save(null);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private static Resource savePackage(Path ecoreFolderPath, EPackage ePackage) {
-		Map<EObject, Collection<Setting>> crossReferences = EcoreUtil.ExternalCrossReferencer.find(Collections.singleton(ePackage));
-		Set<Resource> referencedResources = new HashSet<Resource>();
-		for(EObject eObject:crossReferences.keySet()) {
-			if(eObject instanceof EClass) {
-				Resource resource = savePackage(ecoreFolderPath, ((EClass) eObject).getEPackage());
-				referencedResources.add(resource);
-			}
-		}
-		return createResource(ecoreFolderPath, ePackage, referencedResources);
+	private static Resource addPackageToResource(ResourceSet rs,Path ecoreFolderPath, EPackage ePackage) {
+		Resource resource = rs.createResource(URI.createFileURI(ecoreFolderPath.resolve(ePackage.getNsURI() + ".ecore").toString()));
+		resource.getContents().add(ePackage);
+		return resource;
 	}
 	
-	private static Resource createResource(Path ecoreFolderPath, EPackage ePackage, Set<Resource> referencedResources) {
-		if(ePackage.eResource() != null)
-			return ePackage.eResource();
-		try {
-			Resource resource = createResource(ecoreFolderPath.resolve(ePackage.getName() + ".ecore"));
-			resource.getContents().add(ePackage);
-			resource.getResourceSet().getResources().addAll(referencedResources);
-			resource.save(null);
-			return resource;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 
 	public static Map<String, Entry> parseFolder(Path folderPath) throws IOException {
 		try (Stream<Path> stream = Files.find(folderPath, Integer.MAX_VALUE,
@@ -146,6 +126,7 @@ public class XMLParser {
 		annotation.getDetails().put("Schema", entry.getSchema());
 		annotation.getDetails().put("Table", entry.getTable());
 		annotation.getDetails().put("Unit", entry.getUnit());
+		ePackage.getEAnnotations().add(annotation);
 		
 		ePackage.getEClassifiers().add(eClass);
 		for (Field field : entry.getField()) {
@@ -162,16 +143,34 @@ public class XMLParser {
 			feature.setChangeable(field.isUpdatable());
 
 			EStructuralFeature existingFeature = eClass.getEStructuralFeature(feature.getName());
-			if (existingFeature != null) {
-				System.err.println("A Feature with the Name '" + existingFeature.getName()
-						+ "' already exists in EClass '" + entry.getPackageName()+"."+existingFeature.getEContainingClass().getName()
-						+ "' it will be replaced. Feature Type was '" + existingFeature.getEType().getName() + "'.");
-				eClass.getEStructuralFeatures().remove(existingFeature);
-			}
 			feature.getEAnnotations().add(convertAdditionalAttributes(field));
+			
+			if (existingFeature != null) {
+				// case 1 we added foreign key before
+				String currentJoinSrc = getAnnotationValue(feature,"JoinSrcKey");
+				String existingJoinSrc = getAnnotationValue(existingFeature,"JoinSrcKey");
+				if(currentJoinSrc!=null && currentJoinSrc.equals(getAnnotationValue(existingFeature,"Column"))) {
+					eClass.getEStructuralFeatures().remove(existingFeature);
+					eClass.getEStructuralFeatures().add(feature);
+				}
+				// case 2 we are adding foreign key now
+				else if(existingJoinSrc!=null && existingJoinSrc.equals(getAnnotationValue(feature,"Column"))) {
+					// do nothing just ignore
+					continue;
+				} else {
+					System.err.println("A Feature with the Name '" + existingFeature.getName()
+							+ "' already exists in EClass '" + entry.getPackageName()+"."+existingFeature.getEContainingClass().getName()
+							+ "' it will be replaced. Feature Type was '" + existingFeature.getEType().getName() + "'.");
+					eClass.getEStructuralFeatures().remove(existingFeature);
+				}
+			}
 			eClass.getEStructuralFeatures().add(feature);
 			
 		}
+	}
+	
+	private static String getAnnotationValue(EStructuralFeature feature, String key) {
+		return feature.getEAnnotation("com.eclipsesource.icat.schemaxml").getDetails().get(key);
 	}
 
 	private static EAnnotation convertAdditionalAttributes(Field field) {
@@ -231,15 +230,6 @@ public class XMLParser {
 		}
 	}
 
-	private static Resource createResource(Path ecorePath) throws IOException {
-		ResourceSet rs = new ResourceSetImpl();
-		rs.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new EcoreResourceFactoryImpl());
-		EcorePackage.eINSTANCE.eClass();
-
-		Resource resource = rs.createResource(URI.createFileURI(ecorePath.toString()));
-
-		return resource;
-	}
 
 	private static String simplePackageName(String packageName) {
 		int indexOfDot = packageName.lastIndexOf(".");
