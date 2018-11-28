@@ -31,6 +31,7 @@
       <feature id="org.eclipse.sirius.runtime"/>
       <feature id="org.eclipse.gmf"/>
       <feature id="org.eclipse.draw2d"/>
+      <feature id="org.eclipse.persistence.moxy"/>
    </features>
 
    <configurations>

@@ -142,8 +142,8 @@ public class XMLWriter {
 	}
 	private static void writeXML(Entry entry, Path xmlPath) {
 		try {
-			JAXBContext jaxbContext = JAXBContext.newInstance(Entry.class);
-
+			JAXBContext jaxbContext = JAXBContext.newInstance("com.eclipsesource.icat.schemaxml.model", Entry.class.getClassLoader());
+			
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			String subFolder = entry.getPackageName();
 			Path packagePath = xmlPath.resolve(subFolder.substring(subFolder.lastIndexOf(".")+1));

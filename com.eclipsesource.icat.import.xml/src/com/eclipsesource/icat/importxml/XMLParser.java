@@ -74,7 +74,7 @@ public class XMLParser {
 
 	public static Entry parseXML(Path xmlPath) {
 		try {
-			JAXBContext jaxbContext = JAXBContext.newInstance(Entry.class);
+			JAXBContext jaxbContext = JAXBContext.newInstance("com.eclipsesource.icat.schemaxml.model", Entry.class.getClassLoader());
 
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			return (Entry) jaxbUnmarshaller.unmarshal(xmlPath.toFile());

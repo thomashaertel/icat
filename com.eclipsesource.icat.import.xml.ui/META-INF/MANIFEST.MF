@@ -6,6 +6,8 @@ Bundle-Version: 0.0.1.qualifier
 Bundle-Vendor: ECLIPSESOURCE
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources,
- com.eclipsesource.icat.import.xml
+ com.eclipsesource.icat.import.xml,
+ org.eclipse.equinox.common,
+ org.eclipse.core.jobs
 Automatic-Module-Name: com.eclipsesource.icat.import.xml.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

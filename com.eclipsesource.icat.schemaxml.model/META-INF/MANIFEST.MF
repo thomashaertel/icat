@@ -8,4 +8,5 @@ Automatic-Module-Name: com.eclipsesource.icat.schemaxml.model
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: com.eclipsesource.icat.schemaxml.model
-Require-Bundle: org.eclipse.persistence.moxy;bundle-version="2.7.3"
+Require-Bundle: org.eclipse.persistence.moxy;bundle-version="2.7.3",
+ org.eclipse.persistence.asm;bundle-version="6.2.0"
