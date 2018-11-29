@@ -10,3 +10,4 @@ Require-Bundle: org.eclipse.emf.ecore,
  com.eclipsesource.icat.schemaxml.model,
  org.eclipse.emf.ecore.xmi
 Bundle-ActivationPolicy: lazy
+Export-Package: com.eclipsesource.icat.exportxml

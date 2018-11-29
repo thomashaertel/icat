@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="com.eclipsesource.icat.export.xml.ui.commands.category"
+            name="ICAT Category">
+      </category>
+      <command
+            categoryId="com.eclipsesource.icat.export.xml.ui.commands.category"
+            name="Export Ecore to XML"
+            id="com.eclipsesource.icat.export.xml.ui.commands.export">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="com.eclipsesource.icat.exportxml.ui.handlers.ExportXMLHandler"
+            commandId="com.eclipsesource.icat.export.xml.ui.commands.export">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="true"
+            locationURI="popup:org.eclipse.ui.popup.any">
+         <command
+               commandId="com.eclipsesource.icat.export.xml.ui.commands.export"
+               icon="icons/sample.png"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <iterate
+                     ifEmpty="false">
+                  <adapt
+                        type="org.eclipse.core.resources.IContainer">
+                  </adapt>
+               </iterate>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+
+</plugin>

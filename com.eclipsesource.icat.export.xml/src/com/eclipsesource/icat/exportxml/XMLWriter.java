@@ -30,7 +30,8 @@ import com.eclipsesource.icat.schemaxml.model.Field;
 public class XMLWriter {
 
 	public static void convertXML(Path ecoreFolderPath, Path xmlFolder) throws IOException {
-		Files.list(ecoreFolderPath).filter(p -> p.toString().endsWith(".ecore")).map(XMLWriter::createResource).forEach(e -> convertXML(e, xmlFolder));
+		Files.find(ecoreFolderPath, Integer.MAX_VALUE,
+				(p, a) -> p.getFileName().toString().endsWith(".ecore")).map(XMLWriter::createResource).forEach(e -> convertXML(e, xmlFolder));
 	}
 	
 	private static Resource createResource(Path ecorePath) {

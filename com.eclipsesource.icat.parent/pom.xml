@@ -49,6 +49,7 @@
 		<module>../com.eclipsesource.icat.webdocu</module>
 		<module>../com.eclipsesource.icat.webdocu.ui</module>
 		<module>../com.eclipsesource.icat.export.xml</module>
+		<module>../com.eclipsesource.icat.export.xml.ui</module>
 		<module>../com.eclipsesource.icat.import.xml</module>
 		<module>../com.eclipsesource.icat.import.xml.ui</module>
 		<module>../com.eclipsesource.icat.schemaxml.model</module>
