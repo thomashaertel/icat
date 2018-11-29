@@ -86,6 +86,12 @@
          version="0.0.0"/>
 
    <plugin
+         id="com.eclipsesource.icat.export.xml.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
          id="com.eclipsesource.icat.schemaxml.model"
          download-size="0"
          install-size="0"
