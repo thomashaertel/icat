@@ -28,19 +28,12 @@ location "http://download.eclipse.org/releases/latest/" {
 	org.eclipse.wst.common_ui.feature.feature.group
 	org.eclipse.gef.feature.group
 	org.eclipse.emf.ecoretools.sdk.feature.group
-	org.eclipse.sirius.runtime.feature.group
-	org.eclipse.sirius.runtime.aql.feature.group
-	org.eclipse.sirius.runtime.ide.ui.feature.group
-	org.eclipse.sirius.properties.feature.feature.group
 	org.eclipse.gmf.feature.group
 	org.eclipse.gmf.runtime.notation.feature.group
 	org.eclipse.emf.workspace.feature.group
 	org.eclipse.acceleo.query.feature.group
 	org.eclipse.acceleo.feature.group
-	org.eclipse.sirius.interpreter.feature.feature.group
 	org.eclipse.eef.sdk.feature.feature.group
-	org.eclipse.sirius.editor
-	org.eclipse.sirius.editor.properties
 	org.eclipse.pde.feature.group
 	org.eclipse.eef.ext.widgets.reference.feature.feature.group
 }
@@ -54,6 +47,15 @@ location "http://download.eclipse.org/eclipse/updates/4.9/" {
 	org.eclipse.ecf.filetransfer.httpclient4.feature.feature.group
 	org.eclipse.ecf.filetransfer.httpclient4.ssl.feature.feature.group
 	org.eclipse.ecf.filetransfer.ssl.feature.feature.group
+}
+location "http://download.eclipse.org/sirius/updates/releases/6.1.1/photon" {
+	org.eclipse.sirius.runtime.feature.group
+	org.eclipse.sirius.runtime.aql.feature.group
+	org.eclipse.sirius.runtime.ide.ui.feature.group
+	org.eclipse.sirius.properties.feature.feature.group
+	org.eclipse.sirius.interpreter.feature.feature.group
+	org.eclipse.sirius.editor
+	org.eclipse.sirius.editor.properties
 }
 location "http://download.eclipse.org/tools/orbit/downloads/drops/R20180905201904/repository" {
 	com.google.guava
