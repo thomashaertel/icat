@@ -25,7 +25,7 @@ export class ClassNodeView extends RectangularNodeView {
   render(node: ClassNode, context: RenderingContext): VNode {
     return <g class-node={true}>
       <rect class-sprotty-node={true} class-selected={node.selected} class-mouseover={node.hoverFeedback}
-            x={0} y={0}
+            x={0} y={0} rx={10} ry={10}
             width={Math.max(0, node.bounds.width)} height={Math.max(0, node.bounds.height)} />
       {context.renderChildren(node)}
     </g>;

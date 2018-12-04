@@ -19,6 +19,9 @@
   "id": "graph",
   "children": [
     {
+      "cssClasses": [
+        "ecore-node"
+      ],
       "expanded": true,
       "strokeWidth": 0.0,
       "layout": "vbox",
@@ -78,42 +81,24 @@
               },
               "type": "label:heading",
               "id": "Comparison_classname"
-            },
-            {
-              "type": "button:expand",
-              "id": "Comparison_expand"
             }
           ]
         },
         {
           "layout": "vbox",
-          "type": "comp:comp",
-          "id": "Comparison_linkComp",
-          "children": [
-            {
-              "target": "http://www.google.com",
-              "text": "Open",
-              "position": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "type": "link",
-              "id": "Comparison_link"
-            }
-          ]
-        },
-        {
-          "layout": "vbox",
+          "layoutOptions": {
+            "hAlign": "left"
+          },
           "type": "comp:comp",
           "id": "Comparison_attrs",
           "children": [
             {
-              "text": "threeWay:EBoolean",
+              "text": " - threeWay : EBoolean",
               "type": "label:text",
               "id": "Comparison_threeWay"
             },
             {
-              "text": "diagnostic:Diagnostic",
+              "text": " - diagnostic : Diagnostic",
               "type": "label:text",
               "id": "Comparison_diagnostic"
             }
@@ -122,6 +107,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "composition"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..-1",
       "sourceId": "Comparison",
@@ -163,6 +152,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "composition"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..-1",
       "sourceId": "Comparison",
@@ -204,6 +197,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "composition"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..-1",
       "sourceId": "Comparison",
@@ -253,6 +250,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "composition"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..-1",
       "sourceId": "Comparison",
@@ -302,6 +303,9 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-node"
+      ],
       "expanded": true,
       "strokeWidth": 0.0,
       "layout": "vbox",
@@ -361,62 +365,44 @@
               },
               "type": "label:heading",
               "id": "MatchResource_classname"
-            },
-            {
-              "type": "button:expand",
-              "id": "MatchResource_expand"
             }
           ]
         },
         {
           "layout": "vbox",
-          "type": "comp:comp",
-          "id": "MatchResource_linkComp",
-          "children": [
-            {
-              "target": "http://www.google.com",
-              "text": "Open",
-              "position": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "type": "link",
-              "id": "MatchResource_link"
-            }
-          ]
-        },
-        {
-          "layout": "vbox",
+          "layoutOptions": {
+            "hAlign": "left"
+          },
           "type": "comp:comp",
           "id": "MatchResource_attrs",
           "children": [
             {
-              "text": "leftURI:EString",
+              "text": " - leftURI : EString",
               "type": "label:text",
               "id": "MatchResource_leftURI"
             },
             {
-              "text": "rightURI:EString",
+              "text": " - rightURI : EString",
               "type": "label:text",
               "id": "MatchResource_rightURI"
             },
             {
-              "text": "originURI:EString",
+              "text": " - originURI : EString",
               "type": "label:text",
               "id": "MatchResource_originURI"
             },
             {
-              "text": "left:EResource",
+              "text": " - left : EResource",
               "type": "label:text",
               "id": "MatchResource_left"
             },
             {
-              "text": "right:EResource",
+              "text": " - right : EResource",
               "type": "label:text",
               "id": "MatchResource_right"
             },
             {
-              "text": "origin:EResource",
+              "text": " - origin : EResource",
               "type": "label:text",
               "id": "MatchResource_origin"
             }
@@ -425,6 +411,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "aggregation"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..1",
       "sourceId": "MatchResource",
@@ -474,6 +464,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "composition"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..2",
       "sourceId": "MatchResource",
@@ -507,6 +501,9 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-node"
+      ],
       "expanded": true,
       "strokeWidth": 0.0,
       "layout": "vbox",
@@ -566,32 +563,14 @@
               },
               "type": "label:heading",
               "id": "Match_classname"
-            },
-            {
-              "type": "button:expand",
-              "id": "Match_expand"
             }
           ]
         },
         {
           "layout": "vbox",
-          "type": "comp:comp",
-          "id": "Match_linkComp",
-          "children": [
-            {
-              "target": "http://www.google.com",
-              "text": "Open",
-              "position": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "type": "link",
-              "id": "Match_link"
-            }
-          ]
-        },
-        {
-          "layout": "vbox",
+          "layoutOptions": {
+            "hAlign": "left"
+          },
           "type": "comp:comp",
           "id": "Match_attrs",
           "children": []
@@ -599,6 +578,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "composition"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..-1",
       "sourceId": "Match",
@@ -648,6 +631,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "composition"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..-1",
       "sourceId": "Match",
@@ -689,6 +676,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "aggregation"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..1",
       "sourceId": "Match",
@@ -712,6 +703,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "aggregation"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..1",
       "sourceId": "Match",
@@ -735,6 +730,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "aggregation"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..1",
       "sourceId": "Match",
@@ -758,6 +757,9 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-node"
+      ],
       "expanded": true,
       "strokeWidth": 0.0,
       "layout": "vbox",
@@ -817,47 +819,29 @@
               },
               "type": "label:heading",
               "id": "Diff_classname"
-            },
-            {
-              "type": "button:expand",
-              "id": "Diff_expand"
             }
           ]
         },
         {
           "layout": "vbox",
-          "type": "comp:comp",
-          "id": "Diff_linkComp",
-          "children": [
-            {
-              "target": "http://www.google.com",
-              "text": "Open",
-              "position": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "type": "link",
-              "id": "Diff_link"
-            }
-          ]
-        },
-        {
-          "layout": "vbox",
+          "layoutOptions": {
+            "hAlign": "left"
+          },
           "type": "comp:comp",
           "id": "Diff_attrs",
           "children": [
             {
-              "text": "kind:DifferenceKind",
+              "text": " - kind : DifferenceKind",
               "type": "label:text",
               "id": "Diff_kind"
             },
             {
-              "text": "source:DifferenceSource",
+              "text": " - source : DifferenceSource",
               "type": "label:text",
               "id": "Diff_source"
             },
             {
-              "text": "state:DifferenceState",
+              "text": " - state : DifferenceState",
               "type": "label:text",
               "id": "Diff_state"
             }
@@ -866,6 +850,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "aggregation"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..1",
       "sourceId": "Diff",
@@ -915,6 +903,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "aggregation"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..-1",
       "sourceId": "Diff",
@@ -964,6 +956,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "aggregation"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..-1",
       "sourceId": "Diff",
@@ -1013,6 +1009,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "aggregation"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..-1",
       "sourceId": "Diff",
@@ -1062,6 +1062,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "aggregation"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..-1",
       "sourceId": "Diff",
@@ -1111,6 +1115,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "aggregation"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..-1",
       "sourceId": "Diff",
@@ -1160,6 +1168,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "aggregation"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..-1",
       "sourceId": "Diff",
@@ -1209,6 +1221,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "aggregation"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..1",
       "sourceId": "Diff",
@@ -1258,6 +1274,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "aggregation"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..1",
       "sourceId": "Diff",
@@ -1307,6 +1327,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "aggregation"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..1",
       "sourceId": "Diff",
@@ -1340,11 +1364,14 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-node"
+      ],
       "expanded": true,
       "strokeWidth": 0.0,
       "layout": "vbox",
       "position": {
-        "x": 1338.0,
+        "x": 1400.0,
         "y": 1312.0
       },
       "size": {
@@ -1399,37 +1426,19 @@
               },
               "type": "label:heading",
               "id": "ResourceAttachmentChange_classname"
-            },
-            {
-              "type": "button:expand",
-              "id": "ResourceAttachmentChange_expand"
             }
           ]
         },
         {
           "layout": "vbox",
-          "type": "comp:comp",
-          "id": "ResourceAttachmentChange_linkComp",
-          "children": [
-            {
-              "target": "http://www.google.com",
-              "text": "Open",
-              "position": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "type": "link",
-              "id": "ResourceAttachmentChange_link"
-            }
-          ]
-        },
-        {
-          "layout": "vbox",
+          "layoutOptions": {
+            "hAlign": "left"
+          },
           "type": "comp:comp",
           "id": "ResourceAttachmentChange_attrs",
           "children": [
             {
-              "text": "resourceURI:EString",
+              "text": " - resourceURI : EString",
               "type": "label:text",
               "id": "ResourceAttachmentChange_resourceURI"
             }
@@ -1438,6 +1447,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "inheritance"
+      ],
       "sourceId": "ResourceAttachmentChange",
       "targetId": "Diff",
       "routingPoints": [
@@ -1462,6 +1475,9 @@
       "id": "ResourceAttachmentChange_Diff_parent"
     },
     {
+      "cssClasses": [
+        "ecore-node"
+      ],
       "expanded": true,
       "strokeWidth": 0.0,
       "layout": "vbox",
@@ -1521,42 +1537,24 @@
               },
               "type": "label:heading",
               "id": "ResourceLocationChange_classname"
-            },
-            {
-              "type": "button:expand",
-              "id": "ResourceLocationChange_expand"
             }
           ]
         },
         {
           "layout": "vbox",
-          "type": "comp:comp",
-          "id": "ResourceLocationChange_linkComp",
-          "children": [
-            {
-              "target": "http://www.google.com",
-              "text": "Open",
-              "position": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "type": "link",
-              "id": "ResourceLocationChange_link"
-            }
-          ]
-        },
-        {
-          "layout": "vbox",
+          "layoutOptions": {
+            "hAlign": "left"
+          },
           "type": "comp:comp",
           "id": "ResourceLocationChange_attrs",
           "children": [
             {
-              "text": "baseLocation:EString",
+              "text": " - baseLocation : EString",
               "type": "label:text",
               "id": "ResourceLocationChange_baseLocation"
             },
             {
-              "text": "changedLocation:EString",
+              "text": " - changedLocation : EString",
               "type": "label:text",
               "id": "ResourceLocationChange_changedLocation"
             }
@@ -1565,6 +1563,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "inheritance"
+      ],
       "sourceId": "ResourceLocationChange",
       "targetId": "Diff",
       "routingPoints": [
@@ -1589,6 +1591,9 @@
       "id": "ResourceLocationChange_Diff_parent"
     },
     {
+      "cssClasses": [
+        "ecore-node"
+      ],
       "expanded": true,
       "strokeWidth": 0.0,
       "layout": "vbox",
@@ -1648,32 +1653,14 @@
               },
               "type": "label:heading",
               "id": "ReferenceChange_classname"
-            },
-            {
-              "type": "button:expand",
-              "id": "ReferenceChange_expand"
             }
           ]
         },
         {
           "layout": "vbox",
-          "type": "comp:comp",
-          "id": "ReferenceChange_linkComp",
-          "children": [
-            {
-              "target": "http://www.google.com",
-              "text": "Open",
-              "position": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "type": "link",
-              "id": "ReferenceChange_link"
-            }
-          ]
-        },
-        {
-          "layout": "vbox",
+          "layoutOptions": {
+            "hAlign": "left"
+          },
           "type": "comp:comp",
           "id": "ReferenceChange_attrs",
           "children": []
@@ -1681,6 +1668,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "aggregation"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "1..1",
       "sourceId": "ReferenceChange",
@@ -1704,6 +1695,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "aggregation"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "0..1",
       "sourceId": "ReferenceChange",
@@ -1727,6 +1722,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "inheritance"
+      ],
       "sourceId": "ReferenceChange",
       "targetId": "Diff",
       "routingPoints": [
@@ -1751,6 +1750,9 @@
       "id": "ReferenceChange_Diff_parent"
     },
     {
+      "cssClasses": [
+        "ecore-node"
+      ],
       "expanded": true,
       "strokeWidth": 0.0,
       "layout": "vbox",
@@ -1810,37 +1812,19 @@
               },
               "type": "label:heading",
               "id": "AttributeChange_classname"
-            },
-            {
-              "type": "button:expand",
-              "id": "AttributeChange_expand"
             }
           ]
         },
         {
           "layout": "vbox",
-          "type": "comp:comp",
-          "id": "AttributeChange_linkComp",
-          "children": [
-            {
-              "target": "http://www.google.com",
-              "text": "Open",
-              "position": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "type": "link",
-              "id": "AttributeChange_link"
-            }
-          ]
-        },
-        {
-          "layout": "vbox",
+          "layoutOptions": {
+            "hAlign": "left"
+          },
           "type": "comp:comp",
           "id": "AttributeChange_attrs",
           "children": [
             {
-              "text": "value:EJavaObject",
+              "text": " - value : EJavaObject",
               "type": "label:text",
               "id": "AttributeChange_value"
             }
@@ -1849,6 +1833,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "aggregation"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "1..1",
       "sourceId": "AttributeChange",
@@ -1872,6 +1860,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "inheritance"
+      ],
       "sourceId": "AttributeChange",
       "targetId": "Diff",
       "routingPoints": [
@@ -1896,6 +1888,9 @@
       "id": "AttributeChange_Diff_parent"
     },
     {
+      "cssClasses": [
+        "ecore-node"
+      ],
       "expanded": true,
       "strokeWidth": 0.0,
       "layout": "vbox",
@@ -1955,37 +1950,19 @@
               },
               "type": "label:heading",
               "id": "FeatureMapChange_classname"
-            },
-            {
-              "type": "button:expand",
-              "id": "FeatureMapChange_expand"
             }
           ]
         },
         {
           "layout": "vbox",
-          "type": "comp:comp",
-          "id": "FeatureMapChange_linkComp",
-          "children": [
-            {
-              "target": "http://www.google.com",
-              "text": "Open",
-              "position": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "type": "link",
-              "id": "FeatureMapChange_link"
-            }
-          ]
-        },
-        {
-          "layout": "vbox",
+          "layoutOptions": {
+            "hAlign": "left"
+          },
           "type": "comp:comp",
           "id": "FeatureMapChange_attrs",
           "children": [
             {
-              "text": "value:EJavaObject",
+              "text": " - value : EJavaObject",
               "type": "label:text",
               "id": "FeatureMapChange_value"
             }
@@ -1994,6 +1971,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "aggregation"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "1..1",
       "sourceId": "FeatureMapChange",
@@ -2017,6 +1998,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "inheritance"
+      ],
       "sourceId": "FeatureMapChange",
       "targetId": "Diff",
       "routingPoints": [
@@ -2033,6 +2018,9 @@
       "id": "FeatureMapChange_Diff_parent"
     },
     {
+      "cssClasses": [
+        "ecore-node"
+      ],
       "expanded": true,
       "strokeWidth": 0.0,
       "layout": "vbox",
@@ -2092,37 +2080,19 @@
               },
               "type": "label:heading",
               "id": "Conflict_classname"
-            },
-            {
-              "type": "button:expand",
-              "id": "Conflict_expand"
             }
           ]
         },
         {
           "layout": "vbox",
-          "type": "comp:comp",
-          "id": "Conflict_linkComp",
-          "children": [
-            {
-              "target": "http://www.google.com",
-              "text": "Open",
-              "position": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "type": "link",
-              "id": "Conflict_link"
-            }
-          ]
-        },
-        {
-          "layout": "vbox",
+          "layoutOptions": {
+            "hAlign": "left"
+          },
           "type": "comp:comp",
           "id": "Conflict_attrs",
           "children": [
             {
-              "text": "kind:ConflictKind",
+              "text": " - kind : ConflictKind",
               "type": "label:text",
               "id": "Conflict_kind"
             }
@@ -2131,6 +2101,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "aggregation"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "2..-1",
       "sourceId": "Conflict",
@@ -2180,6 +2154,9 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-node"
+      ],
       "expanded": true,
       "strokeWidth": 0.0,
       "layout": "vbox",
@@ -2239,32 +2216,14 @@
               },
               "type": "label:heading",
               "id": "Equivalence_classname"
-            },
-            {
-              "type": "button:expand",
-              "id": "Equivalence_expand"
             }
           ]
         },
         {
           "layout": "vbox",
-          "type": "comp:comp",
-          "id": "Equivalence_linkComp",
-          "children": [
-            {
-              "target": "http://www.google.com",
-              "text": "Open",
-              "position": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "type": "link",
-              "id": "Equivalence_link"
-            }
-          ]
-        },
-        {
-          "layout": "vbox",
+          "layoutOptions": {
+            "hAlign": "left"
+          },
           "type": "comp:comp",
           "id": "Equivalence_attrs",
           "children": []
@@ -2272,6 +2231,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-edge",
+        "aggregation"
+      ],
       "multiplicitySource": "0..1",
       "multiplicityTarget": "2..-1",
       "sourceId": "Equivalence",
@@ -2313,6 +2276,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-node",
+        "enum"
+      ],
       "expanded": true,
       "strokeWidth": 0.0,
       "layout": "vbox",
@@ -2350,7 +2317,7 @@
               "id": "DifferenceKind_icon",
               "children": [
                 {
-                  "text": "C",
+                  "text": "E",
                   "position": {
                     "x": 0.0,
                     "y": 0.0
@@ -2372,52 +2339,34 @@
               },
               "type": "label:heading",
               "id": "DifferenceKind_classname"
-            },
-            {
-              "type": "button:expand",
-              "id": "DifferenceKind_expand"
             }
           ]
         },
         {
           "layout": "vbox",
-          "type": "comp:comp",
-          "id": "DifferenceKind_linkComp",
-          "children": [
-            {
-              "target": "http://www.google.com",
-              "text": "Open",
-              "position": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "type": "link",
-              "id": "DifferenceKind_link"
-            }
-          ]
-        },
-        {
-          "layout": "vbox",
+          "layoutOptions": {
+            "hAlign": "left"
+          },
           "type": "comp:comp",
           "id": "DifferenceKind_enums",
           "children": [
             {
-              "text": "ADD",
+              "text": " - ADD",
               "type": "label:text",
               "id": "DifferenceKind_ADD"
             },
             {
-              "text": "DELETE",
+              "text": " - DELETE",
               "type": "label:text",
               "id": "DifferenceKind_DELETE"
             },
             {
-              "text": "CHANGE",
+              "text": " - CHANGE",
               "type": "label:text",
               "id": "DifferenceKind_CHANGE"
             },
             {
-              "text": "MOVE",
+              "text": " - MOVE",
               "type": "label:text",
               "id": "DifferenceKind_MOVE"
             }
@@ -2426,11 +2375,15 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-node",
+        "enum"
+      ],
       "expanded": true,
       "strokeWidth": 0.0,
       "layout": "vbox",
       "position": {
-        "x": 232.0,
+        "x": 221.0,
         "y": 12.0
       },
       "size": {
@@ -2463,7 +2416,7 @@
               "id": "DifferenceSource_icon",
               "children": [
                 {
-                  "text": "C",
+                  "text": "E",
                   "position": {
                     "x": 0.0,
                     "y": 0.0
@@ -2485,42 +2438,24 @@
               },
               "type": "label:heading",
               "id": "DifferenceSource_classname"
-            },
-            {
-              "type": "button:expand",
-              "id": "DifferenceSource_expand"
             }
           ]
         },
         {
           "layout": "vbox",
-          "type": "comp:comp",
-          "id": "DifferenceSource_linkComp",
-          "children": [
-            {
-              "target": "http://www.google.com",
-              "text": "Open",
-              "position": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "type": "link",
-              "id": "DifferenceSource_link"
-            }
-          ]
-        },
-        {
-          "layout": "vbox",
+          "layoutOptions": {
+            "hAlign": "left"
+          },
           "type": "comp:comp",
           "id": "DifferenceSource_enums",
           "children": [
             {
-              "text": "LEFT",
+              "text": " - LEFT",
               "type": "label:text",
               "id": "DifferenceSource_LEFT"
             },
             {
-              "text": "RIGHT",
+              "text": " - RIGHT",
               "type": "label:text",
               "id": "DifferenceSource_RIGHT"
             }
@@ -2529,6 +2464,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-node",
+        "enum"
+      ],
       "expanded": true,
       "strokeWidth": 0.0,
       "layout": "vbox",
@@ -2566,7 +2505,7 @@
               "id": "DifferenceState_icon",
               "children": [
                 {
-                  "text": "C",
+                  "text": "E",
                   "position": {
                     "x": 0.0,
                     "y": 0.0
@@ -2588,52 +2527,34 @@
               },
               "type": "label:heading",
               "id": "DifferenceState_classname"
-            },
-            {
-              "type": "button:expand",
-              "id": "DifferenceState_expand"
             }
           ]
         },
         {
           "layout": "vbox",
-          "type": "comp:comp",
-          "id": "DifferenceState_linkComp",
-          "children": [
-            {
-              "target": "http://www.google.com",
-              "text": "Open",
-              "position": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "type": "link",
-              "id": "DifferenceState_link"
-            }
-          ]
-        },
-        {
-          "layout": "vbox",
+          "layoutOptions": {
+            "hAlign": "left"
+          },
           "type": "comp:comp",
           "id": "DifferenceState_enums",
           "children": [
             {
-              "text": "UNRESOLVED",
+              "text": " - UNRESOLVED",
               "type": "label:text",
               "id": "DifferenceState_UNRESOLVED"
             },
             {
-              "text": "MERGED",
+              "text": " - MERGED",
               "type": "label:text",
               "id": "DifferenceState_MERGED"
             },
             {
-              "text": "DISCARDED",
+              "text": " - DISCARDED",
               "type": "label:text",
               "id": "DifferenceState_DISCARDED"
             },
             {
-              "text": "MERGING",
+              "text": " - MERGING",
               "type": "label:text",
               "id": "DifferenceState_MERGING"
             }
@@ -2642,6 +2563,10 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-node",
+        "enum"
+      ],
       "expanded": true,
       "strokeWidth": 0.0,
       "layout": "vbox",
@@ -2679,7 +2604,7 @@
               "id": "ConflictKind_icon",
               "children": [
                 {
-                  "text": "C",
+                  "text": "E",
                   "position": {
                     "x": 0.0,
                     "y": 0.0
@@ -2701,42 +2626,24 @@
               },
               "type": "label:heading",
               "id": "ConflictKind_classname"
-            },
-            {
-              "type": "button:expand",
-              "id": "ConflictKind_expand"
             }
           ]
         },
         {
           "layout": "vbox",
-          "type": "comp:comp",
-          "id": "ConflictKind_linkComp",
-          "children": [
-            {
-              "target": "http://www.google.com",
-              "text": "Open",
-              "position": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "type": "link",
-              "id": "ConflictKind_link"
-            }
-          ]
-        },
-        {
-          "layout": "vbox",
+          "layoutOptions": {
+            "hAlign": "left"
+          },
           "type": "comp:comp",
           "id": "ConflictKind_enums",
           "children": [
             {
-              "text": "REAL",
+              "text": " - REAL",
               "type": "label:text",
               "id": "ConflictKind_REAL"
             },
             {
-              "text": "PSEUDO",
+              "text": " - PSEUDO",
               "type": "label:text",
               "id": "ConflictKind_PSEUDO"
             }
@@ -2745,6 +2652,9 @@
       ]
     },
     {
+      "cssClasses": [
+        "ecore-node"
+      ],
       "expanded": true,
       "strokeWidth": 0.0,
       "layout": "vbox",
@@ -2804,33 +2714,15 @@
               },
               "type": "label:heading",
               "id": "EIterable_classname"
-            },
-            {
-              "type": "button:expand",
-              "id": "EIterable_expand"
-            }
-          ]
-        },
-        {
-          "layout": "vbox",
-          "type": "comp:comp",
-          "id": "EIterable_linkComp",
-          "children": [
-            {
-              "target": "http://www.google.com",
-              "text": "Open",
-              "position": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "type": "link",
-              "id": "EIterable_link"
             }
           ]
         }
       ]
     },
     {
+      "cssClasses": [
+        "ecore-node"
+      ],
       "expanded": true,
       "strokeWidth": 0.0,
       "layout": "vbox",
@@ -2890,33 +2782,15 @@
               },
               "type": "label:heading",
               "id": "IEqualityHelper_classname"
-            },
-            {
-              "type": "button:expand",
-              "id": "IEqualityHelper_expand"
-            }
-          ]
-        },
-        {
-          "layout": "vbox",
-          "type": "comp:comp",
-          "id": "IEqualityHelper_linkComp",
-          "children": [
-            {
-              "target": "http://www.google.com",
-              "text": "Open",
-              "position": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "type": "link",
-              "id": "IEqualityHelper_link"
             }
           ]
         }
       ]
     },
     {
+      "cssClasses": [
+        "ecore-node"
+      ],
       "expanded": true,
       "strokeWidth": 0.0,
       "layout": "vbox",
@@ -2976,27 +2850,6 @@
               },
               "type": "label:heading",
               "id": "Diagnostic_classname"
-            },
-            {
-              "type": "button:expand",
-              "id": "Diagnostic_expand"
-            }
-          ]
-        },
-        {
-          "layout": "vbox",
-          "type": "comp:comp",
-          "id": "Diagnostic_linkComp",
-          "children": [
-            {
-              "target": "http://www.google.com",
-              "text": "Open",
-              "position": {
-                "x": 0.0,
-                "y": 0.0
-              },
-              "type": "link",
-              "id": "Diagnostic_link"
             }
           ]
         }

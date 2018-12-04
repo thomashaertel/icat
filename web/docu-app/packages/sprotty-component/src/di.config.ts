@@ -42,7 +42,7 @@ import {
   LocalModelSource
 } from "sprotty/lib";
 import { Container, ContainerModule } from "inversify";
-import { ClassNode, Icon, Link } from "./model";
+import {ClassNode, EdgeWithMultiplicty, Icon, Link} from "./model";
 import {
   AggregationEdgeView,
   ArrowEdgeView,
@@ -72,11 +72,11 @@ export default (containerId: string, withSelectionSupport: boolean) => {
     configureModelElement(context, 'button:expand', SButton, ExpandButtonView);
     configureModelElement(context, 'routing-point', SRoutingHandle, SRoutingHandleView);
     configureModelElement(context, 'volatile-routing-point', SRoutingHandle, SRoutingHandleView);
-    configureModelElement(context, 'edge:association', SEdge, ArrowEdgeView)
-    configureModelElement(context, 'edge:inheritance', SEdge, InheritanceEdgeView)
-    configureModelElement(context, 'edge:aggregation', SEdge, AggregationEdgeView)
-    configureModelElement(context, 'edge:composition', SEdge, CompositionEdgeView)
-    configureModelElement(context, 'link', Link, LinkView)
+    configureModelElement(context, 'edge:association', SEdge, ArrowEdgeView);
+    configureModelElement(context, 'edge:inheritance', SEdge, InheritanceEdgeView);
+    configureModelElement(context, 'edge:aggregation', EdgeWithMultiplicty, AggregationEdgeView);
+    configureModelElement(context, 'edge:composition', EdgeWithMultiplicty, CompositionEdgeView);
+    configureModelElement(context, 'link', Link, LinkView);
     configureViewerOptions(context, {
       needsClientLayout: true,
       baseDiv: containerId
