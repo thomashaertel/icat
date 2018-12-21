@@ -126,7 +126,7 @@ public class XMLParser {
 		annotation.getDetails().put("Schema", entry.getSchema());
 		annotation.getDetails().put("Table", entry.getTable());
 		annotation.getDetails().put("Unit", entry.getUnit());
-		ePackage.getEAnnotations().add(annotation);
+		eClass.getEAnnotations().add(annotation);
 		
 		ePackage.getEClassifiers().add(eClass);
 		for (Field field : entry.getField()) {
