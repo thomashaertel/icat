@@ -1,6 +1,6 @@
 target "ICAT Target"
 with allEnvironments source
-location "http://download.eclipse.org/releases/latest/" {
+location "http://download.eclipse.org/releases/2018-09/" {
 	org.eclipse.jgit.feature.group
 	org.eclipse.egit.feature.group
 	org.eclipse.egit.gitflow.feature.feature.group
@@ -36,6 +36,7 @@ location "http://download.eclipse.org/releases/latest/" {
 	org.eclipse.eef.sdk.feature.feature.group
 	org.eclipse.pde.feature.group
 	org.eclipse.eef.ext.widgets.reference.feature.feature.group
+	org.eclipse.ocl.all.feature.group
 }
 location "http://download.eclipse.org/eclipse/updates/4.9/" {
 	org.eclipse.platform.ide
