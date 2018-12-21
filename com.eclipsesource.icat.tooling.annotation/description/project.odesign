@@ -1,0 +1,879 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description:Group xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/table/description/1.1.0" xmlns:tool="http://www.eclipse.org/sirius/description/tool/1.1.0" name="project" version="12.0.0.2017041100">
+  <ownedViewpoints documentation="Table representations for object net attributes." endUserDocumentation="Table representations for object net attributes." name="Dekra" modelFileExtension="ecore xcore ecorebin">
+    <ownedRepresentations xsi:type="description_1:CrossTableDescription" documentation="Table representation for the object net attributes of classes." endUserDocumentation="Table representation for the object net attributes of classes." name="object-net-class-table" label="Object net class table" titleExpression="aql:self.name + ' object net class table'" initialisation="true" showOnStartup="true" domainClass="ecore.EPackage" initialHeaderColumnWidth="150">
+      <metamodel href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+      <ownedLineMappings name="EClassifiers" label="Classes" domainClass="ecore.EClassifier" semanticCandidatesExpression="feature:eClassifiers" headerLabelExpression="aql:self.name"/>
+      <ownedColumnMappings name="Application" headerLabelExpression="Application" initialWidth="120" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="Deleted" headerLabelExpression="Deleted" initialWidth="100" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="Parent" headerLabelExpression="Parent" initialWidth="100" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="Schema" headerLabelExpression="Schema" initialWidth="100" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="Table" headerLabelExpression="Table" initialWidth="100" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="Unit" headerLabelExpression="Unit" initialWidth="100" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <intersection name="Application" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-class-table']/@ownedLineMappings[name='EClassifiers']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-class-table']/@ownedColumnMappings.0" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Application')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="application-cell-tool" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'Application')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'Application'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Application')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="Deleted" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-class-table']/@ownedLineMappings[name='EClassifiers']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-class-table']/@ownedColumnMappings.1" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Deleted')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="deleted-cell-tool" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'Deleted')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'Deleted'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Deleted')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="Parent" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-class-table']/@ownedLineMappings[name='EClassifiers']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-class-table']/@ownedColumnMappings.2" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Parent')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="parent-cell-tool" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'Parent')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'Parent'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Parent')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="Schema" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-class-table']/@ownedLineMappings[name='EClassifiers']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-class-table']/@ownedColumnMappings.3" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Schema')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="schema-cell-tool" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'Schema')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'Schema'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Schema')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="Table" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-class-table']/@ownedLineMappings[name='EClassifiers']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-class-table']/@ownedColumnMappings.4" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Table')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="table-cell-tool" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'Table')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'Table'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Table')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="Unit" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-class-table']/@ownedLineMappings[name='EClassifiers']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-class-table']/@ownedColumnMappings.5" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Unit')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="unit-cell-tool" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'Unit')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'Unit'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Unit')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+    </ownedRepresentations>
+    <ownedRepresentations xsi:type="description_1:CrossTableDescription" documentation="Table representation for the object net attributes of features of the classes." endUserDocumentation="Table representation for the object net attributes of features of the classes." name="object-net-feature-table" label="Object net feature table" titleExpression="aql:self.name + ' convert table'" initialisation="true" showOnStartup="true" domainClass="ecore.EPackage" initialHeaderColumnWidth="150">
+      <metamodel href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+      <ownedLineMappings name="EClassifiers" domainClass="ecore.EClassifier" semanticCandidatesExpression="feature:eClassifiers" headerLabelExpression="aql:self.name">
+        <ownedSubLines name="Features" domainClass="ecore.EStructuralFeature" semanticCandidatesExpression="feature:eContents" headerLabelExpression="aql:self.name"/>
+      </ownedLineMappings>
+      <ownedColumnMappings name="Bk" headerLabelExpression="Bk" initialWidth="50" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="CascadeType" headerLabelExpression="CascadeType" initialWidth="120" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="Column" headerLabelExpression="Column" initialWidth="100" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="CustomType" headerLabelExpression="CustomType" initialWidth="120" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="DbType" headerLabelExpression="DbType" initialWidth="100" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="Digit" headerLabelExpression="Digit" initialWidth="100" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="Fk" headerLabelExpression="Fk" initialWidth="50" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="Insertable" headerLabelExpression="Insertable" initialWidth="100" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="JoinDstKey" headerLabelExpression="JoinDstKey" initialWidth="110" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="JoinSrcKey" headerLabelExpression="JoinSrcKey" initialWidth="110" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="JoinTable" headerLabelExpression="JoinTable" initialWidth="100" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="Length" headerLabelExpression="Length" initialWidth="100" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="Lob" headerLabelExpression="Lob" initialWidth="50" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="MappedBy" headerLabelExpression="MappedBy" initialWidth="100" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="Pk" headerLabelExpression="Pk" initialWidth="50" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="Relation" headerLabelExpression="Relation" initialWidth="100" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="XmlAttribute" headerLabelExpression="XmlAttribute" initialWidth="120" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <ownedColumnMappings name="XmlName" headerLabelExpression="XmlName" initialWidth="100" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
+      <intersection name="Bk Annotation" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedLineMappings[name='EClassifiers']/@ownedSubLines[name='Features']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedColumnMappings.0" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Bk')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="New Documentation" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'Bk')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'Bk'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Bk')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="CascadeType" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedLineMappings[name='EClassifiers']/@ownedSubLines[name='Features']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedColumnMappings.1" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'CascadeType')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="New Documentation" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'CascadeType')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'CascadeType'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'CascadeType')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="Column" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedLineMappings[name='EClassifiers']/@ownedSubLines[name='Features']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedColumnMappings.2" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Column')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="New Documentation" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'Column')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'Column'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Column')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="CustomType" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedLineMappings[name='EClassifiers']/@ownedSubLines[name='Features']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedColumnMappings.3" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'CustomType')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="New Documentation" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'CustomType')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'CustomType'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'CustomType')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="DbType" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedLineMappings[name='EClassifiers']/@ownedSubLines[name='Features']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedColumnMappings.4" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'DbType')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="New Documentation" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'DbType')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'DbType'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'DbType')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="Digit" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedLineMappings[name='EClassifiers']/@ownedSubLines[name='Features']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedColumnMappings.5" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Digit')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="New Documentation" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'Digit')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'Digit'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Digit')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="Fk" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedLineMappings[name='EClassifiers']/@ownedSubLines[name='Features']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedColumnMappings.6" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Fk')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="New Documentation" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'Fk')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'Fk'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Fk')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="Insertable" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedLineMappings[name='EClassifiers']/@ownedSubLines[name='Features']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedColumnMappings.7" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Insertable')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="New Documentation" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'Insertable')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'Insertable'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Insertable')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="JonDstKey" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedLineMappings[name='EClassifiers']/@ownedSubLines[name='Features']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedColumnMappings.8" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'JoinDstKey')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="New Documentation" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'JoinDstKey')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'JoinDstKey'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'JoinDstKey')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="JoinSrcKey" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedLineMappings[name='EClassifiers']/@ownedSubLines[name='Features']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedColumnMappings.9" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'JoinSrcKey')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="New Documentation" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'JoinSrcKey')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'JoinSrcKey'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'JoinSrcKey')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="JoinTable" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedLineMappings[name='EClassifiers']/@ownedSubLines[name='Features']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedColumnMappings.10" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'JoinTable')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="New Documentation" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'JoinTable')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'JoinTable'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'JoinTable')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="Length" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedLineMappings[name='EClassifiers']/@ownedSubLines[name='Features']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedColumnMappings.11" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Length')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="New Documentation" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'Length')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'Length'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Length')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="Lob" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedLineMappings[name='EClassifiers']/@ownedSubLines[name='Features']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedColumnMappings.12" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Lob')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="New Documentation" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'Lob')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'Lob'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Lob')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="MappedBy" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedLineMappings[name='EClassifiers']/@ownedSubLines[name='Features']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedColumnMappings.13" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'MappedBy')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="New Documentation" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'MappedBy')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'MappedBy'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'MappedBy')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="Pk" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedLineMappings[name='EClassifiers']/@ownedSubLines[name='Features']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedColumnMappings.14" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Pk')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="New Documentation" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'Pk')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'Pk'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Pk')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="Relation" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedLineMappings[name='EClassifiers']/@ownedSubLines[name='Features']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedColumnMappings.15" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Relation')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="New Documentation" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'Relation')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'Relation'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'Relation')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="XmlAttribute" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedLineMappings[name='EClassifiers']/@ownedSubLines[name='Features']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedColumnMappings.16" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'XmlAttribute')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="New Documentation" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'XmlAttribute')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'XmlAttribute'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'XmlAttribute')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+      <intersection name="XmlName" semanticElements="var:self" lineMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedLineMappings[name='EClassifiers']/@ownedSubLines[name='Features']" columnMapping="//@ownedViewpoints[name='Dekra']/@ownedRepresentations[name='object-net-feature-table']/@ownedColumnMappings.17" labelExpression="aql:self.value" useDomainClass="true" columnFinderExpression="service:getRootContainer" lineFinderExpression="aql:self.eContainer(ecore::EAnnotation).eContainer()" semanticCandidatesExpression="aql:self.eAllContents(ecore::EAnnotation)->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'XmlName')" domainClass="ecore.EStringToStringMapEntry">
+        <directEdit>
+          <variables name="table" documentation="The current DTable."/>
+          <variables name="line" documentation="The DLine of the current DCell."/>
+          <variables name="element" documentation="The currently edited element."/>
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column (only available for Intersection Mapping)."/>
+          <variables name="root" documentation="The semantic element of the table."/>
+          <firstModelOperation xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+          <mask mask="{0}"/>
+        </directEdit>
+        <create name="New Documentation" forceRefresh="true">
+          <variables name="lineSemantic" documentation="The semantic element corresponding to the line."/>
+          <variables name="columnSemantic" documentation="The semantic element corresponding to the column."/>
+          <variables name="root" documentation="The semantic root element of the table."/>
+          <firstModelOperation xsi:type="tool:ChangeContext" browseExpression="var:lineSemantic">
+            <subModelOperations xsi:type="tool:If" conditionExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->size() = 0">
+              <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EAnnotation" referenceName="eAnnotations" variableName="newAnnotation">
+                <subModelOperations xsi:type="tool:SetValue" featureName="source" valueExpression="aql:'com.eclipsesource.icat.schemaxml'"/>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml')->first()">
+              <subModelOperations xsi:type="tool:If" conditionExpression="aql:self.details->select(a| a.key = 'XmlName')->size() = 0">
+                <subModelOperations xsi:type="tool:CreateInstance" typeName="ecore.EStringToStringMapEntry" referenceName="details" variableName="newDetail">
+                  <subModelOperations xsi:type="tool:SetValue" featureName="key" valueExpression="aql:'XmlName'"/>
+                </subModelOperations>
+              </subModelOperations>
+            </subModelOperations>
+            <subModelOperations xsi:type="tool:ChangeContext" browseExpression="aql:lineSemantic.eAnnotations->select(a | a.source = 'com.eclipsesource.icat.schemaxml').details->select(a | a.key = 'XmlName')->first()">
+              <subModelOperations xsi:type="tool:SetValue" featureName="value" valueExpression="var:arg0"/>
+            </subModelOperations>
+          </firstModelOperation>
+          <mask mask="{0}"/>
+        </create>
+      </intersection>
+    </ownedRepresentations>
+  </ownedViewpoints>
+</description:Group>
