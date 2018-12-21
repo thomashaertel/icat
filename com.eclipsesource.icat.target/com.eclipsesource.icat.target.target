@@ -1,58 +1,57 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="ICAT Target" sequenceNumber="1545381534">
+<target name="ICAT Target" sequenceNumber="1545396386">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="true" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.jgit.feature.group" version="5.1.0.201809111528-r"/>
-      <unit id="org.eclipse.egit.feature.group" version="5.1.0.201809111528-r"/>
-      <unit id="org.eclipse.egit.gitflow.feature.feature.group" version="5.1.0.201809111528-r"/>
-      <unit id="org.eclipse.emf.sdk.feature.group" version="2.15.0.v20180905-1732"/>
+      <unit id="org.eclipse.jgit.feature.group" version="5.2.0.201812061821-r"/>
+      <unit id="org.eclipse.jgit.ssh.apache.feature.group" version="5.2.0.201812061821-r"/>
+      <unit id="org.eclipse.egit.feature.group" version="5.2.0.201812061821-r"/>
+      <unit id="org.eclipse.egit.gitflow.feature.feature.group" version="5.2.0.201812061821-r"/>
+      <unit id="org.eclipse.emf.sdk.feature.group" version="2.16.0.v20181206-1055"/>
       <unit id="org.eclipse.emf.transaction.feature.group" version="1.12.0.201805140824"/>
       <unit id="org.eclipse.emf.validation.feature.group" version="1.12.0.201805030717"/>
-      <unit id="org.eclipse.emf.compare.feature.group" version="3.3.4.201806221350"/>
-      <unit id="org.eclipse.emf.compare.egit.feature.group" version="3.3.4.201806221350"/>
-      <unit id="org.eclipse.emf.compare.ide.ui.feature.group" version="3.3.4.201806221350"/>
-      <unit id="org.eclipse.jdt.feature.group" version="3.15.0.v20180906-0745"/>
+      <unit id="org.eclipse.emf.compare.feature.group" version="3.3.5.201812111422"/>
+      <unit id="org.eclipse.emf.compare.egit.feature.group" version="3.3.5.201812111422"/>
+      <unit id="org.eclipse.emf.compare.ide.ui.feature.group" version="3.3.5.201812111422"/>
+      <unit id="org.eclipse.jdt.feature.group" version="3.16.0.v20181206-1038"/>
       <unit id="org.eclipse.xsd.ecore.converter.feature.group" version="2.11.0.v20180706-1143"/>
       <unit id="org.eclipse.xsd.edit.feature.group" version="2.11.0.v20180706-1143"/>
       <unit id="org.eclipse.xsd.editor.feature.group" version="2.12.0.v20180706-1143"/>
-      <unit id="org.eclipse.xsd.feature.group" version="2.15.0.v20180722-1116"/>
-      <unit id="org.eclipse.xsd.mapping.editor.feature.group" version="2.11.0.v20180706-1143"/>
+      <unit id="org.eclipse.xsd.feature.group" version="2.16.0.v20181127-0852"/>
+      <unit id="org.eclipse.xsd.mapping.editor.feature.group" version="2.12.0.v20181105-0510"/>
       <unit id="org.eclipse.xsd.mapping.feature.group" version="2.11.0.v20180706-1143"/>
-      <unit id="org.eclipse.xtend.lib" version="2.15.0.v20180916-1130"/>
-      <unit id="org.eclipse.xtend.lib.macro" version="2.15.0.v20180916-1130"/>
-      <unit id="org.eclipse.xtext.xbase.lib.feature.group" version="2.15.0.v20180916-1132"/>
-      <unit id="org.eclipse.m2e.feature.feature.group" version="1.9.1.20180912-1601"/>
-      <unit id="org.eclipse.wst.common_core.feature.feature.group" version="3.9.1.v201805260536"/>
-      <unit id="org.eclipse.wst.xml_core.feature.feature.group" version="3.11.0.v201808220605"/>
-      <unit id="org.eclipse.wst.xml_ui.feature.feature.group" version="3.11.0.v201807252207"/>
+      <unit id="org.eclipse.xtend.lib" version="2.16.0.v20181203-0507"/>
+      <unit id="org.eclipse.xtend.lib.macro" version="2.16.0.v20181203-0507"/>
+      <unit id="org.eclipse.xtext.xbase.lib.feature.group" version="2.16.0.v20181203-1011"/>
+      <unit id="org.eclipse.m2e.feature.feature.group" version="1.10.0.20181127-2120"/>
+      <unit id="org.eclipse.wst.common_core.feature.feature.group" version="3.10.0.v201811122225"/>
+      <unit id="org.eclipse.wst.xml_core.feature.feature.group" version="3.12.0.v201811122127"/>
+      <unit id="org.eclipse.wst.xml_ui.feature.feature.group" version="3.12.0.v201811192212"/>
       <unit id="org.eclipse.wst.common.fproj.feature.group" version="3.7.2.v201808020026"/>
-      <unit id="org.eclipse.wst.common_ui.feature.feature.group" version="3.9.2.v201803040536"/>
+      <unit id="org.eclipse.wst.common_ui.feature.feature.group" version="3.10.0.v201811170421"/>
       <unit id="org.eclipse.gef.feature.group" version="3.11.0.201606061308"/>
       <unit id="org.eclipse.emf.ecoretools.sdk.feature.group" version="3.3.0.201706121316"/>
       <unit id="org.eclipse.gmf.feature.group" version="1.12.0.201806010809"/>
       <unit id="org.eclipse.gmf.runtime.notation.feature.group" version="1.12.0.201805221301"/>
       <unit id="org.eclipse.emf.workspace.feature.group" version="1.12.0.201805140824"/>
-      <unit id="org.eclipse.acceleo.query.feature.group" version="6.0.5.201809121017"/>
-      <unit id="org.eclipse.acceleo.feature.group" version="3.7.5.201809121017"/>
-      <unit id="org.eclipse.eef.sdk.feature.feature.group" version="2.1.0.201805131837"/>
-      <unit id="org.eclipse.pde.feature.group" version="3.13.200.v20180906-0745"/>
-      <unit id="org.eclipse.eef.ext.widgets.reference.feature.feature.group" version="2.1.0.201805131837"/>
-      <unit id="org.eclipse.ocl.all.feature.group" version="5.6.0.v20180916-1223"/>
-      <repository location="http://download.eclipse.org/releases/2018-09/"/>
+      <unit id="org.eclipse.eef.sdk.feature.feature.group" version="2.1.1.201810110645"/>
+      <unit id="org.eclipse.pde.feature.group" version="3.13.300.v20181206-0815"/>
+      <unit id="org.eclipse.eef.ext.widgets.reference.feature.feature.group" version="2.1.1.201810110645"/>
+      <unit id="org.eclipse.ocl.all.feature.group" version="5.7.0.v20181210-1441"/>
+      <repository location="http://download.eclipse.org/releases/2018-12/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="true" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.platform.ide" version="4.9.0.I20180906-0745"/>
-      <unit id="org.eclipse.equinox.sdk.feature.group" version="3.15.0.v20180904-1442"/>
+      <unit id="org.eclipse.platform.ide" version="4.10.0.I20181206-0815"/>
+      <unit id="org.eclipse.equinox.sdk.feature.group" version="3.16.0.v20181130-2106"/>
       <unit id="org.eclipse.equinox.p2.discovery.feature.feature.group" version="1.2.100.v20180822-1357"/>
-      <unit id="org.eclipse.ecf.core.feature.feature.group" version="1.5.1.v20180810-0833"/>
+      <unit id="org.eclipse.ecf.core.feature.feature.group" version="1.5.3.v20181012-2020"/>
       <unit id="org.eclipse.ecf.core.ssl.feature.feature.group" version="1.1.100.v20180301-0201"/>
-      <unit id="org.eclipse.ecf.filetransfer.feature.feature.group" version="3.14.2.v20180801-2237"/>
-      <unit id="org.eclipse.ecf.filetransfer.httpclient4.feature.feature.group" version="3.14.2.v20180801-2237"/>
+      <unit id="org.eclipse.ecf.filetransfer.feature.feature.group" version="3.14.4.v20181013-2146"/>
+      <unit id="org.eclipse.ecf.filetransfer.httpclient4.feature.feature.group" version="3.14.4.v20181013-2146"/>
       <unit id="org.eclipse.ecf.filetransfer.httpclient4.ssl.feature.feature.group" version="1.1.100.v20180301-0132"/>
       <unit id="org.eclipse.ecf.filetransfer.ssl.feature.feature.group" version="1.1.100.v20180301-0132"/>
-      <repository location="http://download.eclipse.org/eclipse/updates/4.9/"/>
+      <repository location="http://download.eclipse.org/eclipse/updates/4.10/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="true" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.sirius.runtime.feature.group" version="6.1.1.201810260931"/>
@@ -62,6 +61,9 @@
       <unit id="org.eclipse.sirius.interpreter.feature.feature.group" version="6.1.1.201810260931"/>
       <unit id="org.eclipse.sirius.editor" version="6.1.1.201810260931"/>
       <unit id="org.eclipse.sirius.editor.properties" version="6.1.1.201810260931"/>
+      <unit id="org.eclipse.sirius.aql.feature.group" version="6.1.1.201810260931"/>
+      <unit id="org.eclipse.acceleo.query.feature.group" version="6.0.4.201807201001"/>
+      <unit id="org.eclipse.acceleo.ui.interpreter.feature.group" version="3.7.4.201807201001"/>
       <repository location="http://download.eclipse.org/sirius/updates/releases/6.1.1/photon"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="true" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
