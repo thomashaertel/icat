@@ -16,10 +16,11 @@ import {
   Selectable,
   isSelectable,
   ICommandStack,
-  SModelRootSchema
+  SModelRootSchema,
+  MouseListener
 } from "sprotty/lib";
-import createContainer from "./di.config";
-// import { ModelProvider } from './model-provider';
+import createContainer from "./di.config"
+
 /**
  * Configuration element that associated a custom element with a selector string.
  */
@@ -52,6 +53,7 @@ export class SprottyWrapper extends HTMLElement {
   private commandStack:ICommandStack;
   private graph: SModelRootSchema;
   private _withSelectionSupport: boolean;
+  private doubleClickListener: DoubleClickListener;
   /**
    * Called when this element is inserted into a document.
    */
@@ -63,6 +65,10 @@ export class SprottyWrapper extends HTMLElement {
   }
   subscribeToSelection(selectionEventListner: SelectionEventListner) {
     this.selectionListener = selectionEventListner;
+    this.render();
+  }
+  subscribeToDoubleClick(doubleClickListener: DoubleClickListener) {
+    this.doubleClickListener = doubleClickListener;
     this.render();
   }
   private _selection: SelectableModelElements[] = [];
@@ -102,11 +108,16 @@ export class SprottyWrapper extends HTMLElement {
         const actionHandlerRegistry = container.get<ActionHandlerRegistry>(TYPES.ActionHandlerRegistry);
         actionHandlerRegistry.register(SelectCommand.KIND, new SelectionHandler(this.selectionListener, this.root, newSelection => this.selection = newSelection));
       }
+
+      if (this.root instanceof SModelRoot && this.doubleClickListener) {
+        container.bind(TYPES.MouseListener).toConstantValue(new DoubleClickHandler(this.doubleClickListener));
+      }
     }
   }
 }
 export type SelectableModelElements = SModelElement & Selectable;
 export type SelectionEventListner = (selectedElementsIDs: SelectableModelElements[]) => void;
+export type DoubleClickListener = (target: SModelElement) => void;
 export type SelectionSync = (selectedElementsIDs: string[]) => void;
 class SelectionHandler implements IActionHandler {
 
@@ -117,6 +128,18 @@ class SelectionHandler implements IActionHandler {
   handle(action: SelectAction): void {
     this.selectionSync(action.selectedElementsIDs);
     this.selectonListener(getIdsToSModelElement(action.selectedElementsIDs, this.root.index));
+  }
+}
+
+class DoubleClickHandler extends MouseListener {
+
+  constructor(private doubleClickListener: DoubleClickListener) {
+    super();
+  }
+
+  doubleClick(target: SModelElement, event: WheelEvent) {
+    this.doubleClickListener(target);
+    return [];
   }
 }
 
