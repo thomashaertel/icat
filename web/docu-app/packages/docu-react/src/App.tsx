@@ -1,10 +1,12 @@
 import * as React from 'react';
 import 'sprotty-component/lib/wrapper';
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {HashRouter as Router, Route, Switch} from "react-router-dom";
 import {EPackage, ENamedElement} from "./types";
 import DocPage from "./components/DocPage";
 import {getTypes} from "./util";
 import IndexPage from "./components/Index";
+// TODO: hard-coded file name
+import docJson from './docu.json';
 
 interface AppState {
   ePackage?: EPackage;
@@ -50,10 +52,7 @@ class App extends React.Component<any, AppState> {
   }
 
   componentDidMount() {
-    // TODO: hard-coded file name
-    fetch('docu.json')
-      .then(resp => resp.json())
-      .then(json => this.setState({ ePackage: json as EPackage }))
+    this.setState({ ePackage: docJson });
   }
 
   public render() {

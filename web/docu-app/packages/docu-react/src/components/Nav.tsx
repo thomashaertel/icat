@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Link} from "react-router-dom";
+import { HashLink as Link } from 'react-router-hash-link';
 import {
   EAttribute,
   EClass,
@@ -13,6 +13,7 @@ import {
 } from "../types";
 import {getOrEmpty, isEClass, isEEnum, isEPackage} from "../util";
 import ELink from "./ELink";
+
 
 export interface NavProps {
   ePackageName: string;
@@ -56,7 +57,7 @@ const GenerateLinks = function <T>({ name, elements, renderLink } : GenerateLink
 
 type ValidTypes = EReference | EAttribute | EOperation | string | ENamedElement;
 
-const HRef = ({ name }: { name: string}) => <a href={`#${name}`}>{name}</a>;
+const HRef = ({ name }: { name: string}) => <Link smooth to={`#${name}`}>{name}</Link>;
 
 const classProps = (eClass: EClass): GenerateLinkProps<ValidTypes>[] => {
   const links: GenerateLinkProps<ValidTypes>[] = [];

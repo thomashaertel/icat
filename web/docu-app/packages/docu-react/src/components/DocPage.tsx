@@ -43,7 +43,6 @@ class DocPage extends React.Component<DocPageProps, any> {
           <div className='layout'>
             <Sprotty
               selectedNodeId={eClassifier.name}
-              allowSelection={false}
               showCollapsibleButton
             />
             <Article eClassifier={eClassifier}/>

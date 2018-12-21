@@ -22,8 +22,7 @@ const IndexPage = ({ ePackage, history }: IndexPageProps & RouteComponentProps<a
         <Nav ePackageName={ePackage.name} eNamedElement={ePackage}/>
         <div className='layout'>
           <Sprotty
-            onSelect={(ids) => history.push(`/${ids[0]}`)}
-            allowSelection
+            onDoubleClick={(ids) => history.push(`/${ids[0]}`)}
             open
             showCollapsibleButton={false}
           />
