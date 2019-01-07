@@ -21,8 +21,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import com.eclipsesource.glsp.ecore.diagram.EcoreModelFactory;
-import com.eclipsesource.icat.webdocu.EntryPoint;
-import com.eclipsesource.icat.webdocu.ProjectCreator;
+import com.eclipsesource.icat.dynamicdocu.EntryPoint;
+import com.eclipsesource.icat.dynamicdocu.ProjectCreator;
 
 import io.typefox.sprotty.api.Bounds;
 import io.typefox.sprotty.api.SModelRoot;
