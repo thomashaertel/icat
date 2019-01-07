@@ -46,8 +46,8 @@ class Class2JSON {
 					«generate(dataType)»
 				}
 			«ENDFOR»
+		]
 	«ENDIF»
-	]
 }'''
 	}
 

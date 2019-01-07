@@ -57,6 +57,7 @@
 		<module>../com.eclipsesource.icat.product.feature</module>
 		<module>../com.eclipsesource.icat.repository</module>
 		<module>../com.eclipsesource.icat.target</module>
+		<module>../com.eclipsesource.icat.tooling.annotation</module>
 	</modules>
 
 	<build>
@@ -89,29 +90,13 @@
 						<environment>
 							<os>win32</os>
 							<ws>win32</ws>
-							<arch>x86</arch>
-						</environment>
-						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
 							<arch>x86_64</arch>
-						</environment>
-						<environment>
-							<os>linux</os>
-							<ws>gtk</ws>
-							<arch>x86</arch>
 						</environment>
 						<environment>
 							<os>linux</os>
 							<ws>gtk</ws>
 							<arch>x86_64</arch>
 						</environment>
-						<!--  Beginning with mars this environment is removed -->
-						<!--environment>
-							<os>macosx</os>
-							<ws>cocoa</ws>
-							<arch>x86</arch>
-						</environment-->
 						<environment>
 							<os>macosx</os>
 							<ws>cocoa</ws>

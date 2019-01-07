@@ -52,7 +52,6 @@ public class ProjectCreator {
 		}
 		Path targetPath = jsPath.resolve("graph.js");
 		try (Writer writer = new FileWriter(targetPath.toFile())) {
-			writer.write("__graph__ = \n");
 			JsonUtil<SModelRoot> jsonUtil = new JsonUtil<SModelRoot>(gson);
 			jsonUtil.write(createJsonWriter(writer), modelRoot);
 		}

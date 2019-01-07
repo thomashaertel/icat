@@ -1,7 +1,8 @@
 target "ICAT Target"
 with allEnvironments source
-location "https://download.eclipse.org/releases/2018-09/" {
+location "http://download.eclipse.org/releases/2018-12/" {
 	org.eclipse.jgit.feature.group
+	org.eclipse.jgit.ssh.apache.feature.group
 	org.eclipse.egit.feature.group
 	org.eclipse.egit.gitflow.feature.feature.group
 	org.eclipse.emf.sdk.feature.group
@@ -31,13 +32,12 @@ location "https://download.eclipse.org/releases/2018-09/" {
 	org.eclipse.gmf.feature.group
 	org.eclipse.gmf.runtime.notation.feature.group
 	org.eclipse.emf.workspace.feature.group
-	org.eclipse.acceleo.query.feature.group
-	org.eclipse.acceleo.feature.group
 	org.eclipse.eef.sdk.feature.feature.group
 	org.eclipse.pde.feature.group
 	org.eclipse.eef.ext.widgets.reference.feature.feature.group
+	org.eclipse.ocl.all.feature.group
 }
-location "http://download.eclipse.org/eclipse/updates/4.9/" {
+location "http://download.eclipse.org/eclipse/updates/4.10/" {
 	org.eclipse.platform.ide
 	org.eclipse.equinox.sdk.feature.group
 	org.eclipse.equinox.p2.discovery.feature.feature.group
@@ -56,6 +56,9 @@ location "http://download.eclipse.org/sirius/updates/releases/6.1.1/photon" {
 	org.eclipse.sirius.interpreter.feature.feature.group
 	org.eclipse.sirius.editor
 	org.eclipse.sirius.editor.properties
+	org.eclipse.sirius.aql.feature.group
+	org.eclipse.acceleo.query.feature.group
+	org.eclipse.acceleo.ui.interpreter.feature.group
 }
 location "http://download.eclipse.org/tools/orbit/downloads/drops/R20180905201904/repository" {
 	com.google.guava
