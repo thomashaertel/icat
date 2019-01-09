@@ -1,4 +1,4 @@
-{
+__docu_app_graph__ = {
   "position": {
     "x": 0.0,
     "y": 0.0

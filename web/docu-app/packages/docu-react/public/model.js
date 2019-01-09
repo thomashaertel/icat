@@ -1,4 +1,4 @@
-{
+__docu_app_model__ = {
 	"name": "partner",
 	"description": "Documentation of the EPackage partner.",
 	"classes": [

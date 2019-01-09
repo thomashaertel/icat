@@ -5,8 +5,6 @@ import {EPackage, ENamedElement} from "./types";
 import DocPage from "./components/DocPage";
 import {getTypes} from "./util";
 import IndexPage from "./components/Index";
-// TODO: hard-coded file name
-import docJson from './docu.json';
 
 interface AppState {
   ePackage?: EPackage;
@@ -41,6 +39,10 @@ const GenerateRoutes = ({ ePackage }: { ePackage: EPackage }) => {
   )
 }
 
+export interface DocuAppWindow extends Window {
+  __docu_app_model__: any;
+  __docu_app_graph__: any;
+}
 
 class App extends React.Component<any, AppState> {
 
@@ -52,7 +54,7 @@ class App extends React.Component<any, AppState> {
   }
 
   componentDidMount() {
-    this.setState({ ePackage: docJson });
+    this.setState({ ePackage: (window as DocuAppWindow).__docu_app_model__ });
   }
 
   public render() {

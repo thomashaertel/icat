@@ -1,9 +1,7 @@
 import * as React from 'react';
 import {SprottyWrapper} from "sprotty-component";
 import Collapsible from 'react-collapsible';
-import {PackageContentContext} from '../App';
-// TODO hard coded file name
-import graph from './graph.json'
+import {DocuAppWindow, PackageContentContext} from '../App';
 
 export interface SprottyProps {
   selectedNodeId?: string;
@@ -26,7 +24,8 @@ class Sprotty extends React.Component<SprottyProps & { knownTypes: Set<string> }
 
   componentDidMount() {
     if (this.sprotty.current) {
-      this.sprotty.current.model = graph;
+      // eslint-disable-line
+      this.sprotty.current.model = (window as DocuAppWindow).__docu_app_graph__;
       this.sprotty.current.subscribeToDoubleClick(target => {
         const id = target.id.split("_")[0];
         if (this.props.onDoubleClick && this.props.knownTypes.has(id)) {
