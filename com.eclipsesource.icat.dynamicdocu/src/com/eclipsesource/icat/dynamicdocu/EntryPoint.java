@@ -1,7 +1,7 @@
 package com.eclipsesource.icat.dynamicdocu;
 
-import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -9,8 +9,12 @@ import java.nio.file.Paths;
 
 import org.eclipse.elk.alg.layered.options.LayeredMetaDataProvider;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 import com.eclipsesource.glsp.ecore.diagram.EcoreModelFactory;
@@ -24,7 +28,7 @@ public class EntryPoint {
 	private static final Path DEFAULT_INPUT_PATH = Paths.get("partner.ecore");
 	private static final Path DEFAULT_OUTPUT_PATH = Paths.get("/home/eugen/Downloads/dekraica/result/com.dekra.data.partner.docu");
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, URISyntaxException {
 
 		Path ecorePath = readEcorePath(args);
 		Path outputPath = readOutputPath(args);
@@ -39,16 +43,16 @@ public class EntryPoint {
 		System.out.println("Doc output folder is: " + outputPath.toFile().getAbsolutePath());
 
 		ResourceSetImpl resourceSet = createResourceSet();
-		EcoreModelFactory ecoreModelFactory = new EcoreModelFactory();
-		initializeElkLayoutEngine();
-		SModelRoot modelRoot = ecoreModelFactory.loadModel(resourceSet, URI.createFileURI(ecorePath.toFile().getAbsolutePath()));
-		modelRoot.setCanvasBounds(new Bounds(-1, -1, -1, -1));
 
-		Path resourcesJsPath = new File("./resources").toPath();
+		EPackage ePackage = loadEPackage(resourceSet, ecorePath);		
+		SModelRoot modelRoot = loadGraph(resourceSet, URI.createFileURI(ecorePath.toFile().getAbsolutePath()));
 
-		ProjectCreator.createProject(resourceSet, ecorePath, modelRoot, outputPath, resourcesJsPath);
+		DocuWebApp.materialize(outputPath.toFile());
+		DocuWebApp.copyArtifacts(ePackage, modelRoot, outputPath);
 		System.out.println("DONE!");
 	}
+	
+	
 
 	public static void initializeElkLayoutEngine() {
 		ElkLayoutEngine.initialize(new LayeredMetaDataProvider());
@@ -62,6 +66,21 @@ public class EntryPoint {
 		resourceSet.getURIConverter().getURIMap().put(URI.createPlatformPluginURI("/org.eclipse.emf.ecore/", true),
 				URI.createURI(EcorePlugin.INSTANCE.getBaseURL().toExternalForm()));
 		return resourceSet;
+	}
+	
+	public static EPackage loadEPackage(ResourceSet resourceSet, Path ecorePath) throws IOException {
+		Resource resource = resourceSet.createResource(URI.createFileURI(ecorePath.toString()));
+		resource.load(null);
+		EcoreUtil.resolveAll(resource);
+		return (EPackage) resource.getContents().get(0);
+	}
+	
+	public static SModelRoot loadGraph(ResourceSet resourceSet, URI uri) {
+		EcoreModelFactory ecoreModelFactory = new EcoreModelFactory();
+		EntryPoint.initializeElkLayoutEngine();
+		SModelRoot modelRoot = ecoreModelFactory.loadModel(resourceSet, uri);
+		modelRoot.setCanvasBounds(new Bounds(-1, -1, -1, -1));
+		return modelRoot;
 	}
 
 	static Path readEcorePath(String[] args) {
