@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { HashLink as Link } from 'react-router-hash-link';
 
 export interface CrumbTocProps {
   toc: string[];
@@ -11,7 +12,7 @@ const JumpTo = ({ toc, title = 'Jump to:' }: CrumbTocProps) => (
       <span>{title}</span>
       <ol>
         {toc.map(entry => (
-          <li key={entry}><a href={'#' + entry}>{entry.charAt(0).toUpperCase() + entry.substr(1)}</a></li>
+          <li key={entry}><Link to={`#${entry}`}>{entry.charAt(0).toUpperCase() + entry.substr(1)}</Link></li>
         ))}
       </ol>
     </div>

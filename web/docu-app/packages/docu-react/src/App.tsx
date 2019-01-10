@@ -1,6 +1,6 @@
 import * as React from 'react';
 import 'sprotty-component/lib/wrapper';
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {HashRouter as Router, Route, Switch} from "react-router-dom";
 import {EPackage, ENamedElement} from "./types";
 import DocPage from "./components/DocPage";
 import {getTypes} from "./util";
@@ -39,6 +39,10 @@ const GenerateRoutes = ({ ePackage }: { ePackage: EPackage }) => {
   )
 }
 
+export interface DocuAppWindow extends Window {
+  __docu_app_model__: any;
+  __docu_app_graph__: any;
+}
 
 class App extends React.Component<any, AppState> {
 
@@ -50,10 +54,7 @@ class App extends React.Component<any, AppState> {
   }
 
   componentDidMount() {
-    // TODO: hard-coded file name
-    fetch('docu.json')
-      .then(resp => resp.json())
-      .then(json => this.setState({ ePackage: json as EPackage }))
+    this.setState({ ePackage: (window as DocuAppWindow).__docu_app_model__ });
   }
 
   public render() {

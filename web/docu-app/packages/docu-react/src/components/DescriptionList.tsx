@@ -30,7 +30,7 @@ const DescriptionList = function<T extends ENamedElement>(props: DescriptionList
             const desc = convertToMd(term.description);
             return (
               <React.Fragment key={id}>
-                <dt id={id} key={id}>
+                <dt id={term.name} key={id}>
                   {renderTerm(term)}
                 </dt>
                 <dd><ReactMarkdown source={desc}/></dd>

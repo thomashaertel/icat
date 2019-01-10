@@ -23,3 +23,5 @@ yarn-error.log*
 
 bundle.js
 bundle.js.map
+
+.idea

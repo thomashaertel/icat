@@ -9,7 +9,7 @@ export interface IndexPageProps {
   ePackage: EPackage;
 }
 
-const IndexPage = ({ ePackage, history }: IndexPageProps & RouteComponentProps<any>) => (
+const IndexPage = ({ ePackage, history, location }: IndexPageProps & RouteComponentProps<any>) => (
   <React.Fragment>
     <div className='head'>
       <div className={'center'}>
@@ -22,8 +22,12 @@ const IndexPage = ({ ePackage, history }: IndexPageProps & RouteComponentProps<a
         <Nav ePackageName={ePackage.name} eNamedElement={ePackage}/>
         <div className='layout'>
           <Sprotty
-            onSelect={(ids) => history.push(`/${ids[0]}`)}
-            allowSelection
+            onDoubleClick={(ids) => {
+              if (location.pathname.substring(1) === ids[0]) {
+                return;
+              }
+              history.push(`/${ids[0]}`)
+            }}
             open
             showCollapsibleButton={false}
           />

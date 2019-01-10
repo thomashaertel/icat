@@ -51,7 +51,7 @@ const EClassArticle = (props: EClass) => {
   return (
     <article>
       <ReactMarkdown source={convertToMd(description)}/>
-      < DescriptionList
+      <DescriptionList
         title="Super Types"
         terms={superTypes.map(makeNamedElement)}
         renderTerm={(superType: ENamedElement) => <Link to={`/${superType.name}`}>{superType.name}</Link>}

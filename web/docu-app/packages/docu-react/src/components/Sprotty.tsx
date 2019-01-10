@@ -1,12 +1,11 @@
 import * as React from 'react';
 import {SprottyWrapper} from "sprotty-component";
 import Collapsible from 'react-collapsible';
-import {PackageContentContext} from '../App';
+import {DocuAppWindow, PackageContentContext} from '../App';
 
 export interface SprottyProps {
   selectedNodeId?: string;
-  onSelect?: (ids: string[]) => void;
-  allowSelection: boolean;
+  onDoubleClick?: (ids: string[]) => void;
   open?: boolean,
   showCollapsibleButton?: boolean
 }
@@ -24,27 +23,22 @@ class Sprotty extends React.Component<SprottyProps & { knownTypes: Set<string> }
   }
 
   componentDidMount() {
-    // TODO hard coded file name
-    fetch('graph.json')
-      .then(resp => resp.json())
-      .then(graph => {
-        if (this.sprotty.current) {
-          this.sprotty.current.model = graph;
-          this.sprotty.current.supportSelection = this.props.allowSelection;
-          this.sprotty.current.subscribeToSelection(selectedElements => {
-            if (selectedElements.length > 0 && this.props.knownTypes.has(selectedElements[0].id)) {
-              if (this.props.onSelect) {
-                this.props.onSelect(selectedElements.map(el => el.id));
-              }
-            }
-          });
-          setTimeout(() => {
-            if (this.sprotty.current && this.props.selectedNodeId) {
-              this.sprotty.current.selection = [this.props.selectedNodeId]
-            }
-          }, 1000);
+    if (this.sprotty.current) {
+      // eslint-disable-line
+      this.sprotty.current.model = (window as DocuAppWindow).__docu_app_graph__;
+      this.sprotty.current.subscribeToDoubleClick(target => {
+        const id = target.id.split("_")[0];
+        if (this.props.onDoubleClick && this.props.knownTypes.has(id)) {
+          this.props.onDoubleClick([id]);
         }
       });
+
+      setTimeout(() => {
+        if (this.sprotty.current && this.props.selectedNodeId) {
+          this.sprotty.current.selection = [this.props.selectedNodeId]
+        }
+      }, 1000);
+    }
   }
 
 
