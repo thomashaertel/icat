@@ -1,5 +1,3 @@
-import { EdgeLabelProcessingLayoutEngine } from "./layout-engine";
-
 /*
  * Copyright (C) 2017 TypeFox and others.
  *
@@ -55,6 +53,7 @@ import {
   InheritanceEdgeView,
   LinkView
 } from "./views";
+import { EdgeLabelProcessingLayoutEngine } from "./layout-engine";
 
 export default (containerId: string, withSelectionSupport: boolean) => {
   const classDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) => {
