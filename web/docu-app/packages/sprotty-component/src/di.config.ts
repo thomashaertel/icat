@@ -42,7 +42,7 @@ import {
   LocalModelSource} from "sprotty/lib";
 import { Container, ContainerModule } from "inversify";
 import { ElkFactory, elkLayoutModule } from "sprotty-elk/lib";
-import ElkConstructor, from 'elkjs/lib/elk.bundled';
+import ElkConstructor from 'elkjs/lib/elk.bundled';
 import { ClassNode, EdgeWithMultiplicty, Icon, Link } from "./model";
 import {
   AggregationEdgeView,
