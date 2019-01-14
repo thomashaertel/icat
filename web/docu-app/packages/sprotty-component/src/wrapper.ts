@@ -15,9 +15,9 @@ import {
   TYPES,
   Selectable,
   isSelectable,
-  ICommandStack,
   SModelRootSchema,
-  MouseListener
+  MouseListener,
+  IActionDispatcher
 } from "sprotty/lib";
 import createContainer from "./di.config"
 
@@ -50,8 +50,8 @@ const CustomElement = (config: CustomElementConfig) => (cls: any) => {
 export class SprottyWrapper extends HTMLElement {
   private selectionListener: SelectionEventListner;
   private root: SModelRoot;
-  private commandStack:ICommandStack;
   private graph: SModelRootSchema;
+  private actionDispatcher: IActionDispatcher;
   private _withSelectionSupport: boolean;
   private doubleClickListener: DoubleClickListener;
   /**
@@ -80,7 +80,7 @@ export class SprottyWrapper extends HTMLElement {
       this._selection.length === selection.length &&
       this._selection.reduce((acc, el, i) => acc && el.id === selection[i], true);
     if (!isSameSelection) {
-      this.commandStack.execute(new SelectCommand(new SelectAction(selection, this._selection.map(e => e.id))));
+      this.actionDispatcher.dispatch(new SelectAction(selection, this._selection.map(e => e.id)));
       this._selection = getIdsToSModelElement(selection, this.root.index);
     }
   }
@@ -96,13 +96,12 @@ export class SprottyWrapper extends HTMLElement {
 
       // Run
       const modelSource = container.get<LocalModelSource>(TYPES.ModelSource);
-
       modelSource.setModel(this.graph);
 
       const modelFactory = container.get<IModelFactory>(TYPES.IModelFactory);
       this.root = modelFactory.createRoot(this.graph);
 
-      this.commandStack = container.get<ICommandStack>(TYPES.ICommandStack);
+      this.actionDispatcher = container.get<IActionDispatcher>(TYPES.IActionDispatcher);
 
       if (this.root instanceof SModelRoot && this.selectionListener) {
         const actionHandlerRegistry = container.get<ActionHandlerRegistry>(TYPES.ActionHandlerRegistry);
