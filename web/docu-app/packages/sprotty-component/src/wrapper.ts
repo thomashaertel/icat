@@ -17,9 +17,12 @@ import {
   isSelectable,
   SModelRootSchema,
   MouseListener,
-  IActionDispatcher
+  IActionDispatcher,
+  CenterAction,
+  FitToScreenAction
 } from "sprotty/lib";
 import createContainer from "./di.config"
+import { toArray } from "sprotty/lib/utils/iterable";
 
 /**
  * Configuration element that associated a custom element with a selector string.
@@ -62,6 +65,8 @@ export class SprottyWrapper extends HTMLElement {
     div.id = 'sprotty';
     this.appendChild(div);
     this.render();
+    window.setTimeout(() =>
+      this.actionDispatcher.dispatch(new FitToScreenAction(this.allSelectableElements(), 10, undefined, true)), 500);
   }
   subscribeToSelection(selectionEventListner: SelectionEventListner) {
     this.selectionListener = selectionEventListner;
@@ -80,7 +85,9 @@ export class SprottyWrapper extends HTMLElement {
       this._selection.length === selection.length &&
       this._selection.reduce((acc, el, i) => acc && el.id === selection[i], true);
     if (!isSameSelection) {
-      this.actionDispatcher.dispatch(new SelectAction(selection, this._selection.map(e => e.id)));
+      const allSelectableElements = this.allSelectableElements();
+      selection.forEach(element => allSelectableElements.splice(allSelectableElements.indexOf(element)));
+      this.actionDispatcher.dispatchAll([new CenterAction(selection), new SelectAction(selection, allSelectableElements)]);
       this._selection = getIdsToSModelElement(selection, this.root.index);
     }
   }
@@ -112,6 +119,9 @@ export class SprottyWrapper extends HTMLElement {
         container.bind(TYPES.MouseListener).toConstantValue(new DoubleClickHandler(this.doubleClickListener));
       }
     }
+  }
+  private allSelectableElements(): string[] {
+    return toArray(this.root.index.all().filter(e => isSelectable(e)).map(e => e.id));
   }
 }
 export type SelectableModelElements = SModelElement & Selectable;
