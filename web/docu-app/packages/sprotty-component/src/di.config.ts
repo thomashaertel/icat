@@ -102,6 +102,7 @@ export default (containerId: string, withSelectionSupport: boolean) => {
     boundsModule,
     undoRedoModule,
     viewportModule,
+    selectModule,
     fadeModule,
     hoverModule,
     exportModule,
