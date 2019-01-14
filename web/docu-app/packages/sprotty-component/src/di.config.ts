@@ -39,10 +39,11 @@ import {
   TYPES,
   undoRedoModule,
   viewportModule,
-  LocalModelSource
-} from "sprotty/lib";
+  LocalModelSource} from "sprotty/lib";
 import { Container, ContainerModule } from "inversify";
-import {ClassNode, EdgeWithMultiplicty, Icon, Link} from "./model";
+import { ElkFactory, elkLayoutModule } from "sprotty-elk/lib";
+import ElkConstructor from 'elkjs/lib/elk.bundled';
+import { ClassNode, EdgeWithMultiplicty, Icon, Link } from "./model";
 import {
   AggregationEdgeView,
   ArrowEdgeView,
@@ -52,6 +53,7 @@ import {
   InheritanceEdgeView,
   LinkView
 } from "./views";
+import { EdgeLabelProcessingLayoutEngine } from "./layout-engine";
 
 export default (containerId: string, withSelectionSupport: boolean) => {
   const classDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) => {
@@ -82,6 +84,15 @@ export default (containerId: string, withSelectionSupport: boolean) => {
       baseDiv: containerId
     });
     bind(TYPES.ModelSource).to(LocalModelSource).inSingletonScope();
+    const elkFactory: ElkFactory = () => new ElkConstructor({
+      algorithms: ['layered'],
+      defaultLayoutOptions: {
+        'edgeLabels.placement': 'CENTER',
+        'edgeLabels.sideSelection': 'ALWAYS_UP'
+      }
+    });
+    bind(TYPES.IModelLayoutEngine).to(EdgeLabelProcessingLayoutEngine);
+    bind(ElkFactory).toConstantValue(elkFactory);
   });
 
   const container = new Container();
@@ -97,6 +108,7 @@ export default (containerId: string, withSelectionSupport: boolean) => {
     expandModule,
     buttonModule,
     edgeEditModule,
+    elkLayoutModule,
     classDiagramModule
   ];
   if (withSelectionSupport) {
@@ -105,3 +117,4 @@ export default (containerId: string, withSelectionSupport: boolean) => {
   container.load(...modules);
   return container;
 };
+

@@ -6,7 +6,7 @@
  */
 
 /** @jsx svg */
-import { svg }  from 'snabbdom-jsx';
+import { svg } from 'snabbdom-jsx';
 
 import {
   RenderingContext,
@@ -25,8 +25,8 @@ export class ClassNodeView extends RectangularNodeView {
   render(node: ClassNode, context: RenderingContext): VNode {
     return <g class-node={true}>
       <rect class-sprotty-node={true} class-selected={node.selected} class-mouseover={node.hoverFeedback}
-            x={0} y={0} rx={10} ry={10}
-            width={Math.max(0, node.bounds.width)} height={Math.max(0, node.bounds.height)} />
+        x={0} y={0} rx={10} ry={10}
+        width={Math.max(0, node.bounds.width)} height={Math.max(0, node.bounds.height)} />
       {context.renderChildren(node)}
     </g>;
   }
@@ -57,7 +57,7 @@ export class ArrowEdgeView extends PolylineEdgeView {
     const p2 = segments[segments.length - 1];
     return [
       <path class-sprotty-edge={true} d="M 10,-4 L 0,0 L 10,4"
-            transform={`rotate(${angle(p2, p1)} ${p2.x} ${p2.y}) translate(${p2.x} ${p2.y})`} />,
+        transform={`rotate(${angle(p2, p1)} ${p2.x} ${p2.y}) translate(${p2.x} ${p2.y})`} />,
     ]
   }
 
@@ -74,7 +74,7 @@ export class InheritanceEdgeView extends ArrowEdgeView {
     const p2 = segments[segments.length - 1];
     return [
       <path class-sprotty-edge={true} d="M 10,-4 L 0,0 L 10,4 Z" class-inheritance={true}
-            transform={`rotate(${angle(p2, p1)} ${p2.x} ${p2.y}) translate(${p2.x} ${p2.y})`} />,
+        transform={`rotate(${angle(p2, p1)} ${p2.x} ${p2.y}) translate(${p2.x} ${p2.y})`} />,
     ]
   }
 
@@ -96,10 +96,10 @@ abstract class DiamondEdgeView extends PolylineEdgeView {
     const pn_1 = segments[segments.length - 2];
     const lastEdgeAngle = angle(pn_1, pn);
     return [
-      <path class-sprotty-edge={true} class-composition={this.isComposition()} class-aggregation={this.isAggregation()} d={rhombStr}
-            transform={`rotate(${firstEdgeAngle} ${p1.x} ${p1.y}) translate(${p1.x} ${p1.y})`} />,
-      <text class-sprotty-label={true} transform={`rotate(${firstEdgeAngle} ${p1.x} ${p1.y}) translate(${p1.x + 15} ${p1.y - 5})`}>{edge.multiplicitySource}</text>,
-      <text class-sprotty-label={true} transform={`rotate(${lastEdgeAngle} ${pn.x} ${pn.y}) translate(${pn.x - 15} ${pn.y - 5})`}>{edge.multiplicityTarget}</text>
+      <path class-sprotty-edge={true} class-diamond={true} class-composition={this.isComposition()} class-aggregation={this.isAggregation()} d={rhombStr}
+        transform={`rotate(${firstEdgeAngle} ${p1.x} ${p1.y}) translate(${p1.x} ${p1.y})`} />,
+      <text class-sprotty-label={true} transform={`rotate(${firstEdgeAngle} ${p1.x} ${p1.y}) translate(${p1.x + 15} ${p1.y + 20})`}>{edge.multiplicitySource}</text>,
+      <text class-sprotty-label={true} transform={`rotate(${lastEdgeAngle} ${pn.x} ${pn.y}) translate(${pn.x - 45} ${pn.y + 20})`}>{edge.multiplicityTarget}</text>
     ]
   }
 
