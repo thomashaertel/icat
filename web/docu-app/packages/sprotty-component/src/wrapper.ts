@@ -15,11 +15,14 @@ import {
   TYPES,
   Selectable,
   isSelectable,
-  ICommandStack,
   SModelRootSchema,
-  MouseListener
+  MouseListener,
+  IActionDispatcher,
+  CenterAction,
+  FitToScreenAction
 } from "sprotty/lib";
 import createContainer from "./di.config"
+import { toArray } from "sprotty/lib/utils/iterable";
 
 /**
  * Configuration element that associated a custom element with a selector string.
@@ -50,8 +53,8 @@ const CustomElement = (config: CustomElementConfig) => (cls: any) => {
 export class SprottyWrapper extends HTMLElement {
   private selectionListener: SelectionEventListner;
   private root: SModelRoot;
-  private commandStack:ICommandStack;
   private graph: SModelRootSchema;
+  private actionDispatcher: IActionDispatcher;
   private _withSelectionSupport: boolean;
   private doubleClickListener: DoubleClickListener;
   /**
@@ -62,6 +65,8 @@ export class SprottyWrapper extends HTMLElement {
     div.id = 'sprotty';
     this.appendChild(div);
     this.render();
+    window.setTimeout(() =>
+      this.actionDispatcher.dispatch(new FitToScreenAction(this.allSelectableElements(), 10, undefined, true)), 500);
   }
   subscribeToSelection(selectionEventListner: SelectionEventListner) {
     this.selectionListener = selectionEventListner;
@@ -80,7 +85,9 @@ export class SprottyWrapper extends HTMLElement {
       this._selection.length === selection.length &&
       this._selection.reduce((acc, el, i) => acc && el.id === selection[i], true);
     if (!isSameSelection) {
-      this.commandStack.execute(new SelectCommand(new SelectAction(selection, this._selection.map(e => e.id))));
+      const elementsToDeselect = this.allSelectableElements();
+      selection.forEach(element => elementsToDeselect.splice(elementsToDeselect.indexOf(element), 1));
+      this.actionDispatcher.dispatchAll([new CenterAction(selection), new SelectAction(selection, elementsToDeselect)]);
       this._selection = getIdsToSModelElement(selection, this.root.index);
     }
   }
@@ -96,13 +103,12 @@ export class SprottyWrapper extends HTMLElement {
 
       // Run
       const modelSource = container.get<LocalModelSource>(TYPES.ModelSource);
-
       modelSource.setModel(this.graph);
 
       const modelFactory = container.get<IModelFactory>(TYPES.IModelFactory);
       this.root = modelFactory.createRoot(this.graph);
 
-      this.commandStack = container.get<ICommandStack>(TYPES.ICommandStack);
+      this.actionDispatcher = container.get<IActionDispatcher>(TYPES.IActionDispatcher);
 
       if (this.root instanceof SModelRoot && this.selectionListener) {
         const actionHandlerRegistry = container.get<ActionHandlerRegistry>(TYPES.ActionHandlerRegistry);
@@ -113,6 +119,9 @@ export class SprottyWrapper extends HTMLElement {
         container.bind(TYPES.MouseListener).toConstantValue(new DoubleClickHandler(this.doubleClickListener));
       }
     }
+  }
+  private allSelectableElements(): string[] {
+    return toArray(this.root.index.all().filter(e => isSelectable(e)).map(e => e.id));
   }
 }
 export type SelectableModelElements = SModelElement & Selectable;
