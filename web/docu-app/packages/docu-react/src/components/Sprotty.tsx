@@ -74,7 +74,7 @@ class Sprotty extends React.Component<SprottyProps & { knownTypes: Set<string> }
           visibility: showCollapsibleButton ? 'visible' : 'hidden'
         }}
       >
-        <div data-app="class-diagram" className="center content">
+        <div data-app="class-diagram" className="diagram">
           <sprotty-wrapper ref={this.sprotty}></sprotty-wrapper>
         </div>
       </Collapsible>
