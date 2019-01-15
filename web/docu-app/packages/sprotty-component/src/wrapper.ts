@@ -85,9 +85,9 @@ export class SprottyWrapper extends HTMLElement {
       this._selection.length === selection.length &&
       this._selection.reduce((acc, el, i) => acc && el.id === selection[i], true);
     if (!isSameSelection) {
-      const allSelectableElements = this.allSelectableElements();
-      selection.forEach(element => allSelectableElements.splice(allSelectableElements.indexOf(element)));
-      this.actionDispatcher.dispatchAll([new CenterAction(selection), new SelectAction(selection, allSelectableElements)]);
+      const elementsToDeselect = this.allSelectableElements();
+      selection.forEach(element => elementsToDeselect.splice(elementsToDeselect.indexOf(element), 1));
+      this.actionDispatcher.dispatchAll([new CenterAction(selection), new SelectAction(selection, elementsToDeselect)]);
       this._selection = getIdsToSModelElement(selection, this.root.index);
     }
   }
