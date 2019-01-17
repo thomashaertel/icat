@@ -17,7 +17,6 @@ import com.eclipsesource.glsp.ecore.diagram.EcoreModelFactory;
 
 import io.typefox.sprotty.api.Bounds;
 import io.typefox.sprotty.api.SModelRoot;
-import io.typefox.sprotty.layout.ElkLayoutEngine;
 
 public class EntryPoint {
 
@@ -40,18 +39,14 @@ public class EntryPoint {
 
 		ResourceSetImpl resourceSet = createResourceSet();
 		EcoreModelFactory ecoreModelFactory = new EcoreModelFactory();
-		initializeElkLayoutEngine();
 		SModelRoot modelRoot = ecoreModelFactory.loadModel(resourceSet, URI.createFileURI(ecorePath.toFile().getAbsolutePath()));
+		ecoreModelFactory.layoutModel(modelRoot, new LayeredMetaDataProvider());
 		modelRoot.setCanvasBounds(new Bounds(-1, -1, -1, -1));
 
 		Path resourcesJsPath = new File("./resources").toPath();
 
 		ProjectCreator.createProject(resourceSet, ecorePath, modelRoot, outputPath, resourcesJsPath);
 		System.out.println("DONE!");
-	}
-
-	public static void initializeElkLayoutEngine() {
-		ElkLayoutEngine.initialize(new LayeredMetaDataProvider());
 	}
 
 	public static ResourceSetImpl createResourceSet() {

@@ -7,7 +7,6 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.eclipse.elk.alg.layered.options.LayeredMetaDataProvider;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
@@ -21,7 +20,6 @@ import com.eclipsesource.glsp.ecore.diagram.EcoreModelFactory;
 
 import io.typefox.sprotty.api.Bounds;
 import io.typefox.sprotty.api.SModelRoot;
-import io.typefox.sprotty.layout.ElkLayoutEngine;
 
 public class EntryPoint {
 
@@ -51,12 +49,6 @@ public class EntryPoint {
 		DocuWebApp.copyArtifacts(ePackage, modelRoot, outputPath);
 		System.out.println("DONE!");
 	}
-	
-	
-
-	public static void initializeElkLayoutEngine() {
-		ElkLayoutEngine.initialize(new LayeredMetaDataProvider());
-	}
 
 	public static ResourceSetImpl createResourceSet() {
 		ResourceSetImpl resourceSet = new ResourceSetImpl();
@@ -77,7 +69,6 @@ public class EntryPoint {
 	
 	public static SModelRoot loadGraph(ResourceSet resourceSet, URI uri) {
 		EcoreModelFactory ecoreModelFactory = new EcoreModelFactory();
-		EntryPoint.initializeElkLayoutEngine();
 		SModelRoot modelRoot = ecoreModelFactory.loadModel(resourceSet, uri);
 		modelRoot.setCanvasBounds(new Bounds(-1, -1, -1, -1));
 		return modelRoot;
