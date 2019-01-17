@@ -41,7 +41,7 @@ import {
   viewportModule,
   LocalModelSource} from "sprotty/lib";
 import { Container, ContainerModule } from "inversify";
-import { ElkFactory, elkLayoutModule } from "sprotty-elk/lib";
+import { ElkFactory, elkLayoutModule, ElkLayoutEngine } from "sprotty-elk/lib";
 import ElkConstructor from 'elkjs/lib/elk.bundled';
 import { ClassNode, EdgeWithMultiplicty, Icon, Link } from "./model";
 import {
@@ -53,7 +53,6 @@ import {
   InheritanceEdgeView,
   LinkView
 } from "./views";
-import { EdgeLabelProcessingLayoutEngine } from "./layout-engine";
 
 export default (containerId: string, withSelectionSupport: boolean) => {
   const classDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) => {
@@ -91,7 +90,7 @@ export default (containerId: string, withSelectionSupport: boolean) => {
         'edgeLabels.sideSelection': 'ALWAYS_UP'
       }
     });
-    bind(TYPES.IModelLayoutEngine).to(EdgeLabelProcessingLayoutEngine);
+    bind(TYPES.IModelLayoutEngine).to(ElkLayoutEngine);
     bind(ElkFactory).toConstantValue(elkFactory);
   });
 
