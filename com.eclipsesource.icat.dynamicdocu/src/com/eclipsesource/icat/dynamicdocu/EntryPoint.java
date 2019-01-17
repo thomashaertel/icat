@@ -69,7 +69,7 @@ public class EntryPoint {
 	
 	public static SModelRoot loadGraph(ResourceSet resourceSet, URI uri) {
 		EcoreModelFactory ecoreModelFactory = new EcoreModelFactory();
-		SModelRoot modelRoot = ecoreModelFactory.loadModel(resourceSet, uri, false);
+		SModelRoot modelRoot = ecoreModelFactory.loadModel(resourceSet, uri);
 		modelRoot.setCanvasBounds(new Bounds(-1, -1, -1, -1));
 		return modelRoot;
 	}
