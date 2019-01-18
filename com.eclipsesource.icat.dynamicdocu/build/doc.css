@@ -18,10 +18,6 @@ body {
     position: relative;
 }
 
-.center-content {
-    margin: 0 auto;
-}
-
 .head {
 	position: relative;
     z-index: 88;
@@ -109,6 +105,11 @@ nav :not(pre)>*>code, nav :not(pre)>code {
 }
 .toc ol a:hover {
 	color: #fff;
+}
+.diagram {
+    display: flex;
+    flex-direction: row;
+    padding-right: 10px;
 }
 .content {
 	display: flex;
