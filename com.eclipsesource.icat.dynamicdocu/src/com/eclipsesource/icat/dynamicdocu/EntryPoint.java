@@ -23,8 +23,8 @@ import io.typefox.sprotty.api.SModelRoot;
 
 public class EntryPoint {
 
-	private static final Path DEFAULT_INPUT_PATH = Paths.get("partner.ecore");
-	private static final Path DEFAULT_OUTPUT_PATH = Paths.get("/home/eugen/Downloads/dekraica/result/com.dekra.data.partner.docu");
+	private static final Path DEFAULT_INPUT_PATH = Paths.get("vehicle.ecore");
+	private static final Path DEFAULT_OUTPUT_PATH = Paths.get("vehicle-docu");
 
 	public static void main(String[] args) throws IOException, URISyntaxException {
 

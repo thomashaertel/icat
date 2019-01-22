@@ -6,8 +6,8 @@ import java.nio.file.Paths;
 
 public class EntryPoint {
 
-	private static final String defaultFolder = "/home/eugen/Downloads/dekraica/pac_resource_repository/resources/Entries/com/dekra/data2";
-	private static final String defaultEcoreFolder = "/home/eugen/Downloads/dekraica/pac_resource_repository/resources/Entries/com/dekra/data/";
+	private static final String defaultFolder = "data";
+	private static final String defaultEcoreFolder = "data";
 
 	public static void main(String[] args) throws IOException {
 		String argFolder = null;
@@ -26,5 +26,7 @@ public class EntryPoint {
 
 		XMLWriter.convertXML(ecoreFolderPath, folderPath);
 	}
+
+	
 
 }
