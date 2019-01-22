@@ -53,9 +53,13 @@ import {
   InheritanceEdgeView,
   LinkView
 } from "./views";
+import { MyCommandStack } from "./MyCommandStack";
 
 export default (containerId: string, withSelectionSupport: boolean) => {
   const classDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) => {
+    unbind(TYPES.ICommandStack);
+    bind(MyCommandStack).toSelf().inSingletonScope();
+    bind(TYPES.ICommandStack).toService(MyCommandStack);
     rebind(TYPES.ILogger).to(ConsoleLogger).inSingletonScope();
     rebind(TYPES.LogLevel).toConstantValue(LogLevel.log);
     const context = { bind, unbind, isBound, rebind };
