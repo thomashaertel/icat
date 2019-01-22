@@ -23,6 +23,7 @@ import {
 } from "sprotty/lib";
 import createContainer from "./di.config"
 import { toArray } from "sprotty/lib/utils/iterable";
+import { MyCommandStack } from "./MyCommandStack";
 
 /**
  * Configuration element that associated a custom element with a selector string.
@@ -57,6 +58,8 @@ export class SprottyWrapper extends HTMLElement {
   private actionDispatcher: IActionDispatcher;
   private _withSelectionSupport: boolean;
   private doubleClickListener: DoubleClickListener;
+
+  private container = createContainer('sprotty', this._withSelectionSupport);
   /**
    * Called when this element is inserted into a document.
    */
@@ -65,8 +68,13 @@ export class SprottyWrapper extends HTMLElement {
     div.id = 'sprotty';
     this.appendChild(div);
     this.render();
-    window.setTimeout(() =>
-      this.actionDispatcher.dispatch(new FitToScreenAction(this.allSelectableElements(), 10, undefined, true)), 500);
+    
+
+      // Run
+    const commandStack = this.container.get<MyCommandStack>(MyCommandStack);
+    commandStack.addModelLoadedListener(() => {
+        this.actionDispatcher.dispatch(new FitToScreenAction(this.allSelectableElements(), undefined, undefined, true))
+    });
   }
   subscribeToSelection(selectionEventListner: SelectionEventListner) {
     this.selectionListener = selectionEventListner;
@@ -99,24 +107,22 @@ export class SprottyWrapper extends HTMLElement {
   }
   private render() {
     if (this.graph) {
-      const container = createContainer('sprotty', this._withSelectionSupport);
-
       // Run
-      const modelSource = container.get<LocalModelSource>(TYPES.ModelSource);
+      const modelSource = this.container.get<LocalModelSource>(TYPES.ModelSource);
       modelSource.setModel(this.graph);
 
-      const modelFactory = container.get<IModelFactory>(TYPES.IModelFactory);
+      const modelFactory = this.container.get<IModelFactory>(TYPES.IModelFactory);
       this.root = modelFactory.createRoot(this.graph);
 
-      this.actionDispatcher = container.get<IActionDispatcher>(TYPES.IActionDispatcher);
+      this.actionDispatcher = this.container.get<IActionDispatcher>(TYPES.IActionDispatcher);
 
       if (this.root instanceof SModelRoot && this.selectionListener) {
-        const actionHandlerRegistry = container.get<ActionHandlerRegistry>(TYPES.ActionHandlerRegistry);
+        const actionHandlerRegistry = this.container.get<ActionHandlerRegistry>(TYPES.ActionHandlerRegistry);
         actionHandlerRegistry.register(SelectCommand.KIND, new SelectionHandler(this.selectionListener, this.root, newSelection => this.selection = newSelection));
       }
 
       if (this.root instanceof SModelRoot && this.doubleClickListener) {
-        container.bind(TYPES.MouseListener).toConstantValue(new DoubleClickHandler(this.doubleClickListener));
+        this.container.bind(TYPES.MouseListener).toConstantValue(new DoubleClickHandler(this.doubleClickListener));
       }
     }
   }
