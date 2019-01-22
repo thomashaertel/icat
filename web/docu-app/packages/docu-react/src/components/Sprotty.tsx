@@ -33,11 +33,9 @@ class Sprotty extends React.Component<SprottyProps & { knownTypes: Set<string> }
         }
       });
 
-      setTimeout(() => {
-        if (this.sprotty.current && this.props.selectedNodeId) {
-          this.sprotty.current.selection = [this.props.selectedNodeId]
-        }
-      }, 1000);
+      if (this.sprotty.current && this.props.selectedNodeId) {
+        this.sprotty.current.selection = [this.props.selectedNodeId]
+      }
     }
   }
 
