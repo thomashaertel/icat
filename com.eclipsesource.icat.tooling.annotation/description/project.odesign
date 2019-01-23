@@ -875,5 +875,6 @@
         </create>
       </intersection>
     </ownedRepresentations>
+    <ownedJavaExtensions qualifiedClassName="com.eclipsesource.icat.tooling.annotation.services.DekraServices"/>
   </ownedViewpoints>
 </description:Group>
