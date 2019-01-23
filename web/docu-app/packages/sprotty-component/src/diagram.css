@@ -27,6 +27,9 @@
     stroke-width: 1;
     font-weight: bold;
 }
+.foreign-package {
+    fill: #cccab9;
+}
 
 .ecore-node.selected {
     stroke-width: 5;

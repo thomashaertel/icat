@@ -38,11 +38,11 @@ public class GenerateWebDocuHandler extends AbstractHandler {
 			Path outputPath = queryOutputPath(event);
 			Path ecorePath = selectedResource.getLocation().toFile().toPath();
 			ResourceSetImpl resourceSet = EntryPoint.createResourceSet();
-			EPackage ePackage = EntryPoint.loadEPackage(resourceSet, ecorePath);
+			EPackage[] ePackages = EntryPoint.loadEPackages(resourceSet, ecorePath);
 			SModelRoot modelRoot = EntryPoint.loadGraph(resourceSet, URI.createURI(selectedResource.getLocationURI().toString()));
 
 			DocuWebApp.materialize(outputPath.toFile());
-			DocuWebApp.copyArtifacts(ePackage, modelRoot, outputPath);
+			DocuWebApp.copyArtifacts(ePackages, modelRoot, outputPath);
 		} catch (IOException | URISyntaxException e) {
 			MessageDialog.openError(HandlerUtil.getActiveShell(event), "Error generating web documentation",
 					e.getMessage());

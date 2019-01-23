@@ -9,6 +9,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.core.runtime.FileLocator;
@@ -33,9 +34,9 @@ public class DocuWebApp {
 		FileUtils.copyDirectory(bundleJsPath.toFile(), targetFolder);
 	}	
 	
-	public static void copyArtifacts(EPackage ePackage, SModelRoot modelRoot, Path outputPath) throws IOException {		
-		writePackage(ePackage, outputPath);
-		writeGraph(modelRoot, outputPath);
+	public static void copyArtifacts(EPackage[] ePackages, Map<String,SModelRoot> modelRoots, Path outputPath) throws IOException {		
+		writePackage(ePackages, outputPath);
+		writeGraph(modelRoots, outputPath);
 	}
 
 	protected static Path getResourcesJsPath() throws IOException, URISyntaxException {
@@ -44,22 +45,31 @@ public class DocuWebApp {
 		return Paths.get(fileURL.toURI());
 	}
 
-	static void writePackage(EPackage ePackage, Path outputPath)
+	static void writePackage(EPackage[] ePackages, Path outputPath)
 			throws IOException {
 		Path path = outputPath.resolve(MODEL_JS_FILE);
 		Files.createDirectories(path.getParent());
 		Files.deleteIfExists(path);
-		Files.write(path, (GLOBAL_MODEL_VAR + "=" + Class2JSON.generate(ePackage)).getBytes());
+		Files.write(path, (GLOBAL_MODEL_VAR + "=" + Class2JSON.generate(ePackages)).getBytes());
 	}
 	
-	static void writeGraph(SModelRoot modelRoot, Path outputPath) throws IOException {
+	static void writeGraph(Map<String,SModelRoot> modelRoots, Path outputPath) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();		
 		Path targetPath = outputPath.resolve(GRAPH_JS_FILE);
 		Files.createDirectories(targetPath.getParent());
 		try (Writer writer = new FileWriter(targetPath.toFile())) {
 			writer.append(GLOBAL_GRAPH_VAR + "=");
-			JsonUtil<SModelRoot> jsonUtil = new JsonUtil<SModelRoot>(gson);
-			jsonUtil.write(createJsonWriter(writer), modelRoot);
+			writer.append("{");
+			for(String key:modelRoots.keySet()) {
+				writer.append("\"");
+				writer.append(key);
+				writer.append("\"");
+				writer.append(":");
+				JsonUtil<SModelRoot> jsonUtil = new JsonUtil<SModelRoot>(gson);
+				jsonUtil.write(createJsonWriter(writer), modelRoots.get(key));
+				writer.append(",");
+			}
+			writer.append("}");
 		}
 	}
 	

@@ -42,11 +42,11 @@ public class EntryPoint {
 
 		ResourceSetImpl resourceSet = createResourceSet();
 
-		EPackage ePackage = loadEPackage(resourceSet, ecorePath);		
-		SModelRoot modelRoot = loadGraph(resourceSet, URI.createFileURI(ecorePath.toFile().getAbsolutePath()));
+		EPackage[] ePackages = loadEPackages(resourceSet, ecorePath);		
+		Map<String,SModelRoot> modelRoots = loadGraph(resourceSet, URI.createFileURI(ecorePath.toFile().getAbsolutePath()));
 
 		DocuWebApp.materialize(outputPath.toFile());
-		DocuWebApp.copyArtifacts(ePackage, modelRoot, outputPath);
+		DocuWebApp.copyArtifacts(ePackages, modelRoots, outputPath);
 		System.out.println("DONE!");
 	}
 
@@ -60,18 +60,18 @@ public class EntryPoint {
 		return resourceSet;
 	}
 	
-	public static EPackage loadEPackage(ResourceSet resourceSet, Path ecorePath) throws IOException {
+	public static EPackage[] loadEPackages(ResourceSet resourceSet, Path ecorePath) throws IOException {
 		Resource resource = resourceSet.createResource(URI.createFileURI(ecorePath.toString()));
 		resource.load(null);
 		EcoreUtil.resolveAll(resource);
-		return (EPackage) resource.getContents().get(0);
+		return resourceSet.getResources().stream().map(r -> r.getContents().get(0)).filter(EPackage.class::isInstance).collect(Collectors.toList()).toArray(new EPackage[0]);
 	}
 	
-	public static SModelRoot loadGraph(ResourceSet resourceSet, URI uri) {
+	public static Map<String,SModelRoot> loadGraph(ResourceSet resourceSet, URI uri) {
 		EcoreModelFactory ecoreModelFactory = new EcoreModelFactory();
-		SModelRoot modelRoot = ecoreModelFactory.loadModel(resourceSet, uri);
-		modelRoot.setCanvasBounds(new Bounds(-1, -1, -1, -1));
-		return modelRoot;
+		Map<String,SModelRoot> modelRoots = ecoreModelFactory.loadModels(resourceSet, uri);
+		modelRoots.values().forEach(m -> m.setCanvasBounds(new Bounds(-1, -1, -1, -1)));
+		return modelRoots;
 	}
 
 	static Path readEcorePath(String[] args) {

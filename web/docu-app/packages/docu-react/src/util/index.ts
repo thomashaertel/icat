@@ -25,11 +25,13 @@ export const getLiterals: ((el: ENamedElement) => ELiteral[]) = getArrayByName(i
 
 export const makeNamedElement = (name: string): ENamedElement => ({ name });
 
-export const getTypes = (ePackage: EPackage): Set<string> => {
+export const getTypes = (ePackages: EPackage[]): Set<string> => {
   const knownTypes: Set<string> = new Set();
-  (ePackage.classes || []).forEach((cls: ENamedElement) => knownTypes.add(cls.name));
-  (ePackage.dataTypes || []).forEach((dataType: ENamedElement) => knownTypes.add(dataType.name));
-  (ePackage.enums || []).forEach(e => knownTypes.add(e.name));
+  ePackages.forEach(ePackage => {
+    (ePackage.classes || []).forEach((cls: ENamedElement) => knownTypes.add(`${ePackage.name}/${cls.name}`));
+    (ePackage.dataTypes || []).forEach((dataType: ENamedElement) => knownTypes.add(`${ePackage.name}/${dataType.name}`));
+    (ePackage.enums || []).forEach(e => knownTypes.add(`${ePackage.name}/${e.name}`));
+  });
   return knownTypes;
 };
 

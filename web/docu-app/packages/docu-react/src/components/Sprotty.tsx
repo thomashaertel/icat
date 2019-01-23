@@ -7,7 +7,8 @@ export interface SprottyProps {
   selectedNodeId?: string;
   onDoubleClick?: (ids: string[]) => void;
   open?: boolean,
-  showCollapsibleButton?: boolean
+  showCollapsibleButton?: boolean,
+  ePackage:string
 }
 
 class Sprotty extends React.Component<SprottyProps & { knownTypes: Set<string> }, { open: boolean }> {
@@ -25,7 +26,7 @@ class Sprotty extends React.Component<SprottyProps & { knownTypes: Set<string> }
   componentDidMount() {
     if (this.sprotty.current) {
       // eslint-disable-line
-      this.sprotty.current.model = (window as DocuAppWindow).__docu_app_graph__;
+      this.sprotty.current.model = (window as DocuAppWindow).__docu_app_graph__[this.props.ePackage];
       this.sprotty.current.subscribeToDoubleClick(target => {
         const id = target.id.split("_")[0];
         if (this.props.onDoubleClick && this.props.knownTypes.has(id)) {

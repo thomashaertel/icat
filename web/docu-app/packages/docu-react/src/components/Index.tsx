@@ -30,6 +30,7 @@ const IndexPage = ({ ePackage, history, location }: IndexPageProps & RouteCompon
             }}
             open
             showCollapsibleButton={false}
+            ePackage={ePackage.name}
           />
         </div>
       </div>

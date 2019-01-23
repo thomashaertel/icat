@@ -81,7 +81,7 @@ const classProps = (eClass: EClass): GenerateLinkProps<ValidTypes>[] => {
         {
           (op.parameters || []).map(p => (
             <React.Fragment key={p.name}>
-              <ELink name={p.type}/><span style={styles.leftPad}>{p.name}</span>
+              <ELink name={p.type} ePackage={p.package}/><span style={styles.leftPad}>{p.name}</span>
             </React.Fragment>
           ))
         }
@@ -98,17 +98,17 @@ const packageProps = (ePackage: EPackage): GenerateLinkProps<ValidTypes>[] => {
   links.push(({
     name: 'Classes',
     elements: getOrEmpty(ePackage.classes),
-    renderLink: (eClass: EClass) => <Link to={`/${eClass.name}`}>{eClass.name}</Link>
+    renderLink: (eClass: EClass) => <Link to={`/${ePackage.name}/${eClass.name}`}>{eClass.name}</Link>
   }));
   links.push(({
     name: 'DataTypes',
     elements: getOrEmpty(ePackage.dataTypes),
-    renderLink: (eDataType: EDataType) => <Link to={`/${eDataType.name}`}>{eDataType.name}</Link>
+    renderLink: (eDataType: EDataType) => <Link to={`/${ePackage.name}/${eDataType.name}`}>{eDataType.name}</Link>
   }));
   links.push(({
     name: 'Enums',
     elements: getOrEmpty(ePackage.enums),
-    renderLink: (eEnum: EEnum) => <Link to={`/${eEnum.name}`}>{eEnum.name}</Link>
+    renderLink: (eEnum: EEnum) => <Link to={`/${ePackage.name}/${eEnum.name}`}>{eEnum.name}</Link>
   }));
   return links;
 };
@@ -130,7 +130,7 @@ const Nav = ({ ePackageName, eNamedElement }: NavProps) => {
   return (
     <nav>
       <div className='crumb'>
-        <span>Package: <Link to="/">{ePackageName}</Link></span>
+        <span>Package: <Link to={"/" + ePackageName}>{ePackageName}</Link></span>
       </div>
       <ol>
         {
