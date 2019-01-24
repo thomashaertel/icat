@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <description:Group xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/table/description/1.1.0" xmlns:tool="http://www.eclipse.org/sirius/description/tool/1.1.0" name="project" version="12.0.0.2017041100">
   <ownedViewpoints documentation="Table representations for object net attributes." endUserDocumentation="Table representations for object net attributes." name="Dekra" modelFileExtension="ecore xcore ecorebin">
-    <ownedRepresentations xsi:type="description_1:CrossTableDescription" documentation="Table representation for the object net attributes of classes." endUserDocumentation="Table representation for the object net attributes of classes." name="object-net-class-table" label="Object net class table" titleExpression="aql:self.name + ' object net class table'" initialisation="true" showOnStartup="true" domainClass="ecore.EPackage" initialHeaderColumnWidth="150">
+    <ownedRepresentations xsi:type="description_1:CrossTableDescription" documentation="Table representation for the object net attributes of classes." endUserDocumentation="Table representation for the object net attributes of classes." name="object-net-class-table" label="Object net class table" titleExpression="aql:self.name + ' object net class table'" showOnStartup="true" domainClass="ecore.EPackage" initialHeaderColumnWidth="150">
       <metamodel href="http://www.eclipse.org/emf/2002/Ecore#/"/>
       <ownedLineMappings name="EClassifiers" label="Classes" domainClass="ecore.EClassifier" semanticCandidatesExpression="feature:eClassifiers" headerLabelExpression="aql:self.name"/>
       <ownedColumnMappings name="Application" headerLabelExpression="Application" initialWidth="120" domainClass="ecore.EPackage" semanticCandidatesExpression="service:getRootContainer"/>
@@ -221,7 +221,7 @@
         </create>
       </intersection>
     </ownedRepresentations>
-    <ownedRepresentations xsi:type="description_1:CrossTableDescription" documentation="Table representation for the object net attributes of features of the classes." endUserDocumentation="Table representation for the object net attributes of features of the classes." name="object-net-feature-table" label="Object net feature table" titleExpression="aql:self.name + ' convert table'" initialisation="true" showOnStartup="true" domainClass="ecore.EPackage" initialHeaderColumnWidth="150">
+    <ownedRepresentations xsi:type="description_1:CrossTableDescription" documentation="Table representation for the object net attributes of features of the classes." endUserDocumentation="Table representation for the object net attributes of features of the classes." name="object-net-feature-table" label="Object net feature table" titleExpression="aql:self.name + ' convert table'" showOnStartup="true" domainClass="ecore.EPackage" initialHeaderColumnWidth="150">
       <metamodel href="http://www.eclipse.org/emf/2002/Ecore#/"/>
       <ownedLineMappings name="EClassifiers" domainClass="ecore.EClassifier" semanticCandidatesExpression="feature:eClassifiers" headerLabelExpression="aql:self.name">
         <ownedSubLines name="Features" domainClass="ecore.EStructuralFeature" semanticCandidatesExpression="feature:eContents" headerLabelExpression="aql:self.name"/>
