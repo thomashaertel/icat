@@ -14,6 +14,14 @@ import org.eclipse.emf.ecore.EEnumLiteral
 
 class Class2JSON {
 
+	static def String generate(EPackage[] ePackages) {
+		return '''
+			«FOR ePackage:ePackages BEFORE '{' SEPARATOR ',' AFTER '}'»
+				"«ePackage.name»":«generate(ePackage)»
+			«ENDFOR»
+		'''
+	}
+
 	static def String generate(EPackage ePackage) {
 		var classes = ePackage.EClassifiers.filter(EClass);
 		var eenums = ePackage.EClassifiers.filter(EEnum);
@@ -50,7 +58,14 @@ class Class2JSON {
 	«ENDIF»
 }'''
 	}
-
+	static def String generate(EClassifier eClassifier) {
+		'''
+		"name": "«eClassifier.name»",
+		"description": "«getDocumentation(eClassifier)»",
+		"package": "«eClassifier.EPackage.name»",
+		«generateInner(eClassifier)»
+		'''
+	}
 	static def String generate(ENamedElement namedElement) {
 		'''
 		"name": "«namedElement.name»",
@@ -116,21 +131,26 @@ class Class2JSON {
 		'''
 	}
 	static def dispatch String generateInner(EStructuralFeature feature) {
+		var featureType = getFeatureType(feature);
 		'''
-		"type": "«getFeatureType(feature)»",
+		"package": "«featureType.ePackage»",
+		"type": "«featureType.eClassifier»",
 		"many": «feature.many»
 		'''
 	}
 	static def dispatch String generateInner(EOperation operation) {
+		var featureType = getFeatureType(operation);
 		'''
-		"type": "«getFeatureType(operation)»",
+		"package": "«featureType.ePackage»",
+		"type": "«featureType.eClassifier»",
 		"many": «operation.many»«IF operation.EParameters.length >0»,«ENDIF»
 		«IF operation.EParameters.length >0»
 			"parameters": [
 				«FOR parameter:operation.EParameters SEPARATOR ','»
 				{
 					"name": "«parameter.name»",
-					"type": "«getFeatureType(parameter)»"
+					"type": "«getFeatureType(parameter).eClassifier»",
+					"package": "«getFeatureType(parameter).ePackage»",
 				}
 				«ENDFOR»
 			]
@@ -152,26 +172,37 @@ class Class2JSON {
 		}
 	}
 	
-	static def String getFeatureType(ETypedElement typedElement) {
+	static def FeaturePackagePair getFeatureType(ETypedElement typedElement) {
 		if(typedElement.EGenericType !== null)
 			return getFeatureType(typedElement.EGenericType);
 		return getFeatureType(typedElement.EType);
 	}
-	static def String getFeatureType(EGenericType classifier) {
+	static def FeaturePackagePair getFeatureType(EGenericType classifier) {
 		var base = getFeatureType(classifier.ERawType);
 		if(classifier.ETypeArguments.length !==0){
-			base+='''«FOR type:classifier.ETypeArguments BEFORE '<' SEPARATOR ', ' AFTER '>'»«getFeatureType(type)»«ENDFOR»''';			
+			base.eClassifier+='''«FOR type:classifier.ETypeArguments BEFORE '<' SEPARATOR ', ' AFTER '>'»«getFeatureType(type)»«ENDFOR»''';			
 		}
 		return base;
 	}
-	static def String getFeatureType(EClassifier classifier) {
+	static def FeaturePackagePair getFeatureType(EClassifier classifier) {
 		if(classifier=== null){
-			return 'void';
+			return new FeaturePackagePair(classifier.EPackage.name, 'void');
 		}
 		else if (classifier.instanceClass !== null) {
-			return classifier.instanceClass.simpleName
+			return new FeaturePackagePair(classifier.EPackage.name, classifier.instanceClass.simpleName);
 		} else {
-			return classifier.name;
+			return new FeaturePackagePair(classifier.EPackage.name, classifier.name);
 		}
 	}
+}
+
+class FeaturePackagePair {
+	public String ePackage;
+	public String eClassifier;
+	
+	new(String ePackage, String eClassifier) {
+		this.ePackage = ePackage;
+		this.eClassifier = eClassifier;
+	}
+	
 }

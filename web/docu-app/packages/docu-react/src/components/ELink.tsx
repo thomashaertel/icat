@@ -4,14 +4,15 @@ import {PackageContentContext} from '../App';
 
 export interface ELinkProps {
   name: string;
+  ePackage: string;
 }
 
-const ELink = ({ name }: ELinkProps) => (
+const ELink = ({ name, ePackage }: ELinkProps) => (
   <PackageContentContext.Consumer>
     {
       knownTypes => {
-        if (knownTypes.has(name)) {
-          return <Link to={`/${name}`}>{name}</Link>
+        if (knownTypes.has(`${ePackage}/${name}`)) {
+          return <Link to={`/${ePackage}/${name}`}>{name}</Link>
         }
         return (<span>{name}</span>);
       }

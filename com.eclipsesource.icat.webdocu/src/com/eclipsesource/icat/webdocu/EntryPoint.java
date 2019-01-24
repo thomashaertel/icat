@@ -9,7 +9,9 @@ import java.nio.file.Paths;
 
 import org.eclipse.elk.alg.layered.options.LayeredMetaDataProvider;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
@@ -17,6 +19,7 @@ import com.eclipsesource.glsp.ecore.diagram.EcoreModelFactory;
 
 import io.typefox.sprotty.api.Bounds;
 import io.typefox.sprotty.api.SModelRoot;
+
 
 public class EntryPoint {
 
@@ -39,7 +42,9 @@ public class EntryPoint {
 
 		ResourceSetImpl resourceSet = createResourceSet();
 		EcoreModelFactory ecoreModelFactory = new EcoreModelFactory();
-		SModelRoot modelRoot = ecoreModelFactory.loadModel(resourceSet, URI.createFileURI(ecorePath.toFile().getAbsolutePath()));
+		Resource resource = resourceSet.createResource(URI.createFileURI(ecorePath.toFile().getAbsolutePath()));
+		resource.load(null);
+		SModelRoot modelRoot = ecoreModelFactory.loadModel((EPackage)resource.getContents().get(0));
 		ecoreModelFactory.layoutModel(modelRoot, new LayeredMetaDataProvider());
 		modelRoot.setCanvasBounds(new Bounds(-1, -1, -1, -1));
 

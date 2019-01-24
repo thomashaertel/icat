@@ -45,8 +45,9 @@ const DocPage = ({ eClassifier, ePackage, history, location }: DocPageProps & Ro
               }
               history.push(`/${ids[0]}`)
             }}
-            selectedNodeId={eClassifier.name}
+            selectedNodeId={ePackage.name+"/"+eClassifier.name}
             showCollapsibleButton
+            ePackage={ePackage.name}
           />
           <Article eClassifier={eClassifier}/>
         </div>

@@ -1,28 +1,35 @@
 import * as React from 'react';
 import 'sprotty-component/lib/wrapper';
 import {HashRouter as Router, Route, Switch} from "react-router-dom";
-import {EPackage, ENamedElement} from "./types";
+import {ENamedElement, Resource} from "./types";
 import DocPage from "./components/DocPage";
 import {getTypes} from "./util";
 import IndexPage from "./components/Index";
+import JumpTo from './components/JumpTo';
 
 interface AppState {
-  ePackage?: EPackage;
+  resource?: Resource;
 }
 
 export const PackageContentContext = React.createContext(new Set<string>());
 
-const GenerateRoutes = ({ ePackage }: { ePackage: EPackage }) => {
-  const allFeatures = (ePackage.classes || []).concat(ePackage.dataTypes || []).concat(ePackage.enums || []);
+const GenerateRoutes = ({ resource }: { resource: Resource }) => {
+  const packages = Object.keys(resource).map(key => resource[key]);
   return (
-    <PackageContentContext.Provider value={getTypes(ePackage)}>
+    <PackageContentContext.Provider value={getTypes(packages)}>
+      <JumpTo title='All Packages' toc={packages.map(p => p.name)} absoluteLink={true} />
       <Switch>
-        <Route path="/" exact render={() => (<IndexPage ePackage={ePackage}/>)} />
+        <Route path="/" exact render={() => (<IndexPage ePackage={packages[0]}/>)} />
         {
-          allFeatures.map((el: ENamedElement) => (
+          packages.map(ePackage => (
+            <Route key={ePackage.name} path={"/"+ePackage.name} exact render={() => (<IndexPage ePackage={ePackage}/>)} />
+          ))
+        }
+        {
+          packages.map(ePackage => (ePackage.classes || []).concat(ePackage.dataTypes || []).concat(ePackage.enums || []).map((el: ENamedElement) => (
             <Route
-              key={el.name}
-              path={"/" + el.name + "/"}
+              key={ePackage.name+"/"+el.name}
+              path={"/" + ePackage.name + "/" + el.name + "/"}
               render={() => (
                 <DocPage
                   ePackage={ePackage}
@@ -31,7 +38,7 @@ const GenerateRoutes = ({ ePackage }: { ePackage: EPackage }) => {
               )}
             />
             )
-          )
+          ))
         }
         <Route path={"*"} component={() => <h1>Sorry, but the requested page does not exist!</h1>} />
       </Switch>
@@ -49,22 +56,22 @@ class App extends React.Component<any, AppState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      ePackage: undefined,
+      resource: undefined,
     };
   }
 
   componentDidMount() {
-    this.setState({ ePackage: (window as DocuAppWindow).__docu_app_model__ });
+    this.setState({ resource: (window as DocuAppWindow).__docu_app_model__ });
   }
 
   public render() {
-    if (this.state.ePackage === undefined) {
+    if (this.state.resource === undefined) {
       return <div>No package loaded</div>
     }
 
     return (
       <Router>
-        <GenerateRoutes ePackage={this.state.ePackage} />
+        <GenerateRoutes resource={this.state.resource} />
       </Router>
     );
   }

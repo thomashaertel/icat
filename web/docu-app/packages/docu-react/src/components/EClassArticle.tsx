@@ -17,7 +17,7 @@ const SpanWithLeftMargin = ({ children }: any) =>(
   <span style={styles.leftPad}>{children}</span>
 );
 
-const TypeRef = ({ type, many }: any) => {
+const TypeRef = ({ type, many, ePackage }: any) => {
   // check for generics
   const angleIndex = type.indexOf('<');
   if (angleIndex > -1) {
@@ -27,7 +27,7 @@ const TypeRef = ({ type, many }: any) => {
         <span>{type.substring(0, angleIndex + 1)}</span>
         {
           join(
-            generics.map(t => <ELink name={t}/>),
+            generics.map(t => <ELink name={t} ePackage={ePackage}/>),
             <span>,</span>
           )
         }
@@ -36,8 +36,8 @@ const TypeRef = ({ type, many }: any) => {
     )
   }
   return many ?
-    <span>List&lt;<ELink name={type}/>&gt;</span> :
-    <ELink name={type} />;
+    <span>List&lt;<ELink name={type} ePackage={ePackage}/>&gt;</span> :
+    <ELink name={type} ePackage={ePackage}/>;
 };
 
 const EClassArticle = (props: EClass) => {
@@ -61,7 +61,7 @@ const EClassArticle = (props: EClass) => {
         terms={attributes}
         renderTerm={(attr: EAttribute) => (
           <code>
-            <TypeRef type={attr.type} many={attr.many}/>
+            <TypeRef type={attr.type} many={attr.many} ePackage={attr.package}/>
             <SpanWithLeftMargin>{attr.name}</SpanWithLeftMargin>
           </code>
         )}
@@ -71,7 +71,7 @@ const EClassArticle = (props: EClass) => {
         terms={references}
         renderTerm={(ref: EReference) => (
           <code>
-            <TypeRef type={ref.type} many={ref.many}/>
+            <TypeRef type={ref.type} many={ref.many} ePackage={ref.package}/>
             <SpanWithLeftMargin>{ref.name}</SpanWithLeftMargin>
           </code>
         )}
@@ -81,13 +81,13 @@ const EClassArticle = (props: EClass) => {
         terms={operations}
         renderTerm={(op: EOperation) => (
           <code>
-            <TypeRef type={op.type} many={op.many}/>
+            <TypeRef type={op.type} many={op.many} ePackage={op.package}/>
             <SpanWithLeftMargin>{op.name}</SpanWithLeftMargin>
             (
             {
               (op.parameters || []).map(p => (
                 <React.Fragment key={p.name}>
-                  <ELink name={p.type}/><span style={styles.leftPad}>{p.name}</span>
+                  <ELink name={p.type} ePackage={p.package}/><span style={styles.leftPad}>{p.name}</span>
                 </React.Fragment>
               ))
             }
