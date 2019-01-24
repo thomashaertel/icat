@@ -18,14 +18,8 @@ Require-Bundle: com.google.guava,
  org.eclipse.elk.graph,
  com.google.gson,
  org.eclipse.elk.alg.common,
- org.apache.log4j;bundle-version="1.2.15"
-Bundle-ClassPath: .,
- lib/diagram-api-0.4.0.jar,
- lib/diagram-layout-engine-0.4.0.jar,
- lib/glsp-api-0.0.1-SNAPSHOT.jar,
- lib/glsp-ecore-0.0.1-SNAPSHOT.jar
-Export-Package: com.eclipsesource.glsp.ecore.diagram,
- com.eclipsesource.icat.webdocu,
- io.typefox.sprotty.api,
- io.typefox.sprotty.layout
+ org.apache.log4j;bundle-version="1.2.15",
+ com.eclipsesource.icat.sprotty
+Bundle-ClassPath: .
+Export-Package: com.eclipsesource.icat.webdocu
 

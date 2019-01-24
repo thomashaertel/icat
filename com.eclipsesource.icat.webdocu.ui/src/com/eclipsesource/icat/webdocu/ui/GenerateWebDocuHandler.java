@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -39,7 +40,7 @@ public class GenerateWebDocuHandler extends AbstractHandler {
 			Path ecorePath = selectedResource.getLocation().toFile().toPath();
 			ResourceSetImpl resourceSet = EntryPoint.createResourceSet();
 			EPackage[] ePackages = EntryPoint.loadEPackages(resourceSet, ecorePath);
-			SModelRoot modelRoot = EntryPoint.loadGraph(resourceSet, URI.createURI(selectedResource.getLocationURI().toString()));
+			Map<String, SModelRoot> modelRoot = EntryPoint.loadGraph(resourceSet, URI.createURI(selectedResource.getLocationURI().toString()));
 
 			DocuWebApp.materialize(outputPath.toFile());
 			DocuWebApp.copyArtifacts(ePackages, modelRoot, outputPath);
