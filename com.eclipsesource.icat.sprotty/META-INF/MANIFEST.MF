@@ -14,3 +14,5 @@ Bundle-ClassPath: lib/diagram-api-0.4.0.jar,
 Export-Package: com.eclipsesource.glsp.ecore.diagram,
  io.typefox.sprotty.api
 Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.emf.ecore;bundle-version="2.16.0",
+ org.apache.log4j;bundle-version="1.2.15"
