@@ -7,6 +7,8 @@ import java.nio.file.Paths;
 
 public class EntryPoint {
 
+	private static final String defaultTargetProject = "/home/eugen/Workspaces/dekra/ExamplePojoTest";
+
 	private static java.net.URI exampleURI() {
 		try {
 			return EntryPoint.class.getClassLoader().getResource("Coffee.ecore").toURI();
@@ -18,11 +20,9 @@ public class EntryPoint {
 	public static void main(String[] args) throws IOException {
 		// parameter
 		Path ecorePath = Paths.get(exampleURI());
-		String targetProject = "/home/eugen/Workspaces/dekra/ExamplePojoTest";
-		
+		String targetProject = args.length == 0 ? defaultTargetProject : args[0];
+
 		ProjectCreator.createProject(ecorePath, Paths.get(targetProject));
 	}
-
-	
 
 }

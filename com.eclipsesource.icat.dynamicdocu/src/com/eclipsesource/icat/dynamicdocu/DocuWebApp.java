@@ -47,6 +47,7 @@ public class DocuWebApp {
 	static void writePackage(EPackage ePackage, Path outputPath)
 			throws IOException {
 		Path path = outputPath.resolve(MODEL_JS_FILE);
+		Files.createDirectories(path.getParent());
 		Files.deleteIfExists(path);
 		Files.write(path, (GLOBAL_MODEL_VAR + "=" + Class2JSON.generate(ePackage)).getBytes());
 	}
@@ -54,6 +55,7 @@ public class DocuWebApp {
 	static void writeGraph(SModelRoot modelRoot, Path outputPath) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();		
 		Path targetPath = outputPath.resolve(GRAPH_JS_FILE);
+		Files.createDirectories(targetPath.getParent());
 		try (Writer writer = new FileWriter(targetPath.toFile())) {
 			writer.append(GLOBAL_GRAPH_VAR + "=");
 			JsonUtil<SModelRoot> jsonUtil = new JsonUtil<SModelRoot>(gson);
