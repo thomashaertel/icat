@@ -3,7 +3,7 @@ package com.eclipsesource.icat.tooling.annotation.services;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-public class DekraServices {
+public class ICATServices {
 	/**
 	 * Returns the root container; it may be this object itself
 	 * 
