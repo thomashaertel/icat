@@ -65,7 +65,7 @@ public class EntryPoint {
 	public static EPackage[] loadEPackages(ResourceSet resourceSet, Path ecorePath) throws IOException {
 		Resource resource = resourceSet.createResource(URI.createFileURI(ecorePath.toString()));
 		resource.load(null);
-		EcoreUtil.resolveAll(resource);
+		EcoreUtil.resolveAll(resourceSet);
 		return resourceSet.getResources().stream().map(r -> r.getContents().get(0)).filter(EPackage.class::isInstance).collect(Collectors.toList()).toArray(new EPackage[0]);
 	}
 	
