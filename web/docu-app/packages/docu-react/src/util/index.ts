@@ -1,4 +1,4 @@
-import {EClass, EEnum, EPackage, ENamedElement, ELiteral} from "../types";
+import {EClass, EEnum, EPackage, ENamedElement} from "../types";
 
 export const isEClass = (eClassifier: ENamedElement): eClassifier is EClass =>
   eClassifier['attributes'] !== undefined || eClassifier['references'] !== undefined;
@@ -11,17 +11,7 @@ export const isEPackage = (eNamedElement: ENamedElement): eNamedElement is EPack
   eNamedElement['dataTypes'] !== undefined ||
   eNamedElement['enums'] !== undefined;
 
-export const getArrayByName =
-  <T>(pred: (element: ENamedElement) => boolean, propName: string) => (element: ENamedElement): T[] => {
-  if (pred(element)) {
-    return (element[propName] || []);
-  }
-  return []
-};
-
 export const getOrEmpty = <T>(array?: T[]): T[] => array === undefined ? [] : array;
-
-export const getLiterals: ((el: ENamedElement) => ELiteral[]) = getArrayByName(isEEnum, 'literals');
 
 export const makeNamedElement = (name: string): ENamedElement => ({ name });
 
@@ -49,4 +39,3 @@ export const join = <T>(elements: T[], delimiter: T): T[] => {
 
 export const isNonEmpty = (array?: any[]): boolean => array !== undefined && array.length > 0;
 
-export const startCase = (s: string) => s.charAt(0).toUpperCase() + s.substr(1);
