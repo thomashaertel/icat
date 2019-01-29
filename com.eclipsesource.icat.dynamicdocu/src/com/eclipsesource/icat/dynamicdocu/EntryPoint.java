@@ -6,7 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.URI;
@@ -66,8 +69,43 @@ public class EntryPoint {
 		Resource resource = resourceSet.createResource(URI.createFileURI(ecorePath.toString()));
 		resource.load(null);
 		EcoreUtil.resolveAll(resourceSet);
-		return resourceSet.getResources().stream().map(r -> r.getContents().get(0)).filter(EPackage.class::isInstance).collect(Collectors.toList()).toArray(new EPackage[0]);
+		EPackage[] ePackages = resourceSet.getResources().stream().map(r -> r.getContents().get(0)).filter(EPackage.class::isInstance).collect(Collectors.toList()).toArray(new EPackage[0]);
+		return applyUniqueNameStrategy(ePackages,  ePackage -> {
+			// try to obtain unique name by looking at NS URI and use second-to-last-fragment
+			String nsPrefix = ePackage.getNsPrefix();
+			String packageName = ePackage.getName();
+			if (nsPrefix.contains("." + packageName) && nsPrefix.lastIndexOf(".") != nsPrefix.indexOf(".")) {
+				String prefix = ePackage.getNsPrefix().replace("." + packageName, "");
+				ePackage.setName(prefix.substring(prefix.lastIndexOf(".") + 1) + "." + packageName);
+			}
+		});
 	}
+	
+	public static Set<EPackage> findDuplicatePackageNames(final EPackage[] ePackages) {
+		Set<EPackage> seen = new LinkedHashSet<EPackage>();
+		Set<EPackage> dups = new LinkedHashSet<EPackage>();
+		for (EPackage ePackage : ePackages) {
+			seen.stream().filter(seenPackage -> seenPackage.getName().equals(ePackage.getName()))
+				.findAny()
+				.ifPresent(p -> {
+					dups.add(ePackage);
+					dups.add(p);
+				});
+			seen.add(ePackage); 
+		}
+		
+		return dups;
+	}
+	
+	public static EPackage[] applyUniqueNameStrategy(EPackage[] ePackages, Consumer<EPackage> resolutionStrategy) {
+		Set<EPackage> dups = findDuplicatePackageNames(ePackages);
+		Set<EPackage> duplicates = new LinkedHashSet<EPackage>(dups);		
+		if (duplicates.size() > 0) {
+			duplicates.stream().forEach(resolutionStrategy);
+		}
+		return ePackages;
+	}
+
 	
 	public static Map<String,SModelRoot> loadGraph(ResourceSet resourceSet, URI uri) {
 		EcoreModelFactory ecoreModelFactory = new EcoreModelFactory();
