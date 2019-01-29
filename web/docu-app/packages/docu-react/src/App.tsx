@@ -1,11 +1,12 @@
 import * as React from 'react';
 import 'sprotty-component/lib/wrapper';
-import {HashRouter as Router, Route, Switch} from "react-router-dom";
+import {HashRouter as Router, Route, Switch, withRouter} from "react-router-dom";
 import {ENamedElement, Resource} from "./types";
 import DocPage from "./components/DocPage";
 import {getTypes} from "./util";
 import IndexPage from "./components/Index";
 import JumpTo from './components/JumpTo';
+import {UnregisterCallback} from "history";
 
 interface AppState {
   resource?: Resource;
@@ -28,7 +29,7 @@ const GenerateRoutes = ({ resource }: { resource: Resource }) => {
         {
           packages.map(ePackage => (ePackage.classes || []).concat(ePackage.dataTypes || []).concat(ePackage.enums || []).map((el: ENamedElement) => (
             <Route
-              key={ePackage.name+"/"+el.name}
+              key={ePackage.name + "/" + el.name}
               path={"/" + ePackage.name + "/" + el.name + "/"}
               render={() => (
                 <DocPage
@@ -53,15 +54,32 @@ export interface DocuAppWindow extends Window {
 
 class App extends React.Component<any, AppState> {
 
+  private readonly unregisterListener: UnregisterCallback;
+
   constructor(props: any) {
     super(props);
     this.state = {
       resource: undefined,
     };
+
+    this.unregisterListener = this.props.history.listen((location: any) => {
+      if (this.state.resource) {
+        const pathname = location.pathname;
+        document.title = pathname.split("/").filter((f: string) => f.length > 1).join(" - ");
+      }
+    })
+  }
+
+  componentWillUnmount() {
+    this.unregisterListener();
   }
 
   componentDidMount() {
-    this.setState({ resource: (window as DocuAppWindow).__docu_app_model__ });
+    const resource = (window as DocuAppWindow).__docu_app_model__;
+    this.setState({ resource }, () => {
+      // see according index route package value
+      document.title = Object.keys(resource)[0]
+    });
   }
 
   public render() {
@@ -77,4 +95,4 @@ class App extends React.Component<any, AppState> {
   }
 }
 
-export default App;
+export default withRouter(App);
