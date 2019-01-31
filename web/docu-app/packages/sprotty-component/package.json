@@ -21,7 +21,8 @@
     "snabbdom-jsx": "^0.4.2",
     "snabbdom-virtualize": "^0.7.0",
     "sprotty": "next",
-    "sprotty-elk": "next"
+    "sprotty-elk": "next",
+    "sprotty-ecore": "0.2.0"
   },
   "devDependencies": {
     "@types/chai": "^4.0.1",

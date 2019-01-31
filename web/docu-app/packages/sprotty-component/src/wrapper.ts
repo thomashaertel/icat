@@ -21,9 +21,12 @@ import {
   CenterAction,
   FitToScreenAction
 } from "sprotty/lib";
-import createContainer from "./di.config"
+import { createEcoreDiagramContainer } from "sprotty-ecore/lib"
 import { toArray } from "sprotty/lib/utils/iterable";
 import { MyCommandStack } from "./MyCommandStack";
+import { Container } from "inversify";
+import sprottyWrapperModule from "./di.config";
+import { elkLayoutModule } from "sprotty-elk/lib";
 
 /**
  * Configuration element that associated a custom element with a selector string.
@@ -59,7 +62,14 @@ export class SprottyWrapper extends HTMLElement {
   private _withSelectionSupport: boolean;
   private doubleClickListener: DoubleClickListener;
 
-  private container = createContainer('sprotty', this._withSelectionSupport);
+  private container: Container
+
+  constructor() {
+    super()
+    this.container = createEcoreDiagramContainer('sprotty', this._withSelectionSupport, false)
+    this.container.load(sprottyWrapperModule)
+    this.container.load(elkLayoutModule)
+  }
   /**
    * Called when this element is inserted into a document.
    */
@@ -68,12 +78,12 @@ export class SprottyWrapper extends HTMLElement {
     div.id = 'sprotty';
     this.appendChild(div);
     this.render();
-    
 
-      // Run
+
+    // Run
     const commandStack = this.container.get<MyCommandStack>(MyCommandStack);
     commandStack.addModelLoadedListener(() => {
-        this.actionDispatcher.dispatch(new FitToScreenAction(this.allSelectableElements(), undefined, undefined, true))
+      this.actionDispatcher.dispatch(new FitToScreenAction(this.allSelectableElements(), undefined, undefined, true))
     });
   }
   subscribeToSelection(selectionEventListner: SelectionEventListner) {
@@ -140,8 +150,8 @@ export type SelectionSync = (selectedElementsIDs: string[]) => void;
 class SelectionHandler implements IActionHandler {
 
   constructor(private selectonListener: SelectionEventListner,
-              private root: SModelRoot,
-              private selectionSync: SelectionSync) {}
+    private root: SModelRoot,
+    private selectionSync: SelectionSync) { }
 
   handle(action: SelectAction): void {
     this.selectionSync(action.selectedElementsIDs);
