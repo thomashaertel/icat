@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 
 public class EntryPoint {
 
-	private static final String defaultTargetProject = "/home/eugen/Workspaces/dekra/ExamplePojoTest";
+	private static final String defaultTargetProject = "../ExamplePojoTest";
 
 	private static java.net.URI exampleURI() {
 		try {
